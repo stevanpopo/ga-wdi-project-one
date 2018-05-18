@@ -1,14 +1,14 @@
 // 2.1.1 Created grid
 const grid = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ];
 
@@ -145,11 +145,51 @@ $(() => {
     // 3.2.1 - 6 Random question logic
     const randomNumber = Math.floor(Math.random()*capitalCitiesArray.length);
     correctAnswer = capitalCitiesArray[randomNumber][1];
-    console.log(correctAnswer);
     correctAnswerArray = correctAnswer.toLowerCase().split('');
-    console.log(correctAnswerArray);
     $displayQuestion.text(`${correctAnswerArray}`);
   }
 
-  displayRandomQuestion();
+  displayRandomQuestion(); // needs to be called before randomize array
+
+  // 3.3.1-6 - Made the randomize letter logic
+  const playerOneAnswerArray = correctAnswerArray.slice(); //made a copy
+
+  function randomizeLetters(array){
+    let currentIndex = array.length, temporaryValue, randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+    return array;
+  }
+
+  const playerOneRandomizedLetters = randomizeLetters(playerOneAnswerArray);
+
+  // 3.3.2 - Create logic to assign letter value to grid position
+  let randomCellPosition;
+  let $letterCell;
+
+  function randomPositionAssign(randomizedArray){
+    randomizedArray.forEach(function(el){
+      randomCellPosition = Math.floor(Math.random() * 100);
+
+      $letterCell = $($('#map').children()[randomCellPosition]);
+      $letterCell.addClass('containsLetter');
+      $letterCell.text(`${el.toUpperCase()}`);
+      //need to make exception if it picks the same number twice
+    });
+  }
+
+  randomPositionAssign(playerOneRandomizedLetters);
+
+
 });
