@@ -1,12 +1,12 @@
 // 2.1.1 Created grid
 const grid = [
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -32,18 +32,13 @@ $(() => {
   });
 
   // 2.2.1 / 2.2.2 - Highlight starter cell
+  // 2.3.2.2 - 7  - Player movement logic
   let playerCurrentIndex = 90; // start postion
   let playerPreviousIndex;
   const $playerOneStartCell = $('#map').children()[90];
   $playerOneStartCell.classList.add('playerStartCell');
-
-  // Highlight player active cell on hover
-  $('#map').on('mouseover', 'div', function(){
-    this.classList.add('playerCellActive');
-  });
-
-  // 2.3.1 - Map keys to moves
-  // 2.3.2 - Save current location
+  let $playerOnePreviousCell;
+  let $playerOneCurrentCell;
 
   // add class to current cell
   function addClassPlayerCurrentCell(){
@@ -105,9 +100,7 @@ $(() => {
     }
   }
 
-
-  let $playerOneCurrentCell;
-  console.log($playerOneStartCell);
+  // 2.3.1 Key mappings
   $(document).keydown(function(e) {
     const code = e.keyCode;
     if(code === 37){
