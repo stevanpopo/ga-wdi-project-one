@@ -41,6 +41,20 @@ $(() => {
   });
 
   // 2.3.1 - Map keys to moves
-
-
+  $(document).keydown(function(e) {
+    const code = e.keyCode;
+    if(code === 37){
+      // left
+      console.log('left');
+    }else if(code === 39){
+      // right
+      console.log('right');
+    }else if(code === 38){
+      // top
+      console.log('up');
+    }else if(code === 40){
+      // bottom
+      console.log('down');
+    }
+  });
 });
