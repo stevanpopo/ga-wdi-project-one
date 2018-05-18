@@ -14,7 +14,11 @@
   float: left;
 }
 #map div.blank { background-color: white}
-#map div.containsLetter { background-color: orange}
+#map div.containsLetter {
+  background-color: orange;
+  text-align: center;
+  font-size: 26px;
+}
 
 #map div.playerCellActive:hover {
   border: 4px solid green;

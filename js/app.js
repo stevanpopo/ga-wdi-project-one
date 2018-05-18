@@ -14,11 +14,11 @@ const grid = [
 
 // 3.1. Sample data
 
-const capitalCitiesObject = {
-  England: 'London',
-  France: 'Paris',
-  Germany: 'Berlin'
-};
+// const capitalCitiesObject = {
+//   England: 'London',
+//   France: 'Paris',
+//   Germany: 'Berlin'
+// };
 
 const capitalCitiesArray = [
   ['England', 'London'],
@@ -131,11 +131,6 @@ $(() => {
     }
   });
 
-  // 2.4.1-2 Keydown for enter button and pickup function
-  function pickUp(){
-    console.log('Pick Up!');
-  }
-
   //3.2 Random question generator
   const $displayQuestion = $('#display-question');
   let correctAnswer;
@@ -188,7 +183,33 @@ $(() => {
       //need to make exception if it picks the same number twice
     });
   }
-  
+
   randomPositionAssign(playerOneRandomizedLetters);
+
+  //3.5.1 - Make player answer logic
+  const playerOneInputtedAnswer = [];
+  let currentLetterIndex = playerOneInputtedAnswer.length;
+  console.log(currentLetterIndex);
+
+  function checkLetter(letter){
+    if (letter === correctAnswerArray[currentLetterIndex]){
+      playerOneInputtedAnswer.push(letter);
+      currentLetterIndex = playerOneInputtedAnswer.length;
+      console.log(currentLetterIndex);
+      console.log('correct letter! Get the next one!');
+    } else {
+      console.log('Not the right letter!');
+    }
+  }
+
+  // 2.4.1-2 Keydown for enter button and pickup function
+  function pickUp(){
+    const currentCellValue = $playerOneCurrentCell.innerHTML;
+    console.log(currentCellValue);
+    checkLetter(currentCellValue.toLowerCase());
+  }
+
+
+
 
 });
