@@ -1,6 +1,8 @@
 *{
   box-sizing: border-box;
 }
+
+// 2.1.2 Basic styling for grid
 #map {
   width: 500px;
   height: 500px;
@@ -11,9 +13,13 @@
   height: 50px;
   float: left;
 }
-#map div.blank { background-color: papayawhip}
-#map div.containsLetter { background-color: chartreuse}
+#map div.blank { background-color: white}
+#map div.containsLetter { background-color: orange}
 
 #map div.playerCellActive:hover {
-  border: 2px solid green;
+  border: 4px solid green;
+}
+
+#map div.playerStartCell {
+  background-color: red !important;
 }
