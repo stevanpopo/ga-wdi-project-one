@@ -188,8 +188,7 @@ $(() => {
       //need to make exception if it picks the same number twice
     });
   }
-
+  
   randomPositionAssign(playerOneRandomizedLetters);
-
 
 });
