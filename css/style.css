@@ -23,4 +23,7 @@
 #map div.playerStartCell {
   background-color: red !important; }
 
+#map div.playerCurrentCell {
+  background-color: blue !important; }
+
 /*# sourceMappingURL=style.css.map */
