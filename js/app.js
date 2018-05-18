@@ -189,33 +189,39 @@ $(() => {
   // 3.5.1 - Make player answer logic
   const playerOneInputtedAnswer = [];
   let currentLetterIndex = playerOneInputtedAnswer.length;
-  console.log(currentLetterIndex);
 
   function checkLetter(letter){
     if (letter === correctAnswerArray[currentLetterIndex]){
       playerOneInputtedAnswer.push(letter);
       currentLetterIndex = playerOneInputtedAnswer.length;
-      console.log(currentLetterIndex);
       console.log('correct letter! Get the next one!');
       removeLetter();
+      displayPlayerAnswer();
     } else {
       console.log('Not the right letter!');
     }
+
+    if (correctAnswerArray.length === playerOneInputtedAnswer.length) console.log('Round finished');
   }
 
   // 2.4.1-2 Keydown for enter button and pickup function
   function pickUp(){
     const currentCellValue = $playerOneCurrentCell.html();
-    console.log(currentCellValue);
     checkLetter(currentCellValue.toLowerCase());
   }
 
   // 3.6.1 Remove letter from cell and normalise class
   function removeLetter(){
-    console.log($playerOneCurrentCell);
     $playerOneCurrentCell.removeClass('containsLetter');
     $playerOneCurrentCell.text('');
   }
 
+  // 3.7.1 Display user answer on screen
+  const $displayPlayerAnswer = $('#player-answer');
+  function displayPlayerAnswer(){
+    $displayPlayerAnswer.text(`Your answer: ${playerOneInputtedAnswer}`);
+  }
+
+  displayPlayerAnswer();
 
 });
