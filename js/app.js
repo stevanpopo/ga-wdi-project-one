@@ -104,17 +104,20 @@ $(() => {
   $(document).keydown(function(e) {
     const code = e.keyCode;
     if(code === 37){
-      // left
       moveLeft();
     }else if(code === 39){
-      // right
       moveRight();
     }else if(code === 38){
-      // top
       moveUp();
     }else if(code === 40){
-      // bottom
       moveDown();
     }
+    if (code === 13){
+      pickUp();
+    }
   });
+
+  function pickUp(){
+    console.log('Pick Up!');
+  }
 });
