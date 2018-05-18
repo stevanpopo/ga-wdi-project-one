@@ -12,6 +12,20 @@ const grid = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ];
 
+// 3.1. Sample data
+
+const capitalCitiesObject = {
+  England: 'London',
+  France: 'Paris',
+  Germany: 'Berlin'
+};
+
+const capitalCitiesArray = [
+  ['England', 'London'],
+  ['France', 'Paris'],
+  ['Germany', 'Berlin']
+];
+
 $(() => {
   console.log('JS Log');
 
@@ -117,7 +131,25 @@ $(() => {
     }
   });
 
+  // 2.4.1-2 Keydown for enter button and pickup function
   function pickUp(){
     console.log('Pick Up!');
   }
+
+  //3.2 Random question generator
+  const $displayQuestion = $('#display-question');
+  let correctAnswer;
+  let correctAnswerArray;
+
+  function displayRandomQuestion(){
+    // 3.2.1 - 6 Random question logic
+    const randomNumber = Math.floor(Math.random()*capitalCitiesArray.length);
+    correctAnswer = capitalCitiesArray[randomNumber][1];
+    console.log(correctAnswer);
+    correctAnswerArray = correctAnswer.toLowerCase().split('');
+    console.log(correctAnswerArray);
+    $displayQuestion.text(`${correctAnswerArray}`);
+  }
+
+  displayRandomQuestion();
 });
