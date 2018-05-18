@@ -56,14 +56,14 @@ $(() => {
 
   // add class to current cell
   function addClassPlayerCurrentCell(){
-    $playerOneCurrentCell = $('#map').children()[playerCurrentIndex];
-    $playerOneCurrentCell.classList.add('playerCurrentCell');
+    $playerOneCurrentCell = $($('#map').children()[playerCurrentIndex]);
+    $playerOneCurrentCell.addClass('playerCurrentCell');
   }
 
   // remove class form last cell
   function removeClassPlayerPreviousCell(){
-    $playerOnePreviousCell = $('#map').children()[playerPreviousIndex];
-    $playerOnePreviousCell.classList.remove('playerCurrentCell');
+    $playerOnePreviousCell = $($('#map').children()[playerPreviousIndex]);
+    $playerOnePreviousCell.removeClass('playerCurrentCell');
   }
 
   // move left function
@@ -186,7 +186,7 @@ $(() => {
 
   randomPositionAssign(playerOneRandomizedLetters);
 
-  //3.5.1 - Make player answer logic
+  // 3.5.1 - Make player answer logic
   const playerOneInputtedAnswer = [];
   let currentLetterIndex = playerOneInputtedAnswer.length;
   console.log(currentLetterIndex);
@@ -197,6 +197,7 @@ $(() => {
       currentLetterIndex = playerOneInputtedAnswer.length;
       console.log(currentLetterIndex);
       console.log('correct letter! Get the next one!');
+      removeLetter();
     } else {
       console.log('Not the right letter!');
     }
@@ -204,12 +205,17 @@ $(() => {
 
   // 2.4.1-2 Keydown for enter button and pickup function
   function pickUp(){
-    const currentCellValue = $playerOneCurrentCell.innerHTML;
+    const currentCellValue = $playerOneCurrentCell.html();
     console.log(currentCellValue);
     checkLetter(currentCellValue.toLowerCase());
   }
 
-
+  // 3.6.1 Remove letter from cell and normalise class
+  function removeLetter(){
+    console.log($playerOneCurrentCell);
+    $playerOneCurrentCell.removeClass('containsLetter');
+    $playerOneCurrentCell.text('');
+  }
 
 
 });
