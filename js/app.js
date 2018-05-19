@@ -44,7 +44,7 @@ $(() => {
         $element.addClass('containsLetter');
       }
 
-      $element.appendTo('#map');
+      $element.appendTo('.map');
     });
   });
 

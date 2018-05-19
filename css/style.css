@@ -26,13 +26,10 @@ div.player-one, div.player-one {
   text-align: center;
   font-size: 26px; }
 
-#map div.playerCellActive:hover {
-  border: 4px solid green; }
-
-#map div.playerStartCell {
+.map div.playerStartCell, #map div.playerStartCell {
   background-color: red !important; }
 
-#map div.playerCurrentCell {
+.map div.playerCurrentCell, #map div.playerCurrentCell {
   background-color: blue !important; }
 
 /*# sourceMappingURL=style.css.map */
