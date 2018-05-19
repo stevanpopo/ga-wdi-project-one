@@ -4,8 +4,7 @@
 main {
   display: flex; }
 
-div.player-one, div.player-one {
-  width: 50%;
+div.player-one, div.player-tne {
   margin: 20px; }
 
 .map, #map {

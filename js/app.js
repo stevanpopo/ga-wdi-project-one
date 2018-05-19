@@ -13,18 +13,18 @@ const grid = [
 ];
 
 // 3.11.1 Created grid for player two
-const grid2 = [
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-];
+// const grid2 = [
+//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+// ];
 
 
 $(() => {
@@ -49,107 +49,180 @@ $(() => {
   });
 
   // 3.11.1 grid for second player
-  $.each(grid, (k, row) => {
-    $.each(row, (l, cell) => {
-      const $element = $('<div />');
-      //
-      if(cell === 0){
-        $element.addClass('blank');
-      } else if (cell===1){
-        // Placeholder - Adds different class if contains letter
-        $element.addClass('containsLetter');
-      }
-
-      $element.appendTo('#map2');
-    });
-  });
+  // $.each(grid, (k, row) => {
+  //   $.each(row, (l, cell) => {
+  //     const $element = $('<div />');
+  //     //
+  //     if(cell === 0){
+  //       $element.addClass('blank');
+  //     } else if (cell===1){
+  //       // Placeholder - Adds different class if contains letter
+  //       $element.addClass('containsLetter');
+  //     }
+  //
+  //     $element.appendTo('#map2');
+  //   });
+  // });
 
   // ###### PLAYER MOVEMENT LOGIC ######
 
   // 2.2.1 / 2.2.2 - Highlight starter cell
   // 2.3.2.2 - 7  - Player movement logic
-  let playerCurrentIndex = 90; // start postion
-  let playerPreviousIndex;
-  const $playerOneStartCell = $('#map').children()[90];
-  $playerOneStartCell.classList.add('playerStartCell');
+  // let playerCurrentIndex = 90; // player one start postion
+  // let playerPreviousIndex;
+  // const $playerOneStartCell = $($('.map').children()[90]);
+  // $playerOneStartCell.addClass('playerStartCell');
+  // let $playerOnePreviousCell;
+  // let $playerOneCurrentCell;
+
+  let playerOneCurrentIndex = 90; // player one start postion
+  let playerTwoCurrentIndex = 99; // player two start randomPositionAssign
+  let playerOnePreviousIndex;
+  let playerTwoPreviousIndex;
+
+  const $playerOneStartCell = $($('.map').children()[90]);
+  $playerOneStartCell.addClass('playerStartCell');
+
+  const $playerTwoStartCell = $($(document.getElementsByClassName('map')[1]).children()[99]);
+  $playerTwoStartCell.addClass('playerStartCell');
+
   let $playerOnePreviousCell;
-  let $playerOneCurrentCell;
+  let $playerCurrentCell;
+  let $playerTwoCurrentCell;
+  let $playerTwoPreviousCell;
 
   // add class to current cell
-  function addClassPlayerCurrentCell(){
-    $playerOneCurrentCell = $($('#map').children()[playerCurrentIndex]);
-    $playerOneCurrentCell.addClass('playerCurrentCell');
+  function addClassPlayerCurrentCell(player, index){
+    if (player === 'player1'){
+      $playerCurrentCell = $($('.map').children()[index]);
+      $playerCurrentCell.addClass('playerCurrentCell');
+    } else if (player === 'player2'){
+      $playerTwoCurrentCell = $($(document.getElementsByClassName('map')[1]).children()[index]);
+      $playerTwoCurrentCell.addClass('playerCurrentCell');
+    }
+
   }
 
   // remove class form last cell
-  function removeClassPlayerPreviousCell(){
-    $playerOnePreviousCell = $($('#map').children()[playerPreviousIndex]);
-    $playerOnePreviousCell.removeClass('playerCurrentCell');
+  function removeClassPlayerPreviousCell(player, index){
+    if (player === 'player1'){
+      $playerOnePreviousCell = $($('.map').children()[index]);
+      $playerOnePreviousCell.removeClass('playerCurrentCell');
+    } else if (player === 'player2'){
+      $playerTwoPreviousCell = $($(document.getElementsByClassName('map')[1]).children()[index]);
+      $playerTwoPreviousCell.removeClass('playerCurrentCell');
+    }
+
   }
 
   // move left function
-  function moveLeft(){
-    if (playerCurrentIndex === 0 || playerCurrentIndex % 10 === 0) {
+  function moveLeft(player, playerIndex){
+    if (playerIndex === 0 || playerIndex % 10 === 0) {
       console.log('cant move left');
     } else {
-      playerPreviousIndex = playerCurrentIndex;
-      playerCurrentIndex = playerCurrentIndex - 1;
-      addClassPlayerCurrentCell();
-      removeClassPlayerPreviousCell();
+      if (player === 'player1'){
+        playerOnePreviousIndex = playerIndex;
+        playerOneCurrentIndex = playerIndex - 1;
+        addClassPlayerCurrentCell(player, playerOneCurrentIndex);
+        removeClassPlayerPreviousCell(player, playerOnePreviousIndex);
+      } else if (player === 'player2') {
+        playerTwoPreviousIndex = playerIndex;
+        playerTwoCurrentIndex = playerIndex - 1;
+        addClassPlayerCurrentCell(player, playerTwoCurrentIndex);
+        removeClassPlayerPreviousCell(player, playerTwoPreviousIndex);
+      }
     }
   }
 
   // move right function
-  function moveRight(){
-    if (playerCurrentIndex === 9 || playerCurrentIndex === 19 || playerCurrentIndex === 29 || playerCurrentIndex === 39 || playerCurrentIndex === 49 || playerCurrentIndex === 59 || playerCurrentIndex === 69 || playerCurrentIndex === 79 || playerCurrentIndex === 89 || playerCurrentIndex === 99) {
+  function moveRight(player, playerIndex){
+    if (playerIndex === 9 || playerIndex === 19 || playerIndex === 29 || playerIndex === 39 || playerIndex === 49 || playerIndex === 59 || playerIndex === 69 || playerIndex === 79 || playerIndex === 89 || playerIndex === 99) {
       console.log('cant move right');
     } else {
-      playerPreviousIndex = playerCurrentIndex;
-      playerCurrentIndex = playerCurrentIndex + 1;
-      addClassPlayerCurrentCell();
-      removeClassPlayerPreviousCell();
+      if (player === 'player1'){
+        playerOnePreviousIndex = playerIndex;
+        playerOneCurrentIndex = playerIndex + 1;
+        addClassPlayerCurrentCell(player, playerOneCurrentIndex);
+        removeClassPlayerPreviousCell(player, playerOnePreviousIndex);
+      } else if (player === 'player2') {
+        playerTwoPreviousIndex = playerIndex;
+        playerTwoCurrentIndex = playerIndex + 1;
+        addClassPlayerCurrentCell(player, playerTwoCurrentIndex);
+        removeClassPlayerPreviousCell(player, playerTwoPreviousIndex);
+      }
     }
   }
 
   // move up function
-  function moveUp(){
-    if (playerCurrentIndex < 10){
+  function moveUp(player, playerIndex){
+    if (playerIndex < 10){
       console.log('cant move up');
     } else {
-      playerPreviousIndex = playerCurrentIndex;
-      playerCurrentIndex = playerCurrentIndex - 10;
-      addClassPlayerCurrentCell();
-      removeClassPlayerPreviousCell();
+      if (player === 'player1'){
+        playerOnePreviousIndex = playerIndex;
+        playerOneCurrentIndex = playerIndex - 10;
+        addClassPlayerCurrentCell(player, playerOneCurrentIndex);
+        removeClassPlayerPreviousCell(player, playerOnePreviousIndex);
+      } else if (player === 'player2') {
+        playerTwoPreviousIndex = playerIndex;
+        playerTwoCurrentIndex = playerIndex - 10;
+        addClassPlayerCurrentCell(player, playerTwoCurrentIndex);
+        removeClassPlayerPreviousCell(player, playerTwoPreviousIndex);
+      }
     }
   }
 
   // move down function
-  function moveDown(){
-    if (playerCurrentIndex > 89){
+  function moveDown(player, playerIndex){
+    if (playerIndex > 89){
       console.log('cant move down');
     } else {
-      playerPreviousIndex = playerCurrentIndex;
-      playerCurrentIndex = playerCurrentIndex + 10;
-      addClassPlayerCurrentCell();
-      removeClassPlayerPreviousCell();
+
+      if (player === 'player1'){
+        playerOnePreviousIndex = playerIndex;
+        playerOneCurrentIndex = playerIndex + 10;
+        addClassPlayerCurrentCell(player, playerOneCurrentIndex);
+        removeClassPlayerPreviousCell(player, playerOnePreviousIndex);
+      } else if (player === 'player2') {
+        playerTwoPreviousIndex = playerIndex;
+        playerTwoCurrentIndex = playerIndex + 10;
+        addClassPlayerCurrentCell(player, playerTwoCurrentIndex);
+        removeClassPlayerPreviousCell(player, playerTwoPreviousIndex);
+      }
     }
   }
 
   // 2.3.1 Key mappings
   $(document).keydown(function(e) {
     const code = e.keyCode;
-    if(code === 37){
-      moveLeft();
+    //if(code) console.log(code);
+    if(code === 65){
+      moveLeft('player1', playerOneCurrentIndex);
+    }else if(code === 68){
+      moveRight('player1', playerOneCurrentIndex);
+    }else if(code === 87){
+      moveUp('player1', playerOneCurrentIndex);
+    }else if(code === 83){
+      moveDown('player1', playerOneCurrentIndex);
+    }else if(code === 37){
+      console.log('player two move left');
+      moveLeft('player2', playerTwoCurrentIndex);
     }else if(code === 39){
-      moveRight();
+      console.log('player two move right');
+      moveRight('player2', playerTwoCurrentIndex);
     }else if(code === 38){
-      moveUp();
+      console.log('player two move up');
+      moveUp('player2', playerTwoCurrentIndex);
     }else if(code === 40){
-      moveDown();
+      console.log('player two move down');
+      moveDown('player2', playerTwoCurrentIndex);
     }
-    if (code === 13){
-      pickUp();
+    if (code === 81){
+      pickUp(); //player 1 pickup
     }
+    // if (code === 21){
+    //   pickUp(); // player 2 pickup
+    // }
   });
 
   // ###### CITIES LOGIC ######
@@ -203,7 +276,7 @@ $(() => {
     randomizedArray.forEach(function(el){
       randomCellPosition = Math.floor(Math.random() * 100);
 
-      $letterCell = $($('#map').children()[randomCellPosition]);
+      $letterCell = $($('.map').children()[randomCellPosition]);
       $letterCell.addClass('containsLetter');
       $letterCell.text(`${el.toUpperCase()}`);
       //need to make exception if it picks the same number twice
@@ -235,14 +308,14 @@ $(() => {
 
   // 2.4.1-2 Keydown for enter button and pickup function
   function pickUp(){
-    const currentCellValue = $playerOneCurrentCell.html();
+    const currentCellValue = $playerCurrentCell.html();
     checkLetter(currentCellValue.toLowerCase());
   }
 
   // 3.6.1 Remove letter from cell and normalise class
   function removeLetter(){
-    $playerOneCurrentCell.removeClass('containsLetter');
-    $playerOneCurrentCell.text('');
+    $playerCurrentCell.removeClass('containsLetter');
+    $playerCurrentCell.text('');
   }
 
   // 3.7.1 Display user answer on screen
