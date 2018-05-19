@@ -27,24 +27,10 @@ const grid2 = [
 ];
 
 
-// 3.1. Sample data
-
-// const capitalCitiesObject = {
-//   England: 'London',
-//   France: 'Paris',
-//   Germany: 'Berlin'
-// };
-
-const capitalCitiesArray = [
-  ['England', 'London'],
-  ['France', 'Paris'],
-  ['Germany', 'Berlin'],
-  ['Spain', 'Madrid'],
-  ['Protugal', 'Lisbon']
-];
-
 $(() => {
   console.log('JS Log');
+
+  // ###### GRID SETUP ######
 
   // 2.1.3 Create JS grid
   $.each(grid, (i, row) => {
@@ -77,6 +63,8 @@ $(() => {
       $element.appendTo('#map2');
     });
   });
+
+  // ###### PLAYER MOVEMENT LOGIC ######
 
   // 2.2.1 / 2.2.2 - Highlight starter cell
   // 2.3.2.2 - 7  - Player movement logic
@@ -163,6 +151,8 @@ $(() => {
       pickUp();
     }
   });
+
+  // ###### CITIES LOGIC ######
 
   //3.2 Random question generator
   const $displayQuestion = $('#display-question');
