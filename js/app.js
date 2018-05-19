@@ -147,10 +147,13 @@ $(() => {
   displayRandomQuestion(); // needs to be called before randomize array
 
   // 3.3.1-6 - Made the randomize letter logic
-  const playerOneAnswerArray = correctAnswerArray.slice(); //made a copy
+  //const playerOneAnswerArray = correctAnswerArray.slice(); //made a copy
+  let playerOneAnswerArray;
 
-  function randomizeLetters(array){
-    let currentIndex = array.length, temporaryValue, randomIndex;
+  function randomizeLetters(){
+    playerOneAnswerArray = correctAnswerArray.slice();
+
+    let currentIndex = playerOneAnswerArray.length, temporaryValue, randomIndex;
 
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
@@ -160,14 +163,14 @@ $(() => {
       currentIndex -= 1;
 
       // And swap it with the current element.
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue;
+      temporaryValue = playerOneAnswerArray[currentIndex];
+      playerOneAnswerArray[currentIndex] = playerOneAnswerArray[randomIndex];
+      playerOneAnswerArray[randomIndex] = temporaryValue;
     }
-    return array;
+    return playerOneAnswerArray;
   }
 
-  const playerOneRandomizedLetters = randomizeLetters(playerOneAnswerArray);
+  const playerOneRandomizedLetters = randomizeLetters();
 
   // 3.3.2 - Create logic to assign letter value to grid position
   let randomCellPosition;
@@ -201,7 +204,7 @@ $(() => {
       console.log('Not the right letter!');
     }
 
-    if (correctAnswerArray.length === playerOneInputtedAnswer.length) console.log('Round finished');
+    if (correctAnswerArray.length === playerOneInputtedAnswer.length) playAgain();
   }
 
   // 2.4.1-2 Keydown for enter button and pickup function
@@ -221,7 +224,24 @@ $(() => {
   function displayPlayerAnswer(){
     $displayPlayerAnswer.text(`Your answer: ${playerOneInputtedAnswer}`);
   }
+  // 3.9.1 playGame function to call all function
+  function playAgain(){
+    console.log('Round finished');
+    displayRandomQuestion();
+    randomPositionAssign(randomizeLetters());
+    gameReset();
+  }
 
-  displayPlayerAnswer();
+  function gameReset(){
+    playerOneInputtedAnswer.length = 0;
+    currentLetterIndex = 0;
+  }
 
+  // 3.7.1 setup function
+  // function setup(){
+  //   displayPlayerAnswer();
+  //
+  // }
+  //
+  // setup();
 });
