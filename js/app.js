@@ -23,7 +23,9 @@ const grid = [
 const capitalCitiesArray = [
   ['England', 'London'],
   ['France', 'Paris'],
-  ['Germany', 'Berlin']
+  ['Germany', 'Berlin'],
+  ['Spain', 'Madrid'],
+  ['Protugal', 'Lisbon']
 ];
 
 $(() => {
@@ -204,7 +206,10 @@ $(() => {
       console.log('Not the right letter!');
     }
 
-    if (correctAnswerArray.length === playerOneInputtedAnswer.length) playAgain();
+    if (correctAnswerArray.length === playerOneInputtedAnswer.length){
+      playAgain();
+      scoreIterator();
+    }
   }
 
   // 2.4.1-2 Keydown for enter button and pickup function
@@ -224,7 +229,7 @@ $(() => {
   function displayPlayerAnswer(){
     $displayPlayerAnswer.text(`Your answer: ${playerOneInputtedAnswer}`);
   }
-  // 3.9.1 playGame function to call all function
+  // 3.9.1 playAgain funtion to reset board
   function playAgain(){
     console.log('Round finished');
     displayRandomQuestion();
@@ -235,6 +240,15 @@ $(() => {
   function gameReset(){
     playerOneInputtedAnswer.length = 0;
     currentLetterIndex = 0;
+  }
+
+  let playerOneScore = 0;
+  const $playerOneScoreDisplay = $('#player-one-score');
+
+  // 3.10.1 create scoreIterator logic
+  function scoreIterator(){
+    playerOneScore ++;
+    $playerOneScoreDisplay.text(`Player One Score: ${playerOneScore}`);
   }
 
   // 3.7.1 setup function
