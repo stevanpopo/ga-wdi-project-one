@@ -12,6 +12,21 @@ const grid = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ];
 
+// 3.11.1 Created grid for player two
+const grid2 = [
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+];
+
+
 // 3.1. Sample data
 
 // const capitalCitiesObject = {
@@ -44,6 +59,22 @@ $(() => {
       }
 
       $element.appendTo('#map');
+    });
+  });
+
+  // 3.11.1 grid for second player
+  $.each(grid, (k, row) => {
+    $.each(row, (l, cell) => {
+      const $element = $('<div />');
+      //
+      if(cell === 0){
+        $element.addClass('blank');
+      } else if (cell===1){
+        // Placeholder - Adds different class if contains letter
+        $element.addClass('containsLetter');
+      }
+
+      $element.appendTo('#map2');
     });
   });
 
@@ -225,7 +256,7 @@ $(() => {
   }
 
   // 3.7.1 Display user answer on screen
-  const $displayPlayerAnswer = $('#player-answer');
+  const $displayPlayerAnswer = $('#player-one-answer');
   function displayPlayerAnswer(){
     $displayPlayerAnswer.text(`Your answer: ${playerOneInputtedAnswer}`);
   }
