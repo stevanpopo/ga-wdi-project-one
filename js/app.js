@@ -260,6 +260,7 @@ $(() => {
   function displayPlayerAnswer(){
     $displayPlayerAnswer.text(`Your answer: ${playerOneInputtedAnswer}`);
   }
+
   // 3.9.1 playAgain funtion to reset board
   function playAgain(){
     console.log('Round finished');
