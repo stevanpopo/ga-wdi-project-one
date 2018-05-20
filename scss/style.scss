@@ -11,6 +11,11 @@ div.player-one, div.player-tne {
   margin: 20px;
 }
 
+// 4.1.1 Added styling for starter positions in pure CSS (removed javascript for this)
+.player-one .map div:nth-child(91), .player-two .map div:nth-child(100)  {
+    background-color: red;
+}
+
 // 2.1.2 Basic styling for grid
 .map, #map {
   width: 500px;
@@ -22,7 +27,7 @@ div.player-one, div.player-tne {
   height: 50px;
   float: left;
 }
-.map div.blank, #map div.blank  { background-color: white}
+// .map div.blank, #map div.blank  { background-color: white}
 .map div.containsLetter, #map div.containsLetter {
   background-color: orange;
   text-align: center;

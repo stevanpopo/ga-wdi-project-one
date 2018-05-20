@@ -15,6 +15,35 @@ const grid = [
 $(() => {
   console.log('JS Log');
 
+  let playerOneCurrentIndex = 90; // player one start postion
+  let playerTwoCurrentIndex = 99; // player two start randomPositionAssign
+  let playerOnePreviousIndex;
+  let playerTwoPreviousIndex;
+
+  let $playerOnePreviousCell;
+  let $playerOneCurrentCell;
+  let $playerTwoCurrentCell;
+  let $playerTwoPreviousCell;
+
+  const $displayQuestion = $('#display-question');
+  let correctAnswer;
+  let correctAnswerArray;
+
+  let randomCellPosition;
+  let $letterCell;
+
+  const playerOneInputtedAnswer = [];
+  const playerTwoInputtedAnswer = [];
+  let playerOneLetterIndex = 0;
+  let playerTwoLetterIndex = 0;
+
+  let playerOneScore = 0;
+  let playerTwoScore = 0;
+  const $playerOneScoreDisplay = $('#player-one-score');
+  const $playerTwoScoreDisplay = $('#player-two-score');
+  $playerOneScoreDisplay.text('Player One Score: 0');
+  $playerTwoScoreDisplay.text('Player Two Score: 0');
+
   // ###### GRID SETUP ######
 
   // 2.1.3 Create JS grid
@@ -38,24 +67,7 @@ $(() => {
   // 2.2.1 / 2.2.2 - Highlight starter cell
   // 2.3.2.2 - 7  - Player movement logic
 
-  let playerOneCurrentIndex = 90; // player one start postion
-  let playerTwoCurrentIndex = 99; // player two start randomPositionAssign
-  let playerOnePreviousIndex;
-  let playerTwoPreviousIndex;
-
-  const $playerOneStartCell = $($('.map').children()[90]);
-  $playerOneStartCell.addClass('playerStartCell');
-
-  const $playerTwoStartCell = $($(document.getElementsByClassName('map')[1]).children()[99]);
-  $playerTwoStartCell.addClass('playerStartCell');
-
-  let $playerOnePreviousCell;
-  let $playerOneCurrentCell;
-  let $playerTwoCurrentCell;
-  let $playerTwoPreviousCell;
-
   // 3.11.3. Changed move functions so they take player as argument and created var unique to each player
-
   // add class to current cell
   function addClassPlayerCurrentCell(player, index){
     if (player === 'player1'){
@@ -182,10 +194,6 @@ $(() => {
   // ###### CITIES LOGIC ######
 
   //3.2 Random question generator
-  const $displayQuestion = $('#display-question');
-  let correctAnswer;
-  let correctAnswerArray;
-
   function displayRandomQuestion(){
     // 3.2.1 - 6 Random question logic
     const randomNumber = Math.floor(Math.random()*capitalCitiesArray.length);
@@ -224,9 +232,6 @@ $(() => {
   //const playerOneRandomizedLetters = randomizeLetters('playerOne');
 
   // 3.3.2 - Create logic to assign letter value to grid position
-  let randomCellPosition;
-  let $letterCell;
-
   // 3.11.9 - Make rando position assign for two player & Output random word on second grid two
   function randomPositionAssign(player, randomizedArray){
     if (player === 'player1'){
@@ -252,15 +257,7 @@ $(() => {
 
   }
 
-  //randomPositionAssign('player1', playerOneRandomizedLetters);
-  //randomPositionAssign('player2', playerOneRandomizedLetters);
-
   // 3.5.1 - Make player answer logic
-  const playerOneInputtedAnswer = [];
-  const playerTwoInputtedAnswer = [];
-  let playerOneLetterIndex = 0;
-  let playerTwoLetterIndex = 0;
-
   function checkLetter(player, letter){
     if (player === 'player1' && letter === correctAnswerArray[playerOneLetterIndex]){
       playerOneInputtedAnswer.push(letter);
@@ -352,13 +349,6 @@ $(() => {
       }
     }
   }
-
-  let playerOneScore = 0;
-  let playerTwoScore = 0;
-  const $playerOneScoreDisplay = $('#player-one-score');
-  const $playerTwoScoreDisplay = $('#player-two-score');
-  $playerOneScoreDisplay.text('Player One Score: 0');
-  $playerTwoScoreDisplay.text('Player Two Score: 0');
 
   // 3.11.13 make scores work for both players
   // 3.10.1 create scoreIterator logic

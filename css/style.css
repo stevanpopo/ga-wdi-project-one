@@ -7,6 +7,9 @@ main {
 div.player-one, div.player-tne {
   margin: 20px; }
 
+.player-one .map div:nth-child(91), .player-two .map div:nth-child(100) {
+  background-color: red; }
+
 .map, #map {
   width: 500px;
   height: 500px; }
@@ -16,9 +19,6 @@ div.player-one, div.player-tne {
   width: 50px;
   height: 50px;
   float: left; }
-
-.map div.blank, #map div.blank {
-  background-color: white; }
 
 .map div.containsLetter, #map div.containsLetter {
   background-color: orange;
