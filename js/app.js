@@ -389,6 +389,8 @@ $(() => {
   let playerTwoScore = 0;
   const $playerOneScoreDisplay = $('#player-one-score');
   const $playerTwoScoreDisplay = $('#player-two-score');
+  $playerOneScoreDisplay.text('Player One Score: 0');
+  $playerTwoScoreDisplay.text('Player Two Score: 0');
 
   // 3.11.13 make scores work for both players
   // 3.10.1 create scoreIterator logic
