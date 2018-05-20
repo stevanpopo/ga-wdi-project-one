@@ -312,7 +312,7 @@ $(() => {
 
     if (correctAnswerArray.length === playerOneInputtedAnswer.length || correctAnswerArray.length === playerTwoInputtedAnswer.length ){
       playAgain();
-      scoreIterator();
+      scoreIterator(player);
     }
   }
   // 3.11.7 made pickup work for two players
@@ -366,12 +366,20 @@ $(() => {
   }
 
   let playerOneScore = 0;
+  let playerTwoScore = 0;
   const $playerOneScoreDisplay = $('#player-one-score');
+  const $playerTwoScoreDisplay = $('#player-two-score');
 
+  // 3.11.12 make scores work for both players
   // 3.10.1 create scoreIterator logic
-  function scoreIterator(){
-    playerOneScore ++;
-    $playerOneScoreDisplay.text(`Player One Score: ${playerOneScore}`);
+  function scoreIterator(player){
+    if (player === 'player1'){
+      playerOneScore ++;
+      $playerOneScoreDisplay.text(`Player One Score: ${playerOneScore}`);
+    } else if (player === 'player2') {
+      playerTwoScore ++;
+      $playerTwoScoreDisplay.text(`Player Two Score: ${playerTwoScore}`);
+    }
   }
 
   // 3.7.1 setup function
