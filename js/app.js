@@ -12,21 +12,6 @@ const grid = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ];
 
-// 3.11.1 Created grid for player two
-// const grid2 = [
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-// ];
-
-
 $(() => {
   console.log('JS Log');
 
@@ -47,22 +32,6 @@ $(() => {
       $element.appendTo('.map');
     });
   });
-
-  // 3.11.1 grid for second player
-  // $.each(grid, (k, row) => {
-  //   $.each(row, (l, cell) => {
-  //     const $element = $('<div />');
-  //     //
-  //     if(cell === 0){
-  //       $element.addClass('blank');
-  //     } else if (cell===1){
-  //       // Placeholder - Adds different class if contains letter
-  //       $element.addClass('containsLetter');
-  //     }
-  //
-  //     $element.appendTo('#map2');
-  //   });
-  // });
 
   // ###### PLAYER MOVEMENT LOGIC ######
 
@@ -225,7 +194,7 @@ $(() => {
     $displayQuestion.text(`${correctAnswerArray}`);
   }
 
-  displayRandomQuestion(); // needs to be called before randomize array
+  //displayRandomQuestion(); // needs to be called before randomize array
 
   // 3.3.1-6 - Made the randomize letter logic
   //const playerOneAnswerArray = correctAnswerArray.slice(); //made a copy
@@ -252,7 +221,7 @@ $(() => {
     return arrayName;
   }
 
-  const playerOneRandomizedLetters = randomizeLetters('playerOne');
+  //const playerOneRandomizedLetters = randomizeLetters('playerOne');
 
   // 3.3.2 - Create logic to assign letter value to grid position
   let randomCellPosition;
@@ -283,9 +252,8 @@ $(() => {
 
   }
 
-  randomPositionAssign('player1', playerOneRandomizedLetters);
-  randomPositionAssign('player2', playerOneRandomizedLetters);
-
+  //randomPositionAssign('player1', playerOneRandomizedLetters);
+  //randomPositionAssign('player2', playerOneRandomizedLetters);
 
   // 3.5.1 - Make player answer logic
   const playerOneInputtedAnswer = [];
@@ -404,11 +372,13 @@ $(() => {
     }
   }
 
-  // 3.7.1 setup function
-  // function setup(){
-  //   displayPlayerAnswer();
-  //
-  // }
-  //
-  // setup();
+  //3.12 setup function
+  function setup(){
+    displayRandomQuestion();
+    displayPlayerAnswers();
+    randomPositionAssign('player1', randomizeLetters('playerOne'));
+    randomPositionAssign('player2', randomizeLetters('playerTwo'));
+  }
+
+  setup();
 });
