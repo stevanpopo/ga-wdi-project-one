@@ -203,11 +203,11 @@ $(() => {
       moveDown('player2', playerTwoCurrentIndex);
     }
     if (code === 81){
-      pickUp(); //player 1 pickup
+      pickUp('player1'); //player 1 pickup
     }
-    // if (code === 21){
-    //   pickUp(); // player 2 pickup
-    // }
+    if (code === 13){
+      pickUp('player2'); // player 2 pickup
+    }
   });
 
   // ###### CITIES LOGIC ######
@@ -229,12 +229,13 @@ $(() => {
 
   // 3.3.1-6 - Made the randomize letter logic
   //const playerOneAnswerArray = correctAnswerArray.slice(); //made a copy
-  let playerOneAnswerArray;
 
-  function randomizeLetters(){
-    playerOneAnswerArray = correctAnswerArray.slice();
+  // 3.11.5 - Make randomise function work for two players
+  function randomizeLetters(player){
+    let arrayName = `${player}AnswerArray`;
+    arrayName = correctAnswerArray.slice();
 
-    let currentIndex = playerOneAnswerArray.length, temporaryValue, randomIndex;
+    let currentIndex = arrayName.length, temporaryValue, randomIndex;
 
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
@@ -244,14 +245,14 @@ $(() => {
       currentIndex -= 1;
 
       // And swap it with the current element.
-      temporaryValue = playerOneAnswerArray[currentIndex];
-      playerOneAnswerArray[currentIndex] = playerOneAnswerArray[randomIndex];
-      playerOneAnswerArray[randomIndex] = temporaryValue;
+      temporaryValue = arrayName[currentIndex];
+      arrayName[currentIndex] = arrayName[randomIndex];
+      arrayName[randomIndex] = temporaryValue;
     }
-    return playerOneAnswerArray;
+    return arrayName;
   }
 
-  const playerOneRandomizedLetters = randomizeLetters();
+  const playerOneRandomizedLetters = randomizeLetters('playerOne');
 
   // 3.3.2 - Create logic to assign letter value to grid position
   let randomCellPosition;
@@ -272,35 +273,52 @@ $(() => {
 
   // 3.5.1 - Make player answer logic
   const playerOneInputtedAnswer = [];
-  let currentLetterIndex = playerOneInputtedAnswer.length;
+  const playerTwoInputtedAnswer = [];
+  let playerOneLetterIndex = 0;
+  let playerTwoLetterIndex = 0;
 
-  function checkLetter(letter){
-    if (letter === correctAnswerArray[currentLetterIndex]){
+  function checkLetter(player, letter){
+    if (player === 'player1' && letter === correctAnswerArray[playerOneLetterIndex]){
       playerOneInputtedAnswer.push(letter);
-      currentLetterIndex = playerOneInputtedAnswer.length;
+      playerOneLetterIndex = playerOneInputtedAnswer.length;
       console.log('correct letter! Get the next one!');
-      removeLetter();
+      removeLetter('player1');
+      displayPlayerAnswer();
+    } else if (player === 'player2' && letter === correctAnswerArray[playerTwoLetterIndex]) {
+      playerTwoInputtedAnswer.push(letter);
+      playerTwoLetterIndex = playerTwoInputtedAnswer.length;
+      console.log('correct letter! Get the next one!');
+      removeLetter('player2');
       displayPlayerAnswer();
     } else {
       console.log('Not the right letter!');
     }
 
-    if (correctAnswerArray.length === playerOneInputtedAnswer.length){
+    if (correctAnswerArray.length === playerOneInputtedAnswer.length || correctAnswerArray.length === playerTwoInputtedAnswer.length ){
       playAgain();
       scoreIterator();
     }
   }
-
+  // 3.11.7 made pickup work for two players
   // 2.4.1-2 Keydown for enter button and pickup function
-  function pickUp(){
-    const currentCellValue = $playerOneCurrentCell.html();
-    checkLetter(currentCellValue.toLowerCase());
+  function pickUp(player){
+    let currentCellValue;
+    if (player === 'player1') currentCellValue = $playerOneCurrentCell.html();
+    if (player === 'player2') currentCellValue = $playerTwoCurrentCell.html();
+    console.log(currentCellValue);
+    checkLetter(player, currentCellValue.toLowerCase());
   }
 
+  // 3.11.8 made removeletter work for two players
   // 3.6.1 Remove letter from cell and normalise class
-  function removeLetter(){
-    $playerOneCurrentCell.removeClass('containsLetter');
-    $playerOneCurrentCell.text('');
+  function removeLetter(player){
+    if (player === 'player1'){
+      $playerOneCurrentCell.removeClass('containsLetter');
+      $playerOneCurrentCell.text('');
+    } else if (player === 'player2'){
+      $playerTwoCurrentCell.removeClass('containsLetter');
+      $playerTwoCurrentCell.text('');
+    }
   }
 
   // 3.7.1 Display user answer on screen
