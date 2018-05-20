@@ -299,13 +299,13 @@ $(() => {
       playerOneLetterIndex = playerOneInputtedAnswer.length;
       console.log('correct letter! Get the next one!');
       removeLetter('player1');
-      displayPlayerAnswer();
+      displayPlayerAnswers();
     } else if (player === 'player2' && letter === correctAnswerArray[playerTwoLetterIndex]) {
       playerTwoInputtedAnswer.push(letter);
       playerTwoLetterIndex = playerTwoInputtedAnswer.length;
       console.log('correct letter! Get the next one!');
       removeLetter('player2');
-      displayPlayerAnswer();
+      displayPlayerAnswers();
     } else {
       console.log('Not the right letter!');
     }
@@ -338,9 +338,12 @@ $(() => {
   }
 
   // 3.7.1 Display user answer on screen
-  const $displayPlayerAnswer = $('#player-one-answer');
-  function displayPlayerAnswer(){
-    $displayPlayerAnswer.text(`Your answer: ${playerOneInputtedAnswer}`);
+  const $displayPlayerOneAnswer = $('#player-one-answer');
+  const $displayPlayerTwoAnswer = $('#player-two-answer');
+
+  function displayPlayerAnswers(){
+    $displayPlayerOneAnswer.text(`Your answer: ${playerOneInputtedAnswer}`);
+    $displayPlayerTwoAnswer.text(`Your answer: ${playerTwoInputtedAnswer}`);
   }
 
   // 3.9.1 playAgain funtion to reset board
