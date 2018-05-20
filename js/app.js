@@ -346,6 +346,11 @@ $(() => {
     $displayPlayerOneAnswer.text(`Your answer: ${playerOneInputtedAnswer}`);
     $displayPlayerTwoAnswer.text(`Your answer: ${playerTwoInputtedAnswer}`);
   }
+  // 3.11.15 function that removes player answers
+  function resetPlayerAnswersDisplay(){
+    $displayPlayerOneAnswer.text('Your answer: ');
+    $displayPlayerTwoAnswer.text('Your answer: ');
+  }
 
   // 3.9.1 playAgain funtion to reset board
   // 3.11.11 Made player again work for both players
@@ -366,6 +371,7 @@ $(() => {
     playerOneLetterIndex = 0;
     playerTwoLetterIndex = 0;
     clearAllLetters();
+    resetPlayerAnswersDisplay();
   }
 
   // 3.11.14 function that clears all existing letters
