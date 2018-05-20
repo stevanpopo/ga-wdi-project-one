@@ -68,12 +68,6 @@ $(() => {
 
   // 2.2.1 / 2.2.2 - Highlight starter cell
   // 2.3.2.2 - 7  - Player movement logic
-  // let playerCurrentIndex = 90; // player one start postion
-  // let playerPreviousIndex;
-  // const $playerOneStartCell = $($('.map').children()[90]);
-  // $playerOneStartCell.addClass('playerStartCell');
-  // let $playerOnePreviousCell;
-  // let $playerOneCurrentCell;
 
   let playerOneCurrentIndex = 90; // player one start postion
   let playerTwoCurrentIndex = 99; // player two start randomPositionAssign
@@ -87,20 +81,21 @@ $(() => {
   $playerTwoStartCell.addClass('playerStartCell');
 
   let $playerOnePreviousCell;
-  let $playerCurrentCell;
+  let $playerOneCurrentCell;
   let $playerTwoCurrentCell;
   let $playerTwoPreviousCell;
+
+  // 3.11.3. Changed move functions so they take player as argument and created var unique to each player
 
   // add class to current cell
   function addClassPlayerCurrentCell(player, index){
     if (player === 'player1'){
-      $playerCurrentCell = $($('.map').children()[index]);
-      $playerCurrentCell.addClass('playerCurrentCell');
+      $playerOneCurrentCell = $($('.map').children()[index]);
+      $playerOneCurrentCell.addClass('playerCurrentCell');
     } else if (player === 'player2'){
       $playerTwoCurrentCell = $($(document.getElementsByClassName('map')[1]).children()[index]);
       $playerTwoCurrentCell.addClass('playerCurrentCell');
     }
-
   }
 
   // remove class form last cell
@@ -112,7 +107,21 @@ $(() => {
       $playerTwoPreviousCell = $($(document.getElementsByClassName('map')[1]).children()[index]);
       $playerTwoPreviousCell.removeClass('playerCurrentCell');
     }
+  }
 
+  // 3.11.4 - Refactor so that index changes are in functions
+  function playerOneIndexChange(change, playerIndex){
+    playerOnePreviousIndex = playerIndex;
+    playerOneCurrentIndex = playerIndex + change;
+    addClassPlayerCurrentCell('player1', playerOneCurrentIndex);
+    removeClassPlayerPreviousCell('player1', playerOnePreviousIndex);
+  }
+
+  function playerTwoIndexChange(change, playerIndex){
+    playerTwoPreviousIndex = playerIndex;
+    playerTwoCurrentIndex = playerIndex + change;
+    addClassPlayerCurrentCell('player2', playerTwoCurrentIndex);
+    removeClassPlayerPreviousCell('player2', playerTwoPreviousIndex);
   }
 
   // move left function
@@ -121,15 +130,9 @@ $(() => {
       console.log('cant move left');
     } else {
       if (player === 'player1'){
-        playerOnePreviousIndex = playerIndex;
-        playerOneCurrentIndex = playerIndex - 1;
-        addClassPlayerCurrentCell(player, playerOneCurrentIndex);
-        removeClassPlayerPreviousCell(player, playerOnePreviousIndex);
+        playerOneIndexChange(-1, playerIndex);
       } else if (player === 'player2') {
-        playerTwoPreviousIndex = playerIndex;
-        playerTwoCurrentIndex = playerIndex - 1;
-        addClassPlayerCurrentCell(player, playerTwoCurrentIndex);
-        removeClassPlayerPreviousCell(player, playerTwoPreviousIndex);
+        playerTwoIndexChange(-1, playerIndex);
       }
     }
   }
@@ -140,15 +143,9 @@ $(() => {
       console.log('cant move right');
     } else {
       if (player === 'player1'){
-        playerOnePreviousIndex = playerIndex;
-        playerOneCurrentIndex = playerIndex + 1;
-        addClassPlayerCurrentCell(player, playerOneCurrentIndex);
-        removeClassPlayerPreviousCell(player, playerOnePreviousIndex);
+        playerOneIndexChange(1, playerIndex);
       } else if (player === 'player2') {
-        playerTwoPreviousIndex = playerIndex;
-        playerTwoCurrentIndex = playerIndex + 1;
-        addClassPlayerCurrentCell(player, playerTwoCurrentIndex);
-        removeClassPlayerPreviousCell(player, playerTwoPreviousIndex);
+        playerTwoIndexChange(1, playerIndex);
       }
     }
   }
@@ -159,15 +156,9 @@ $(() => {
       console.log('cant move up');
     } else {
       if (player === 'player1'){
-        playerOnePreviousIndex = playerIndex;
-        playerOneCurrentIndex = playerIndex - 10;
-        addClassPlayerCurrentCell(player, playerOneCurrentIndex);
-        removeClassPlayerPreviousCell(player, playerOnePreviousIndex);
+        playerOneIndexChange(-10, playerIndex);
       } else if (player === 'player2') {
-        playerTwoPreviousIndex = playerIndex;
-        playerTwoCurrentIndex = playerIndex - 10;
-        addClassPlayerCurrentCell(player, playerTwoCurrentIndex);
-        removeClassPlayerPreviousCell(player, playerTwoPreviousIndex);
+        playerTwoIndexChange(-10, playerIndex);
       }
     }
   }
@@ -179,15 +170,9 @@ $(() => {
     } else {
 
       if (player === 'player1'){
-        playerOnePreviousIndex = playerIndex;
-        playerOneCurrentIndex = playerIndex + 10;
-        addClassPlayerCurrentCell(player, playerOneCurrentIndex);
-        removeClassPlayerPreviousCell(player, playerOnePreviousIndex);
+        playerOneIndexChange(10, playerIndex);
       } else if (player === 'player2') {
-        playerTwoPreviousIndex = playerIndex;
-        playerTwoCurrentIndex = playerIndex + 10;
-        addClassPlayerCurrentCell(player, playerTwoCurrentIndex);
-        removeClassPlayerPreviousCell(player, playerTwoPreviousIndex);
+        playerTwoIndexChange(10, playerIndex);
       }
     }
   }
@@ -308,14 +293,14 @@ $(() => {
 
   // 2.4.1-2 Keydown for enter button and pickup function
   function pickUp(){
-    const currentCellValue = $playerCurrentCell.html();
+    const currentCellValue = $playerOneCurrentCell.html();
     checkLetter(currentCellValue.toLowerCase());
   }
 
   // 3.6.1 Remove letter from cell and normalise class
   function removeLetter(){
-    $playerCurrentCell.removeClass('containsLetter');
-    $playerCurrentCell.text('');
+    $playerOneCurrentCell.removeClass('containsLetter');
+    $playerOneCurrentCell.text('');
   }
 
   // 3.7.1 Display user answer on screen
