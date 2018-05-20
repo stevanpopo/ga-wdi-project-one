@@ -15,30 +15,27 @@ const grid = [
 $(() => {
   console.log('JS Log');
 
+  // All declared variables with global scope
   let playerOneCurrentIndex = 90; // player one start postion
   let playerTwoCurrentIndex = 99; // player two start randomPositionAssign
   let playerOnePreviousIndex;
   let playerTwoPreviousIndex;
-
   let $playerOnePreviousCell;
   let $playerOneCurrentCell;
   let $playerTwoCurrentCell;
   let $playerTwoPreviousCell;
-
-  const $displayQuestion = $('#display-question');
   let correctAnswer;
   let correctAnswerArray;
-
   let randomCellPosition;
   let $letterCell;
-
-  const playerOneInputtedAnswer = [];
-  const playerTwoInputtedAnswer = [];
   let playerOneLetterIndex = 0;
   let playerTwoLetterIndex = 0;
-
   let playerOneScore = 0;
   let playerTwoScore = 0;
+  const playerOneInputtedAnswer = [];
+  const playerTwoInputtedAnswer = [];
+
+  const $displayQuestion = $('#display-question');
   const $playerOneScoreDisplay = $('#player-one-score');
   const $playerTwoScoreDisplay = $('#player-two-score');
   $playerOneScoreDisplay.text('Player One Score: 0');
