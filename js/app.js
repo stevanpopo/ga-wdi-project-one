@@ -351,18 +351,32 @@ $(() => {
   // 3.11.11 Made player again work for both players
   function playAgain(){
     console.log('Round finished');
+    gameReset();
     displayRandomQuestion();
     randomPositionAssign('player1', randomizeLetters('playerOne'));
     randomPositionAssign('player2', randomizeLetters('playerTwo'));
-    gameReset();
   }
 
   // 3.11.12 Made player reset work for both players
   function gameReset(){
     playerOneInputtedAnswer.length = 0;
+    console.log(playerOneInputtedAnswer);
     playerTwoInputtedAnswer.length = 0;
+    console.log(playerTwoInputtedAnswer);
     playerOneLetterIndex = 0;
     playerTwoLetterIndex = 0;
+    clearAllLetters();
+  }
+
+  // 3.11.14 function that clears all existing letters
+  const $gridChildren = $($('.map').children());
+  function clearAllLetters(){
+    for (let i = 0; i < $gridChildren.length; i++){
+      if ($gridChildren[i].classList.contains('containsLetter')){
+        $gridChildren[i].classList.remove('containsLetter');
+        $gridChildren[i].innerHTML = '';
+      }
+    }
   }
 
   let playerOneScore = 0;
@@ -370,7 +384,7 @@ $(() => {
   const $playerOneScoreDisplay = $('#player-one-score');
   const $playerTwoScoreDisplay = $('#player-two-score');
 
-  // 3.11.12 make scores work for both players
+  // 3.11.13 make scores work for both players
   // 3.10.1 create scoreIterator logic
   function scoreIterator(player){
     if (player === 'player1'){
