@@ -341,22 +341,28 @@ $(() => {
   const $displayPlayerOneAnswer = $('#player-one-answer');
   const $displayPlayerTwoAnswer = $('#player-two-answer');
 
+  // 3.11.10 Made displayer player answers work for both
   function displayPlayerAnswers(){
     $displayPlayerOneAnswer.text(`Your answer: ${playerOneInputtedAnswer}`);
     $displayPlayerTwoAnswer.text(`Your answer: ${playerTwoInputtedAnswer}`);
   }
 
   // 3.9.1 playAgain funtion to reset board
+  // 3.11.11 Made player again work for both players
   function playAgain(){
     console.log('Round finished');
     displayRandomQuestion();
-    randomPositionAssign(randomizeLetters());
+    randomPositionAssign('player1', randomizeLetters('playerOne'));
+    randomPositionAssign('player2', randomizeLetters('playerTwo'));
     gameReset();
   }
 
+  // 3.11.12 Made player reset work for both players
   function gameReset(){
     playerOneInputtedAnswer.length = 0;
-    currentLetterIndex = 0;
+    playerTwoInputtedAnswer.length = 0;
+    playerOneLetterIndex = 0;
+    playerTwoLetterIndex = 0;
   }
 
   let playerOneScore = 0;
