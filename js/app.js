@@ -44,6 +44,20 @@ $(() => {
   const $instructional = $('#instructional-info');
   const $mainGame = $('#main-game');
 
+  // 4.1.6.2. Make feedback display for each player and output feedback as they play
+
+  const $playerOneFeedbackDisplay = $('#player-one-feedback');
+  let playerOneFeedback = 'Start moving your player!';
+  const $playerTwoFeedbackDisplay = $('#player-two-feedback');
+  let playerTwoFeedback = 'Start moving your player!';
+
+  function displayFeedback(){
+    $playerOneFeedbackDisplay.text(`${playerOneFeedback}`);
+    $playerTwoFeedbackDisplay.text(`${playerTwoFeedback}`);
+  }
+
+  displayFeedback(); // remove later
+
   // ###### GRID SETUP ######
 
   // 2.1.3 Create JS grid
@@ -108,7 +122,13 @@ $(() => {
   // move left function
   function moveLeft(player, playerIndex){
     if (playerIndex === 0 || playerIndex % 10 === 0) {
-      console.log('cant move left');
+      if (player === 'player1'){
+        playerOneFeedback = 'You can\'t move left';
+        displayFeedback();
+      } else if (player === 'player2') {
+        playerTwoFeedback = 'You can\'t move left';
+        displayFeedback();
+      }
     } else {
       if (player === 'player1'){
         playerOneIndexChange(-1, playerIndex);
@@ -121,7 +141,13 @@ $(() => {
   // move right function
   function moveRight(player, playerIndex){
     if (playerIndex === 9 || playerIndex === 19 || playerIndex === 29 || playerIndex === 39 || playerIndex === 49 || playerIndex === 59 || playerIndex === 69 || playerIndex === 79 || playerIndex === 89 || playerIndex === 99) {
-      console.log('cant move right');
+      if (player === 'player1'){
+        playerOneFeedback = 'You can\'t move right';
+        displayFeedback();
+      } else if (player === 'player2') {
+        playerTwoFeedback = 'You can\'t move right';
+        displayFeedback();
+      }
     } else {
       if (player === 'player1'){
         playerOneIndexChange(1, playerIndex);
@@ -134,7 +160,13 @@ $(() => {
   // move up function
   function moveUp(player, playerIndex){
     if (playerIndex < 10){
-      console.log('cant move up');
+      if (player === 'player1'){
+        playerOneFeedback = 'You can\'t move up';
+        displayFeedback();
+      } else if (player === 'player2') {
+        playerTwoFeedback = 'You can\'t move up';
+        displayFeedback();
+      }
     } else {
       if (player === 'player1'){
         playerOneIndexChange(-10, playerIndex);
@@ -147,7 +179,13 @@ $(() => {
   // move down function
   function moveDown(player, playerIndex){
     if (playerIndex > 89){
-      console.log('cant move down');
+      if (player === 'player1'){
+        playerOneFeedback = 'You can\'t move down';
+        displayFeedback();
+      } else if (player === 'player2') {
+        playerTwoFeedback = 'You can\'t move down';
+        displayFeedback();
+      }
     } else {
 
       if (player === 'player1'){
@@ -250,13 +288,13 @@ $(() => {
   // 3.5.1 - Make player answer logic
   function checkLetter(player, letter){
     if (player === 'player1' && letter === correctAnswerArray[playerOneLetterIndex]){
-      playerOneInputtedAnswer.push(letter);
+      playerOneInputtedAnswer.push(letter.toUpperCase());
       playerOneLetterIndex = playerOneInputtedAnswer.length;
       console.log('correct letter! Get the next one!');
       removeLetter('player1');
       displayPlayerAnswers();
     } else if (player === 'player2' && letter === correctAnswerArray[playerTwoLetterIndex]) {
-      playerTwoInputtedAnswer.push(letter);
+      playerTwoInputtedAnswer.push(letter.toUpperCase());
       playerTwoLetterIndex = playerTwoInputtedAnswer.length;
       console.log('correct letter! Get the next one!');
       removeLetter('player2');
@@ -325,6 +363,7 @@ $(() => {
   // 3.11.11 Made player again work for both players
   function playGame(){
     gameReset();
+    displayFeedback();
     displayRandomQuestion();
     randomPositionAssign('player1', randomizeLetters('playerOne'));
     randomPositionAssign('player2', randomizeLetters('playerTwo'));
