@@ -379,10 +379,6 @@ $(() => {
 
   //3.12 setup function
   function setup(){
-    displayRandomQuestion();
-    displayPlayerAnswers();
-    randomPositionAssign('player1', randomizeLetters('playerOne'));
-    randomPositionAssign('player2', randomizeLetters('playerTwo'));
     toggleScreenView();
   }
 

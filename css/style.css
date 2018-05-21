@@ -12,12 +12,24 @@ header {
     font-size: 18px; }
   header button {
     padding: 1em 2.6em;
-    border-radius: 4%; }
+    border-radius: 4%;
+    background-color: red; }
+  header img {
+    display: block; }
+
+footer {
+  background-color: grey;
+  height: 3em;
+  text-align: center;
+  width: 100%; }
+  footer p {
+    font-size: 1em;
+    line-height: 3em; }
 
 main {
   display: flex; }
 
-div.player-one, div.player-tne {
+div.player-one, div.player-two {
   margin: 20px; }
 
 .player-one .map div:nth-child(91), .player-two .map div:nth-child(100) {
