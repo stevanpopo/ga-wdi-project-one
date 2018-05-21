@@ -13,11 +13,10 @@ const grid = [
 ];
 
 $(() => {
-  console.log('JS Log');
 
   // All declared variables with global scope
   let playerOneCurrentIndex = 90; // player one start postion
-  let playerTwoCurrentIndex = 99; // player two start randomPositionAssign
+  let playerTwoCurrentIndex = 99; // player two start position
   let playerOnePreviousIndex;
   let playerTwoPreviousIndex;
   let $playerOnePreviousCell;
@@ -168,16 +167,12 @@ $(() => {
     }else if(code === 83){
       moveDown('player1', playerOneCurrentIndex);
     }else if(code === 37){
-      console.log('player two move left');
       moveLeft('player2', playerTwoCurrentIndex);
     }else if(code === 39){
-      console.log('player two move right');
       moveRight('player2', playerTwoCurrentIndex);
     }else if(code === 38){
-      console.log('player two move up');
       moveUp('player2', playerTwoCurrentIndex);
     }else if(code === 40){
-      console.log('player two move down');
       moveDown('player2', playerTwoCurrentIndex);
     }
     if (code === 81){
@@ -199,15 +194,11 @@ $(() => {
     $displayQuestion.text(`${correctAnswerArray}`);
   }
 
-  //displayRandomQuestion(); // needs to be called before randomize array
-
   // 3.3.1-6 - Made the randomize letter logic
-  //const playerOneAnswerArray = correctAnswerArray.slice(); //made a copy
-
   // 3.11.5 - Make randomise function work for two players
   function randomizeLetters(player){
     let arrayName = `${player}AnswerArray`;
-    arrayName = correctAnswerArray.slice();
+    arrayName = correctAnswerArray.slice(); //makes a copy to randomize
 
     let currentIndex = arrayName.length, temporaryValue, randomIndex;
 
@@ -225,8 +216,6 @@ $(() => {
     }
     return arrayName;
   }
-
-  //const playerOneRandomizedLetters = randomizeLetters('playerOne');
 
   // 3.3.2 - Create logic to assign letter value to grid position
   // 3.11.9 - Make rando position assign for two player & Output random word on second grid two
@@ -251,7 +240,6 @@ $(() => {
         //need to make exception if it picks the same number twice
       });
     }
-
   }
 
   // 3.5.1 - Make player answer logic
@@ -283,7 +271,6 @@ $(() => {
     let currentCellValue;
     if (player === 'player1') currentCellValue = $playerOneCurrentCell.html();
     if (player === 'player2') currentCellValue = $playerTwoCurrentCell.html();
-    console.log(currentCellValue);
     checkLetter(player, currentCellValue.toLowerCase());
   }
 
@@ -313,6 +300,20 @@ $(() => {
     $displayPlayerOneAnswer.text('Your answer: ');
     $displayPlayerTwoAnswer.text('Your answer: ');
   }
+
+  // 3.11.13 make scores work for both players
+  // 3.10.1 create scoreIterator logic
+  function scoreIterator(player){
+    if (player === 'player1'){
+      playerOneScore ++;
+      $playerOneScoreDisplay.text(`Player One Score: ${playerOneScore}`);
+    } else if (player === 'player2') {
+      playerTwoScore ++;
+      $playerTwoScoreDisplay.text(`Player Two Score: ${playerTwoScore}`);
+    }
+  }
+
+  // ###### PLAY AGAIN AND RESET LOGIC ######
 
   // 3.9.1 playAgain funtion to reset board
   // 3.11.11 Made player again work for both players
@@ -347,17 +348,7 @@ $(() => {
     }
   }
 
-  // 3.11.13 make scores work for both players
-  // 3.10.1 create scoreIterator logic
-  function scoreIterator(player){
-    if (player === 'player1'){
-      playerOneScore ++;
-      $playerOneScoreDisplay.text(`Player One Score: ${playerOneScore}`);
-    } else if (player === 'player2') {
-      playerTwoScore ++;
-      $playerTwoScoreDisplay.text(`Player Two Score: ${playerTwoScore}`);
-    }
-  }
+  // ###### SETUP ######
 
   //3.12 setup function
   function setup(){

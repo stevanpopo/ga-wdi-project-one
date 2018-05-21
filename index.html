@@ -2,16 +2,26 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Gap Year Ninja / Flight Fight</title>
+    <title>Gap Year Ninja</title>
+    <link rel="stylesheet" type="text/css" href="./css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="./js/data.js" charset="utf-8"></script>
     <script src="./js/app.js" charset="utf-8"></script>
-    <link rel="stylesheet" href="./css/style.css">
   </head>
   <body>
-    <h1>Flight Fight</h1>
+    <header>
+      <h1>Gap Year Ninja</h1>
+      <div class="instructional-info">
+        <h2>Instructions</h2>
+        <p>You're on your gap year with dreams of travelling the world, but for some strange reason all planes have only one seat remaining.</p>
+        <p>Race your opponent to collect the letters, in order, that make up a city name. Get the name correct first and you'll win your seat on the plane! Collect as many correct cities as possible to have the most amazig gap yar ever!</p>
+        <button id="start-game">Start game</button>
+      </div>
+    </header>
     <h2 id="display-question"></h2>
     <main>
+
       <div class="player-one">
         <div class="map"></div>
         <h3 id="player-one-answer"></h3>
@@ -23,5 +33,8 @@
         <h3 id="player-two-score"></h3>
       </div>
     </main>
+    <footer>
+      <p>Made with love @stevanpopo</p>
+    </footer>
   </body>
 </html>

@@ -1,6 +1,19 @@
 * {
   box-sizing: border-box; }
 
+header {
+  width: 72%;
+  margin: 0 auto;
+  text-align: center; }
+  header h1 {
+    text-transform: uppercase;
+    font-size: 2.8em; }
+  header p {
+    font-size: 18px; }
+  header button {
+    padding: 1em 2.6em;
+    border-radius: 4%; }
+
 main {
   display: flex; }
 
@@ -10,25 +23,25 @@ div.player-one, div.player-tne {
 .player-one .map div:nth-child(91), .player-two .map div:nth-child(100) {
   background-color: red; }
 
-.map, #map {
+.map {
   width: 500px;
   height: 500px; }
 
-.map div, #map div {
+.map div {
   border: 1px solid red;
   width: 50px;
   height: 50px;
   float: left; }
 
-.map div.containsLetter, #map div.containsLetter {
+.map div.containsLetter {
   background-color: orange;
   text-align: center;
   font-size: 26px; }
 
-.map div.playerStartCell, #map div.playerStartCell {
+.map div.playerStartCell {
   background-color: red !important; }
 
-.map div.playerCurrentCell, #map div.playerCurrentCell {
+.map div.playerCurrentCell {
   background-color: blue !important; }
 
 /*# sourceMappingURL=style.css.map */
