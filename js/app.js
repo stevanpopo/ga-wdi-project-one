@@ -43,8 +43,12 @@ $(() => {
   let gameToggle = true; // should start on false
   const $instructional = $('#instructional-info');
   const $mainGame = $('#main-game');
+  const $playerOneMap = $('.map');
+  const $playerTwoMap = $(document.getElementsByClassName('map')[1]);
 
   const usedQuestions = [];
+
+  const $endScreen = $('#end-screen');
 
   // 4.1.6.2. Make feedback display for each player and output feedback as they play
 
@@ -235,6 +239,12 @@ $(() => {
     const randomNumber = Math.floor(Math.random()*capitalCitiesArray.length);
     correctAnswer = capitalCitiesArray[randomNumber][1];
 
+    if (usedQuestions.length === capitalCitiesArray.length){
+      console.log('Game Over');
+      endScreen();
+      return;
+    }
+
     if (usedQuestions.includes(correctAnswer)){
       console.log('This is  repeat question');
       displayRandomQuestion();
@@ -242,10 +252,7 @@ $(() => {
       correctAnswerArray = correctAnswer.toLowerCase().split('');
       const underscoreArray = correctAnswerArray.map(x => ' _ ');
       $displayQuestion.text(`The city is: ${underscoreArray}`);
-
-      console.log(capitalCitiesArray);
       usedQuestions.push(correctAnswer);
-      console.log(usedQuestions);
     }
   }
 
@@ -430,9 +437,11 @@ $(() => {
     if (gameToggle){
       $mainGame.show();
       $instructional.hide();
+      $endScreen.hide();
       gameToggle = false;
     } else {
       $mainGame.hide();
+      $endScreen.hide();
       $instructional.show();
     }
   }
@@ -446,6 +455,16 @@ $(() => {
     playGame();
   });
 
+  function endScreen(){
+    $endScreen.show();
+    $displayQuestion.hide();
+    $playerOneMap.hide();
+    $playerTwoMap.hide();
+    $playerOneFeedbackDisplay.hide();
+    $playerTwoFeedbackDisplay.hide();
+    $displayPlayerOneAnswer.hide();
+    $displayPlayerTwoAnswer.hide();
+  }
 
   // ###### SETUP ######
 
