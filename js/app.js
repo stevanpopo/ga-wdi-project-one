@@ -264,18 +264,26 @@ $(() => {
   // 3.11.9 - Make rando position assign for two player & Output random word on second grid two
   function randomPositionAssign(player, randomizedArray){
     if (player === 'player1'){
+      const playerOnePositionsArray = [];
       randomizedArray.forEach(function(el){
         randomCellPosition = Math.floor(Math.random() * 100);
-
+        if (playerOnePositionsArray.includes(randomCellPosition)){
+          randomCellPosition = randomCellPosition+5;
+        }
+        playerOnePositionsArray.push(randomCellPosition);
         $letterCell = $($('.map').children()[randomCellPosition]);
         $letterCell.addClass('containsLetter');
         $letterCell.text(`${el.toUpperCase()}`);
         //need to make exception if it picks the same number twice
       });
     } else if (player === 'player2'){
+      const playerTwoPositionsArray = [];
       randomizedArray.forEach(function(el){
         randomCellPosition = Math.floor(Math.random() * 100);
-
+        if (playerTwoPositionsArray.includes(randomCellPosition)){
+          randomCellPosition = randomCellPosition+5;
+        }
+        playerTwoPositionsArray.push(randomCellPosition);
         $letterCell = $($('.map').children()[randomCellPosition]);
         $letterCell = $($(document.getElementsByClassName('map')[1]).children()[randomCellPosition]);
         $letterCell.addClass('containsLetter');
@@ -386,9 +394,7 @@ $(() => {
   // 3.11.12 Made player reset work for both players
   function gameReset(){
     playerOneInputtedAnswer.length = 0;
-    console.log(playerOneInputtedAnswer);
     playerTwoInputtedAnswer.length = 0;
-    console.log(playerTwoInputtedAnswer);
     playerOneLetterIndex = 0;
     playerTwoLetterIndex = 0;
     clearAllLetters();
