@@ -1,30 +1,45 @@
 * {
   box-sizing: border-box; }
 
+body {
+  background-color: #f4f4f4; }
+
 header {
-  width: 72%;
-  margin: 0 auto;
   text-align: center; }
+  header #instructional-info {
+    width: 60%;
+    margin: 0 auto; }
   header h1 {
     text-transform: uppercase;
-    font-size: 2.8em; }
+    font-size: 2.8em;
+    line-height: 2em;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.95);
+    font-family: "Lato", sans-serif;
+    font-weight: bold;
+    background-color: #e24e42;
+    border-bottom: 4px solid #008f95; }
   header p {
-    font-size: 18px; }
+    font-size: 18px;
+    font-family: 'PT Sans', sans-serif; }
   header button {
     padding: 1em 2.6em;
     border-radius: 4%;
-    background-color: red; }
+    background-color: #e24e42;
+    color: rgba(255, 255, 255, 0.95);
+    text-transform: uppercase;
+    font-family: "Lato", sans-serif;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-bottom: 20px; }
   header img {
     display: block; }
 
-footer {
-  background-color: grey;
-  height: 3em;
-  text-align: center;
-  width: 100%; }
-  footer p {
-    font-size: 1em;
-    line-height: 3em; }
+h2, h3, h4 {
+  font-family: "PT Sans", sans-serif; }
+
+h3 {
+  font-size: 1.2em; }
 
 main h2 {
   text-align: center; }
@@ -45,10 +60,27 @@ main .map {
     height: 45px;
     float: left; }
     main .map div.containsLetter {
-      background-color: orange;
+      background-color: #e9b000;
       text-align: center;
-      font-size: 2em; }
+      line-height: 1.3em;
+      font-size: 2em;
+      color: rgba(255, 255, 255, 0.95); }
     main .map div.playerCurrentCell {
-      border: 4px solid red; }
+      border: 4px solid #e24e42; }
+
+footer {
+  background-color: #008f95;
+  height: 3em;
+  text-align: center;
+  width: 100%;
+  margin-top: 20px; }
+  footer p {
+    font-size: 1.1em;
+    line-height: 3em;
+    color: rgba(255, 255, 255, 0.95);
+    font-family: "PT Sans", sans-serif; }
+    footer p a {
+      color: #e9b000;
+      text-decoration: none; }
 
 /*# sourceMappingURL=style.css.map */

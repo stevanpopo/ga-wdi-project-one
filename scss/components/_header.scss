@@ -1,0 +1,48 @@
+// 4.1.2 - Header styling
+header {
+  // width: 72%;
+  // margin: 0 auto;
+  text-align: center;
+
+  #instructional-info {
+    width: 60%;
+    margin: 0 auto;
+  }
+
+  h1 {
+    text-transform: uppercase;
+    font-size: 2.8em;
+    line-height: 2em;
+    margin: 0;
+    color: rgba(255,255,255, .95);
+    font-family: $primary-font;
+    font-weight: bold;
+    background-color: $primary-color;
+    border-bottom: 4px solid $secondary-color;
+  }
+
+  h2 {
+    // text-transform: uppercase;
+  }
+
+  p {
+    font-size: 18px;
+    font-family: 'PT Sans', sans-serif;
+  }
+
+  button {
+    padding: 1em 2.6em;
+    border-radius: 4%;
+    background-color: $primary-color;
+    color: $fourth-color;
+    text-transform: uppercase;
+    font-family: $primary-font;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  img {
+    display: block;
+  }
+}

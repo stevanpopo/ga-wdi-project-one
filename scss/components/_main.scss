@@ -1,0 +1,49 @@
+// 4.1.6. Main game styling
+// 3.11.1 to make it two player
+main {
+
+  h2 {
+    text-align: center;
+  }
+
+  .player-grids {
+    display: flex;
+    width: 72%;
+    margin: 0 auto;
+  }
+
+  div.player-one, div.player-two {
+    margin: 20px;
+  }
+
+  // 4.1.1 Added styling for starter positions in pure CSS (removed javascript for this)
+  .player-one .map div:nth-child(91), .player-two .map div:nth-child(100)  {
+      background-color: rgba(255, 0, 0, .5);
+  }
+
+  // 2.1.2 Basic styling for grid
+  .map {
+    width: 450px;
+    height: 450px;
+
+    div {
+      border: 1px solid rgba(255, 0, 0, .5);
+      width: 45px;
+      height: 45px;
+      float: left;
+
+      // .map div.blank, #map div.blank  { background-color: white}
+      &.containsLetter {
+        background-color: $third-color;
+        text-align: center;
+        line-height: 1.3em;
+        font-size: 2em;
+        color: $fourth-color;
+      }
+
+      &.playerCurrentCell {
+        border: 4px solid $primary-color;
+      }
+    }
+  }
+}
