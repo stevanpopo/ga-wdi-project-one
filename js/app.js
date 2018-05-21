@@ -123,10 +123,10 @@ $(() => {
   function moveLeft(player, playerIndex){
     if (playerIndex === 0 || playerIndex % 10 === 0) {
       if (player === 'player1'){
-        playerOneFeedback = 'You can\'t move left';
+        playerOneFeedback = 'You can\'t move left. Try to move another direction.';
         displayFeedback();
       } else if (player === 'player2') {
-        playerTwoFeedback = 'You can\'t move left';
+        playerTwoFeedback = 'You can\'t move left. Try to move another direction.';
         displayFeedback();
       }
     } else {
@@ -142,10 +142,10 @@ $(() => {
   function moveRight(player, playerIndex){
     if (playerIndex === 9 || playerIndex === 19 || playerIndex === 29 || playerIndex === 39 || playerIndex === 49 || playerIndex === 59 || playerIndex === 69 || playerIndex === 79 || playerIndex === 89 || playerIndex === 99) {
       if (player === 'player1'){
-        playerOneFeedback = 'You can\'t move right';
+        playerOneFeedback = 'You can\'t move right. Try to move another direction.';
         displayFeedback();
       } else if (player === 'player2') {
-        playerTwoFeedback = 'You can\'t move right';
+        playerTwoFeedback = 'You can\'t move right. Try to move another direction.';
         displayFeedback();
       }
     } else {
@@ -161,10 +161,10 @@ $(() => {
   function moveUp(player, playerIndex){
     if (playerIndex < 10){
       if (player === 'player1'){
-        playerOneFeedback = 'You can\'t move up';
+        playerOneFeedback = 'You can\'t move up. Try to move another direction.';
         displayFeedback();
       } else if (player === 'player2') {
-        playerTwoFeedback = 'You can\'t move up';
+        playerTwoFeedback = 'You can\'t move up. Try to move another direction.';
         displayFeedback();
       }
     } else {
@@ -180,10 +180,10 @@ $(() => {
   function moveDown(player, playerIndex){
     if (playerIndex > 89){
       if (player === 'player1'){
-        playerOneFeedback = 'You can\'t move down';
+        playerOneFeedback = 'You can\'t move down. Try to move another direction.';
         displayFeedback();
       } else if (player === 'player2') {
-        playerTwoFeedback = 'You can\'t move down';
+        playerTwoFeedback = 'You can\'t move down. Try to move another direction.';
         displayFeedback();
       }
     } else {
@@ -290,17 +290,23 @@ $(() => {
     if (player === 'player1' && letter === correctAnswerArray[playerOneLetterIndex]){
       playerOneInputtedAnswer.push(letter.toUpperCase());
       playerOneLetterIndex = playerOneInputtedAnswer.length;
-      console.log('correct letter! Get the next one!');
+      playerOneFeedback = 'Correct letter! Now get the next one!';
+      displayFeedback();
       removeLetter('player1');
       displayPlayerAnswers();
     } else if (player === 'player2' && letter === correctAnswerArray[playerTwoLetterIndex]) {
       playerTwoInputtedAnswer.push(letter.toUpperCase());
       playerTwoLetterIndex = playerTwoInputtedAnswer.length;
-      console.log('correct letter! Get the next one!');
+      playerTwoFeedback = 'Correct letter! Now get the next one!';
+      displayFeedback();
       removeLetter('player2');
       displayPlayerAnswers();
-    } else {
-      console.log('Not the right letter!');
+    } else if (player === 'player1') {
+      playerOneFeedback = 'Not the right letter. Try another one!';
+      displayFeedback();
+    } else if (player === 'player2') {
+      playerTwoFeedback = 'Not the right letter. Try another one!';
+      displayFeedback();
     }
 
     if (correctAnswerArray.length === playerOneInputtedAnswer.length || correctAnswerArray.length === playerTwoInputtedAnswer.length ){
