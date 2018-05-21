@@ -40,6 +40,10 @@ $(() => {
   $playerOneScoreDisplay.text('Player One Score: 0');
   $playerTwoScoreDisplay.text('Player Two Score: 0');
 
+  let gameToggle = false;
+  const $instructional = $('#instructional-info');
+  const $mainGame = $('#main-game');
+
   // ###### GRID SETUP ######
 
   // 2.1.3 Create JS grid
@@ -261,6 +265,7 @@ $(() => {
     }
 
     if (correctAnswerArray.length === playerOneInputtedAnswer.length || correctAnswerArray.length === playerTwoInputtedAnswer.length ){
+      console.log('Round finished');
       playAgain();
       scoreIterator(player);
     }
@@ -318,7 +323,6 @@ $(() => {
   // 3.9.1 playAgain funtion to reset board
   // 3.11.11 Made player again work for both players
   function playAgain(){
-    console.log('Round finished');
     gameReset();
     displayRandomQuestion();
     randomPositionAssign('player1', randomizeLetters('playerOne'));
@@ -348,6 +352,19 @@ $(() => {
     }
   }
 
+
+  // 4.1.3 Made it possible to hide/show both sections
+  function toggleScreenView(){
+    if (gameToggle){
+      $mainGame.show();
+      $instructional.hide();
+      gameToggle = false;
+    } else {
+      $mainGame.hide();
+      $instructional.show();
+    }
+  }
+
   // ###### SETUP ######
 
   //3.12 setup function
@@ -356,6 +373,7 @@ $(() => {
     displayPlayerAnswers();
     randomPositionAssign('player1', randomizeLetters('playerOne'));
     randomPositionAssign('player2', randomizeLetters('playerTwo'));
+    toggleScreenView();
   }
 
   setup();
