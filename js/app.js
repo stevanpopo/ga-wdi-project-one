@@ -40,7 +40,7 @@ $(() => {
   $playerOneScoreDisplay.text('Player One Score: 0');
   $playerTwoScoreDisplay.text('Player Two Score: 0');
 
-  let gameToggle = false;
+  let gameToggle = true; // should start on false
   const $instructional = $('#instructional-info');
   const $mainGame = $('#main-game');
 
@@ -195,7 +195,8 @@ $(() => {
     const randomNumber = Math.floor(Math.random()*capitalCitiesArray.length);
     correctAnswer = capitalCitiesArray[randomNumber][1];
     correctAnswerArray = correctAnswer.toLowerCase().split('');
-    $displayQuestion.text(`${correctAnswerArray}`);
+    const underscoreArray = correctAnswerArray.map(x => ' _ ');
+    $displayQuestion.text(`The city is: ${underscoreArray}`);
   }
 
   // 3.3.1-6 - Made the randomize letter logic
@@ -383,4 +384,5 @@ $(() => {
   }
 
   setup();
+  playGame();
 });

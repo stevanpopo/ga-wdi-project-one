@@ -50,42 +50,51 @@ footer {
   }
 }
 
+// 4.1.6. Main game styling
+
 // 3.11.1 to make it two player
 main {
-  display: flex;
-}
 
-div.player-one, div.player-two {
-  margin: 20px;
-}
+  h2 {
+    text-align: center;
+  }
 
-// 4.1.1 Added styling for starter positions in pure CSS (removed javascript for this)
-.player-one .map div:nth-child(91), .player-two .map div:nth-child(100)  {
-    background-color: red;
-}
+  .player-grids {
+    display: flex;
+    width: 72%;
+    margin: 0 auto;
+  }
 
-// 2.1.2 Basic styling for grid
-.map {
-  width: 500px;
-  height: 500px;
-}
-.map div {
-  border: 1px solid red;
-  width: 50px;
-  height: 50px;
-  float: left;
-}
-// .map div.blank, #map div.blank  { background-color: white}
-.map div.containsLetter {
-  background-color: orange;
-  text-align: center;
-  font-size: 26px;
-}
+  div.player-one, div.player-two {
+    margin: 20px;
+  }
 
-.map div.playerStartCell {
-  background-color: red !important;
-}
+  // 4.1.1 Added styling for starter positions in pure CSS (removed javascript for this)
+  .player-one .map div:nth-child(91), .player-two .map div:nth-child(100)  {
+      background-color: red;
+  }
 
-.map div.playerCurrentCell {
-  background-color: blue !important;
+  // 2.1.2 Basic styling for grid
+  .map {
+    width: 450px;
+    height: 450px;
+
+    div {
+      border: 1px solid red;
+      width: 45px;
+      height: 45px;
+      float: left;
+
+      // .map div.blank, #map div.blank  { background-color: white}
+      &.containsLetter {
+        background-color: orange;
+        text-align: center;
+        font-size: 26px;
+      }
+
+      &.playerCurrentCell {
+        background-color: blue !important;
+      }
+    }
+  }
 }

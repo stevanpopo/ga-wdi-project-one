@@ -26,34 +26,29 @@ footer {
     font-size: 1em;
     line-height: 3em; }
 
-main {
-  display: flex; }
-
-div.player-one, div.player-two {
+main h2 {
+  text-align: center; }
+main .player-grids {
+  display: flex;
+  width: 72%;
+  margin: 0 auto; }
+main div.player-one, main div.player-two {
   margin: 20px; }
-
-.player-one .map div:nth-child(91), .player-two .map div:nth-child(100) {
+main .player-one .map div:nth-child(91), main .player-two .map div:nth-child(100) {
   background-color: red; }
-
-.map {
-  width: 500px;
-  height: 500px; }
-
-.map div {
-  border: 1px solid red;
-  width: 50px;
-  height: 50px;
-  float: left; }
-
-.map div.containsLetter {
-  background-color: orange;
-  text-align: center;
-  font-size: 26px; }
-
-.map div.playerStartCell {
-  background-color: red !important; }
-
-.map div.playerCurrentCell {
-  background-color: blue !important; }
+main .map {
+  width: 450px;
+  height: 450px; }
+  main .map div {
+    border: 1px solid red;
+    width: 45px;
+    height: 45px;
+    float: left; }
+    main .map div.containsLetter {
+      background-color: orange;
+      text-align: center;
+      font-size: 26px; }
+    main .map div.playerCurrentCell {
+      background-color: blue !important; }
 
 /*# sourceMappingURL=style.css.map */
