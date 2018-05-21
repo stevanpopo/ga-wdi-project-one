@@ -309,8 +309,16 @@ $(() => {
       displayFeedback();
     }
 
-    if (correctAnswerArray.length === playerOneInputtedAnswer.length || correctAnswerArray.length === playerTwoInputtedAnswer.length ){
-      console.log('Round finished');
+    if (correctAnswerArray.length === playerOneInputtedAnswer.length){
+      playerOneFeedback = 'You won the seat for this flight. Congratulations!';
+      playerTwoFeedback = 'You lost the seat for this flight. Unlucky!';
+      displayFeedback();
+      playGame();
+      scoreIterator(player);
+    } else if (correctAnswerArray.length === playerTwoInputtedAnswer.length ){
+      playerOneFeedback = 'You lost the seat for this flight. Unlucky!';
+      playerTwoFeedback = 'You won the seat for this flight. Congratulations!';
+      displayFeedback();
       playGame();
       scoreIterator(player);
     }
