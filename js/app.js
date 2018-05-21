@@ -44,6 +44,8 @@ $(() => {
   const $instructional = $('#instructional-info');
   const $mainGame = $('#main-game');
 
+  const usedQuestions = [];
+
   // 4.1.6.2. Make feedback display for each player and output feedback as they play
 
   const $playerOneFeedbackDisplay = $('#player-one-feedback');
@@ -232,9 +234,19 @@ $(() => {
     // 3.2.1 - 6 Random question logic
     const randomNumber = Math.floor(Math.random()*capitalCitiesArray.length);
     correctAnswer = capitalCitiesArray[randomNumber][1];
-    correctAnswerArray = correctAnswer.toLowerCase().split('');
-    const underscoreArray = correctAnswerArray.map(x => ' _ ');
-    $displayQuestion.text(`The city is: ${underscoreArray}`);
+
+    if (usedQuestions.includes(correctAnswer)){
+      console.log('This is  repeat question');
+      displayRandomQuestion();
+    } else {
+      correctAnswerArray = correctAnswer.toLowerCase().split('');
+      const underscoreArray = correctAnswerArray.map(x => ' _ ');
+      $displayQuestion.text(`The city is: ${underscoreArray}`);
+
+      console.log(capitalCitiesArray);
+      usedQuestions.push(correctAnswer);
+      console.log(usedQuestions);
+    }
   }
 
   // 3.3.1-6 - Made the randomize letter logic
