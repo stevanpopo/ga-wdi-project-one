@@ -266,7 +266,7 @@ $(() => {
 
     if (correctAnswerArray.length === playerOneInputtedAnswer.length || correctAnswerArray.length === playerTwoInputtedAnswer.length ){
       console.log('Round finished');
-      playAgain();
+      playGame();
       scoreIterator(player);
     }
   }
@@ -322,7 +322,7 @@ $(() => {
 
   // 3.9.1 playAgain funtion to reset board
   // 3.11.11 Made player again work for both players
-  function playAgain(){
+  function playGame(){
     gameReset();
     displayRandomQuestion();
     randomPositionAssign('player1', randomizeLetters('playerOne'));
@@ -364,6 +364,16 @@ $(() => {
       $instructional.show();
     }
   }
+
+  // 4.1.4 Make start game button for players
+  const $startGameButton = $('#start-game');
+  $startGameButton.on('click', function(){
+    console.log('play game');
+    gameToggle = true;
+    toggleScreenView();
+    playGame();
+  });
+
 
   // ###### SETUP ######
 
