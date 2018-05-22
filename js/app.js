@@ -46,27 +46,18 @@ $(() => {
   const $playerOneMap = $('.map');
   const $playerTwoMap = $(document.getElementsByClassName('map')[1]);
 
-  const usedQuestions = [];
-
   const $endScreen = $('#end-screen');
   const $endMessage = $('#end-message');
 
   const playerOneWonFlights = [];
   const playerTwoWonFlights = [];
-
-  // 4.1.6.2. Make feedback display for each player and output feedback as they play
-
   const $playerOneFeedbackDisplay = $('#player-one-feedback');
   let playerOneFeedback = 'Start moving your player!';
   const $playerTwoFeedbackDisplay = $('#player-two-feedback');
   let playerTwoFeedback = 'Start moving your player!';
 
-  function displayFeedback(){
-    $playerOneFeedbackDisplay.text(`${playerOneFeedback}`);
-    $playerTwoFeedbackDisplay.text(`${playerTwoFeedback}`);
-  }
-
-  displayFeedback(); // remove later
+  const $displayPlayerOneAnswer = $('#player-one-answer');
+  const $displayPlayerTwoAnswer = $('#player-two-answer');
 
   // ###### GRID SETUP ######
 
@@ -236,9 +227,11 @@ $(() => {
   });
 
   // ###### CITIES LOGIC ######
-
+  let copiedArray = [];
   function randomizeCityOrder(){
-    let currentIndex = capitalCitiesArray.length, temporaryValue, randomIndex;
+    copiedArray = capitalCitiesArray.slice(); //makes a copy to randomize
+
+    let currentIndex = copiedArray.length, temporaryValue, randomIndex;
 
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
@@ -248,11 +241,12 @@ $(() => {
       currentIndex -= 1;
 
       // And swap it with the current element.
-      temporaryValue = capitalCitiesArray[currentIndex];
-      capitalCitiesArray[currentIndex] = capitalCitiesArray[randomIndex];
-      capitalCitiesArray[randomIndex] = temporaryValue;
+      temporaryValue = copiedArray[currentIndex];
+      copiedArray[currentIndex] = copiedArray[randomIndex];
+      copiedArray[randomIndex] = temporaryValue;
     }
-    return capitalCitiesArray;
+    console.log(copiedArray);
+    return copiedArray;
   }
 
   let city = [];
@@ -260,12 +254,14 @@ $(() => {
   //3.2 Random question generator
   function displayRandomQuestion(){
     // 3.2.1 - 6 Random question logic
-    city = capitalCitiesArray.pop();
+    city = copiedArray.pop();
+    console.log(city);
     correctAnswer = city[1];
     correctAnswerArray = correctAnswer.toLowerCase().split('');
     const underscoreArray = correctAnswerArray.map(x => ' _ ');
     $displayQuestion.text(`The city is: ${underscoreArray}`);
-
+    console.log(copiedArray);
+    console.log(capitalCitiesArray);
   }
 
   // 3.3.1-6 - Made the randomize letter logic
@@ -354,7 +350,7 @@ $(() => {
       playerOneWonFlights.push(correctAnswer);
       displayFeedback();
       scoreIterator(player);
-      if (capitalCitiesArray.length===0){
+      if (copiedArray.length===0){
         endScreen();
         return;
       }
@@ -366,7 +362,7 @@ $(() => {
       playerTwoWonFlights.push(correctAnswer);
       displayFeedback();
       scoreIterator(player);
-      if (capitalCitiesArray.length===0){
+      if (copiedArray.length===0){
         endScreen();
         return;
       }
@@ -401,9 +397,6 @@ $(() => {
   }
 
   // 3.7.1 Display user answer on screen
-  const $displayPlayerOneAnswer = $('#player-one-answer');
-  const $displayPlayerTwoAnswer = $('#player-two-answer');
-
   // 3.11.10 Made displayer player answers work for both
   function displayPlayerAnswers(){
     $displayPlayerOneAnswer.text(`Your answer: ${playerOneInputtedAnswer}`);
@@ -413,6 +406,12 @@ $(() => {
   function resetPlayerAnswersDisplay(){
     $displayPlayerOneAnswer.text('Your answer: ');
     $displayPlayerTwoAnswer.text('Your answer: ');
+  }
+
+  // 4.1.6.2. Make feedback display for each player and output feedback as they play
+  function displayFeedback(){
+    $playerOneFeedbackDisplay.text(`${playerOneFeedback}`);
+    $playerTwoFeedbackDisplay.text(`${playerTwoFeedback}`);
   }
 
   // 3.11.13 make scores work for both players
@@ -433,7 +432,6 @@ $(() => {
   // 3.11.11 Made player again work for both players
   function playGame(){
     gameReset();
-    randomizeCityOrder();
     displayFeedback();
     displayRandomQuestion();
     randomPositionAssign('player1', randomizeLetters('playerOne'));
@@ -468,6 +466,16 @@ $(() => {
       $mainGame.show();
       $instructional.hide();
       $endScreen.hide();
+      $displayQuestion.show();
+      $playerOneMap.show();
+      $playerTwoMap.show();
+      $playerOneFeedbackDisplay.show();
+      $playerTwoFeedbackDisplay.show();
+      $displayPlayerOneAnswer.show();
+      $displayPlayerTwoAnswer.show();
+      $playerOneScoreDisplay.show();
+      $playerTwoScoreDisplay.show();
+
       gameToggle = false;
     } else {
       $mainGame.hide();
@@ -479,11 +487,18 @@ $(() => {
   // 4.1.4 Make start game button for players
   const $startGameButton = $('#start-game');
   $startGameButton.on('click', function(){
-    console.log('play game');
     gameToggle = true;
     toggleScreenView();
     playGame();
   });
+
+  const $playAgainButton = $('#play-again');
+  $playAgainButton.on('click', function(){
+    gameToggle = true;
+    setup();
+    playGame();
+  });
+
 
   function endScreen(){
     $endScreen.show();
@@ -511,6 +526,7 @@ $(() => {
   //3.12 setup function
   function setup(){
     toggleScreenView();
+    randomizeCityOrder();
   }
 
   setup();
