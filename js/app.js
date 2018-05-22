@@ -40,7 +40,7 @@ $(() => {
   $playerOneScoreDisplay.text('Player One Score: 0');
   $playerTwoScoreDisplay.text('Player Two Score: 0');
 
-  let gameToggle = true; // should start on false
+  let gameToggle = false; // should start on false
   const $instructional = $('#instructional-info');
   const $mainGame = $('#main-game');
   const $playerOneMap = $('.map');
@@ -49,6 +49,10 @@ $(() => {
   const usedQuestions = [];
 
   const $endScreen = $('#end-screen');
+  const $endMessage = $('#end-message');
+
+  const playerOneWonFlights = [];
+  const playerTwoWonFlights = [];
 
   // 4.1.6.2. Make feedback display for each player and output feedback as they play
 
@@ -233,27 +237,35 @@ $(() => {
 
   // ###### CITIES LOGIC ######
 
+  function randomizeCityOrder(){
+    let currentIndex = capitalCitiesArray.length, temporaryValue, randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      // And swap it with the current element.
+      temporaryValue = capitalCitiesArray[currentIndex];
+      capitalCitiesArray[currentIndex] = capitalCitiesArray[randomIndex];
+      capitalCitiesArray[randomIndex] = temporaryValue;
+    }
+    return capitalCitiesArray;
+  }
+
+  let city = [];
+
   //3.2 Random question generator
   function displayRandomQuestion(){
     // 3.2.1 - 6 Random question logic
-    const randomNumber = Math.floor(Math.random()*capitalCitiesArray.length);
-    correctAnswer = capitalCitiesArray[randomNumber][1];
+    city = capitalCitiesArray.pop();
+    correctAnswer = city[1];
+    correctAnswerArray = correctAnswer.toLowerCase().split('');
+    const underscoreArray = correctAnswerArray.map(x => ' _ ');
+    $displayQuestion.text(`The city is: ${underscoreArray}`);
 
-    if (usedQuestions.length === capitalCitiesArray.length){
-      console.log('Game Over');
-      endScreen();
-      return;
-    }
-
-    if (usedQuestions.includes(correctAnswer)){
-      console.log('This is  repeat question');
-      displayRandomQuestion();
-    } else {
-      correctAnswerArray = correctAnswer.toLowerCase().split('');
-      const underscoreArray = correctAnswerArray.map(x => ' _ ');
-      $displayQuestion.text(`The city is: ${underscoreArray}`);
-      usedQuestions.push(correctAnswer);
-    }
   }
 
   // 3.3.1-6 - Made the randomize letter logic
@@ -339,17 +351,34 @@ $(() => {
     if (correctAnswerArray.length === playerOneInputtedAnswer.length){
       playerOneFeedback = 'You won the seat for this flight. Congratulations!';
       playerTwoFeedback = 'You lost the seat for this flight. Unlucky!';
+      playerOneWonFlights.push(correctAnswer);
       displayFeedback();
-      playGame();
       scoreIterator(player);
+      if (capitalCitiesArray.length===0){
+        endScreen();
+        return;
+      }
+
+      playGame();
     } else if (correctAnswerArray.length === playerTwoInputtedAnswer.length ){
       playerOneFeedback = 'You lost the seat for this flight. Unlucky!';
       playerTwoFeedback = 'You won the seat for this flight. Congratulations!';
+      playerTwoWonFlights.push(correctAnswer);
       displayFeedback();
-      playGame();
       scoreIterator(player);
+      if (capitalCitiesArray.length===0){
+        endScreen();
+        return;
+      }
+
+      playGame();
     }
   }
+
+  // function isGameOver(){
+  //
+  // }
+
   // 3.11.7 made pickup work for two players
   // 2.4.1-2 Keydown for enter button and pickup function
   function pickUp(player){
@@ -404,6 +433,7 @@ $(() => {
   // 3.11.11 Made player again work for both players
   function playGame(){
     gameReset();
+    randomizeCityOrder();
     displayFeedback();
     displayRandomQuestion();
     randomPositionAssign('player1', randomizeLetters('playerOne'));
@@ -464,6 +494,16 @@ $(() => {
     $playerTwoFeedbackDisplay.hide();
     $displayPlayerOneAnswer.hide();
     $displayPlayerTwoAnswer.hide();
+    $playerOneScoreDisplay.hide();
+    $playerTwoScoreDisplay.hide();
+
+    if (playerOneScore > playerTwoScore){
+      $endMessage.text(`Player One wins. You've won flights to ${playerOneWonFlights}. Enjoy your travels!`);
+    } else if (playerTwoScore > playerOneScore) {
+      $endMessage.text(`Player Two wins. You've won flights to ${playerTwoWonFlights}. Enjoy your travels!`);
+    } else {
+      $endMessage.text(`It's a draw. Player One won flights to ${playerOneWonFlights} and Player Two won  flights to ${playerTwoWonFlights}. Enjoy your travels!`);
+    }
   }
 
   // ###### SETUP ######
@@ -474,5 +514,5 @@ $(() => {
   }
 
   setup();
-  playGame();
+  //playGame();
 });
