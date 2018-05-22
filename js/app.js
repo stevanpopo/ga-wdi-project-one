@@ -18,10 +18,17 @@ $(() => {
   let playerOneCurrentIndex = 90; // player one start postion
   let playerTwoCurrentIndex = 99; // player two start position
   const currentIndexes = [playerOneCurrentIndex, playerTwoCurrentIndex];
+  // console.log(currentIndexes);
   const previousIndexes = [playerOneCurrentIndex, playerTwoCurrentIndex];
   let $playerOnePreviousCell;
   let $playerOneCurrentCell;
+  // const $playerOneCurrentCell = $($('.map').children(currentIndexes[0]));
+  console.log($playerOneCurrentCell);
+  // console.log(currentIndexes[0]);
   let $playerTwoCurrentCell;
+  // const $playerTwoCurrentCell = $($(document.getElementsByClassName('map')[1]).children()[currentIndexes[1]]);
+  console.log($playerTwoCurrentCell);
+  // console.log(currentIndexes[1]);
   let $playerTwoPreviousCell;
   let correctAnswer;
   let correctAnswerArray;
@@ -104,31 +111,12 @@ $(() => {
   function playerIndexChange(playerNumber, change, playerIndex, cell, grid) {
     const playerCurrentIndex = playerIndex + change;
     const playerPreviousIndex = playerIndex;
-    console.log(playerPreviousIndex);
-    console.log(playerCurrentIndex);
     // store these globally
     currentIndexes[playerNumber - 1] = playerCurrentIndex;
     previousIndexes[playerNumber - 1] = playerPreviousIndex;
     addClassPlayerCurrentCell(cell, grid, playerCurrentIndex);
     removeClassPlayerPreviousCell(cell, grid, playerPreviousIndex);
   }
-
-  //3.11.4 - Refactor so that index changes are in functions
-  // function playerOneIndexChange(change, playerIndex){
-  //   playerOnePreviousIndex = playerIndex;
-  //   playerOneCurrentIndex = playerIndex + change;
-  //   addClassPlayerCurrentCell($playerOnePreviousCell, $('.map'), playerOneCurrentIndex);
-  //   removeClassPlayerPreviousCell($playerOnePreviousCell, $('.map'), playerOnePreviousIndex);
-  // }
-  //
-  // function playerTwoIndexChange(change, playerIndex){
-  //   playerTwoPreviousIndex = playerIndex;
-  //   playerTwoCurrentIndex = playerIndex + change;
-  //   addClassPlayerCurrentCell($playerTwoPreviousCell,
-  //     $(document.getElementsByClassName('map')[1]), playerTwoCurrentIndex);
-  //   removeClassPlayerPreviousCell($playerTwoPreviousCell,
-  //     $(document.getElementsByClassName('map')[1]), playerTwoPreviousIndex);
-  // }
 
   // move left function
   function moveLeft(playerNumber, indexChangeFunction, feedbackDiv, playerIndex, cell, grid){
@@ -192,10 +180,16 @@ $(() => {
       moveDown(2, playerIndexChange, $playerTwoFeedbackDisplay, currentIndexes[1], $playerTwoPreviousCell, $(document.getElementsByClassName('map')[1]));
     }
     if (code === 81){
-      pickUp('player1'); //player 1 pickup
+      $playerOneCurrentCell = $($('.map').children()[currentIndexes[0]]);
+      const cellValue = $playerOneCurrentCell.html();
+      checkLetter('player1', cellValue.toLowerCase());
+      // pickUp(cellValue); //player 1 pickup
     }
     if (code === 13){
-      pickUp('player2'); // player 2 pickup
+      $playerTwoCurrentCell = $($(document.getElementsByClassName('map')[1]).children()[currentIndexes[1]]);
+      const cellValue = $playerTwoCurrentCell.html();
+      checkLetter('player2', cellValue.toLowerCase());
+      // pickUp(cellValue); // player 2 pickup
     }
   });
 
@@ -342,15 +336,9 @@ $(() => {
 
   // 3.11.7 made pickup work for two players
   // 2.4.1-2 Keydown for enter button and pickup function
-  function pickUp(player){
-    let currentCellValue;
-    if (player === 'player1') {
-      console.log($playerOneCurrentCell);
-      currentCellValue = $playerOneCurrentCell.html();
-    }
-    if (player === 'player2') currentCellValue = $playerTwoCurrentCell.html();
-    checkLetter(player, currentCellValue.toLowerCase());
-  }
+  // function pickUp(cellValue){
+  //   checkLetter('player2', cellValue.toLowerCase());
+  // }
 
   // 3.11.8 made removeletter work for two players
   // 3.6.1 Remove letter from cell and normalise class
