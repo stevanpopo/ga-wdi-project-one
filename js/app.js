@@ -182,14 +182,12 @@ $(() => {
     if (code === 81){
       $playerOneCurrentCell = $($('.map').children()[currentIndexes[0]]);
       const cellValue = $playerOneCurrentCell.html();
-      checkLetter('player1', cellValue.toLowerCase());
-      // pickUp(cellValue); //player 1 pickup
+      checkLetter('player1', $playerOneCurrentCell, cellValue.toLowerCase());
     }
     if (code === 13){
       $playerTwoCurrentCell = $($(document.getElementsByClassName('map')[1]).children()[currentIndexes[1]]);
       const cellValue = $playerTwoCurrentCell.html();
-      checkLetter('player2', cellValue.toLowerCase());
-      // pickUp(cellValue); // player 2 pickup
+      checkLetter('player2', $playerTwoCurrentCell, cellValue.toLowerCase());
     }
   });
 
@@ -284,20 +282,20 @@ $(() => {
   }
 
   // 3.5.1 - Make player answer logic
-  function checkLetter(player, letter){
+  function checkLetter(player, cell, letter){
     if (player === 'player1' && letter === correctAnswerArray[playerOneLetterIndex]){
       playerOneInputtedAnswer.push(letter.toUpperCase());
       playerOneLetterIndex = playerOneInputtedAnswer.length;
       playerOneFeedback = 'Correct letter! Now get the next one!';
       // displayFeedback();
-      removeLetter('player1');
+      removeLetter(cell);
       displayPlayerAnswers();
     } else if (player === 'player2' && letter === correctAnswerArray[playerTwoLetterIndex]) {
       playerTwoInputtedAnswer.push(letter.toUpperCase());
       playerTwoLetterIndex = playerTwoInputtedAnswer.length;
       playerTwoFeedback = 'Correct letter! Now get the next one!';
       // displayFeedback();
-      removeLetter('player2');
+      removeLetter(cell);
       displayPlayerAnswers();
     } else if (player === 'player1') {
       playerOneFeedback = 'Not the right letter. Try another one!';
@@ -334,22 +332,19 @@ $(() => {
     }
   }
 
-  // 3.11.7 made pickup work for two players
-  // 2.4.1-2 Keydown for enter button and pickup function
-  // function pickUp(cellValue){
-  //   checkLetter('player2', cellValue.toLowerCase());
-  // }
-
   // 3.11.8 made removeletter work for two players
   // 3.6.1 Remove letter from cell and normalise class
-  function removeLetter(player){
-    if (player === 'player1'){
-      $playerOneCurrentCell.removeClass('containsLetter');
-      $playerOneCurrentCell.text('');
-    } else if (player === 'player2'){
-      $playerTwoCurrentCell.removeClass('containsLetter');
-      $playerTwoCurrentCell.text('');
-    }
+  function removeLetter(cell){
+    cell.removeClass('containsLetter');
+    cell.text('');
+
+    // if (player === 'player1'){
+    //   $playerOneCurrentCell.removeClass('containsLetter');
+    //   $playerOneCurrentCell.text('');
+    // } else if (player === 'player2'){
+    //   $playerTwoCurrentCell.removeClass('containsLetter');
+    //   $playerTwoCurrentCell.text('');
+    // }
   }
 
   // 3.7.1 Display user answer on screen
