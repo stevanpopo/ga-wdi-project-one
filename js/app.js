@@ -17,8 +17,8 @@ $(() => {
   // All declared variables with global scope
   let playerOneCurrentIndex = 90; // player one start postion
   let playerTwoCurrentIndex = 99; // player two start position
-  let playerOnePreviousIndex;
-  let playerTwoPreviousIndex;
+  const currentIndexes = [playerOneCurrentIndex, playerTwoCurrentIndex];
+  const previousIndexes = [playerOneCurrentIndex, playerTwoCurrentIndex];
   let $playerOnePreviousCell;
   let $playerOneCurrentCell;
   let $playerTwoCurrentCell;
@@ -100,64 +100,73 @@ $(() => {
   //   $(this).children();
   // })
 
-  // function playerIndexChange(???) {
+
+  function playerIndexChange(playerNumber, change, playerIndex, cell, grid) {
+    const playerCurrentIndex = playerIndex + change;
+    const playerPreviousIndex = playerIndex;
+    console.log(playerPreviousIndex);
+    console.log(playerCurrentIndex);
+    // store these globally
+    currentIndexes[playerNumber - 1] = playerCurrentIndex;
+    previousIndexes[playerNumber - 1] = playerPreviousIndex;
+    addClassPlayerCurrentCell(cell, grid, playerCurrentIndex);
+    removeClassPlayerPreviousCell(cell, grid, playerPreviousIndex);
+  }
+
+  //3.11.4 - Refactor so that index changes are in functions
+  // function playerOneIndexChange(change, playerIndex){
+  //   playerOnePreviousIndex = playerIndex;
+  //   playerOneCurrentIndex = playerIndex + change;
+  //   addClassPlayerCurrentCell($playerOnePreviousCell, $('.map'), playerOneCurrentIndex);
+  //   removeClassPlayerPreviousCell($playerOnePreviousCell, $('.map'), playerOnePreviousIndex);
+  // }
   //
+  // function playerTwoIndexChange(change, playerIndex){
+  //   playerTwoPreviousIndex = playerIndex;
+  //   playerTwoCurrentIndex = playerIndex + change;
+  //   addClassPlayerCurrentCell($playerTwoPreviousCell,
+  //     $(document.getElementsByClassName('map')[1]), playerTwoCurrentIndex);
+  //   removeClassPlayerPreviousCell($playerTwoPreviousCell,
+  //     $(document.getElementsByClassName('map')[1]), playerTwoPreviousIndex);
   // }
 
-  // 3.11.4 - Refactor so that index changes are in functions
-  function playerOneIndexChange(change, playerIndex){
-    playerOnePreviousIndex = playerIndex;
-    playerOneCurrentIndex = playerIndex + change;
-    addClassPlayerCurrentCell($playerOnePreviousCell, $('.map'), playerOneCurrentIndex);
-    removeClassPlayerPreviousCell($playerOnePreviousCell, $('.map'), playerOnePreviousIndex);
-  }
-
-  function playerTwoIndexChange(change, playerIndex){
-    playerTwoPreviousIndex = playerIndex;
-    playerTwoCurrentIndex = playerIndex + change;
-    addClassPlayerCurrentCell($playerTwoPreviousCell,
-      $(document.getElementsByClassName('map')[1]), playerTwoCurrentIndex);
-    removeClassPlayerPreviousCell($playerTwoPreviousCell,
-      $(document.getElementsByClassName('map')[1]), playerTwoPreviousIndex);
-  }
-
   // move left function
-  function moveLeft(indexChangeFunction, feedbackDiv, playerIndex){
+  function moveLeft(playerNumber, indexChangeFunction, feedbackDiv, playerIndex, cell, grid){
     if (playerIndex === 0 || playerIndex % 10 === 0) {
       const msg = 'You can\'t move left. Try to move another direction.';
       displayFeedback(feedbackDiv, msg);
     } else {
-      indexChangeFunction(-1, playerIndex);
+      indexChangeFunction(playerNumber, -1, playerIndex, cell, grid);
     }
   }
 
   // move right function
-  function moveRight(indexChangeFunction, feedbackDiv, playerIndex){
+  function moveRight(playerNumber, indexChangeFunction, feedbackDiv, playerIndex, cell, grid){
     if (playerIndex === 9 || playerIndex === 19 || playerIndex === 29 || playerIndex === 39 || playerIndex === 49 || playerIndex === 59 || playerIndex === 69 || playerIndex === 79 || playerIndex === 89 || playerIndex === 99) {
       const msg = 'You can\'t move right. Try to move another direction.';
       displayFeedback(feedbackDiv, msg);
     } else {
-      indexChangeFunction(1, playerIndex);
+      indexChangeFunction(playerNumber, 1, playerIndex, cell, grid);
     }
   }
 
   // move up function
-  function moveUp(indexChangeFunction, feedbackDiv, playerIndex){
+  function moveUp(playerNumber, indexChangeFunction, feedbackDiv, playerIndex, cell, grid){
     if (playerIndex < 10){
       const msg = 'You can\'t move up. Try to move another direction.';
       displayFeedback(feedbackDiv, msg);
     } else {
-      indexChangeFunction(-10, playerIndex);
+      indexChangeFunction(playerNumber, -10, playerIndex, cell, grid);
     }
   }
 
   // move down function
-  function moveDown(indexChangeFunction, feedbackDiv, playerIndex){
+  function moveDown(playerNumber, indexChangeFunction, feedbackDiv, playerIndex, cell, grid){
     if (playerIndex > 89){
       const msg = 'You can\'t move down. Try to move another direction.';
       displayFeedback(feedbackDiv, msg);
     } else {
-      indexChangeFunction(10, playerIndex);
+      indexChangeFunction(playerNumber, 10, playerIndex, cell, grid);
     }
   }
 
@@ -166,21 +175,21 @@ $(() => {
     const code = e.keyCode;
     //if(code) console.log(code);
     if(code === 65){
-      moveLeft(playerOneIndexChange, $playerOneFeedbackDisplay, playerOneCurrentIndex);
+      moveLeft(1, playerIndexChange, $playerOneFeedbackDisplay, currentIndexes[0], $playerOnePreviousCell, $('.map'));
     }else if(code === 68){
-      moveRight(playerOneIndexChange, $playerOneFeedbackDisplay, playerOneCurrentIndex);
+      moveRight(1, playerIndexChange, $playerOneFeedbackDisplay, currentIndexes[0], $playerOnePreviousCell, $('.map'));
     }else if(code === 87){
-      moveUp(playerOneIndexChange, $playerOneFeedbackDisplay, playerOneCurrentIndex);
+      moveUp(1, playerIndexChange, $playerOneFeedbackDisplay, currentIndexes[0], $playerOnePreviousCell, $('.map'));
     }else if(code === 83){
-      moveDown(playerOneIndexChange, $playerOneFeedbackDisplay, playerOneCurrentIndex);
+      moveDown(1, playerIndexChange, $playerOneFeedbackDisplay, currentIndexes[0], $playerOnePreviousCell, $('.map'));
     }else if(code === 37){
-      moveLeft(playerTwoIndexChange, $playerTwoFeedbackDisplay, playerTwoCurrentIndex);
+      moveLeft(2, playerIndexChange, $playerTwoFeedbackDisplay, currentIndexes[1], $playerTwoPreviousCell, $(document.getElementsByClassName('map')[1]));
     }else if(code === 39){
-      moveRight(playerTwoIndexChange, $playerTwoFeedbackDisplay, playerTwoCurrentIndex);
+      moveRight(2, playerIndexChange, $playerTwoFeedbackDisplay, currentIndexes[1], $playerTwoPreviousCell, $(document.getElementsByClassName('map')[1]));
     }else if(code === 38){
-      moveUp(playerTwoIndexChange, $playerTwoFeedbackDisplay, playerTwoCurrentIndex);
+      moveUp(2, playerIndexChange, $playerTwoFeedbackDisplay, currentIndexes[1], $playerTwoPreviousCell, $(document.getElementsByClassName('map')[1]));
     }else if(code === 40){
-      moveDown(playerTwoIndexChange, $playerTwoFeedbackDisplay, playerTwoCurrentIndex);
+      moveDown(2, playerIndexChange, $playerTwoFeedbackDisplay, currentIndexes[1], $playerTwoPreviousCell, $(document.getElementsByClassName('map')[1]));
     }
     if (code === 81){
       pickUp('player1'); //player 1 pickup
@@ -209,7 +218,6 @@ $(() => {
       copiedArray[currentIndex] = copiedArray[randomIndex];
       copiedArray[randomIndex] = temporaryValue;
     }
-    console.log(copiedArray);
     return copiedArray;
   }
 
@@ -219,13 +227,10 @@ $(() => {
   function displayRandomQuestion(){
     // 3.2.1 - 6 Random question logic
     city = copiedArray.pop();
-    console.log(city);
     correctAnswer = city[1];
     correctAnswerArray = correctAnswer.toLowerCase().split('');
     const underscoreArray = correctAnswerArray.map(x => ' _ ');
     $displayQuestion.text(`The city is: ${underscoreArray}`);
-    console.log(copiedArray);
-    console.log(capitalCitiesArray);
   }
 
   // 3.3.1-6 - Made the randomize letter logic
@@ -339,7 +344,10 @@ $(() => {
   // 2.4.1-2 Keydown for enter button and pickup function
   function pickUp(player){
     let currentCellValue;
-    if (player === 'player1') currentCellValue = $playerOneCurrentCell.html();
+    if (player === 'player1') {
+      console.log($playerOneCurrentCell);
+      currentCellValue = $playerOneCurrentCell.html();
+    }
     if (player === 'player2') currentCellValue = $playerTwoCurrentCell.html();
     checkLetter(player, currentCellValue.toLowerCase());
   }
