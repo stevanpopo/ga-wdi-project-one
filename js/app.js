@@ -84,14 +84,9 @@ $(() => {
 
   // 3.11.3. Changed move functions so they take player as argument and created var unique to each player
   // add class to current cell
-  function addClassPlayerCurrentCell(player, index){
-    if (player === 'player1'){
-      $playerOneCurrentCell = $($('.map').children()[index]);
-      $playerOneCurrentCell.addClass('playerCurrentCell');
-    } else if (player === 'player2'){
-      $playerTwoCurrentCell = $($(document.getElementsByClassName('map')[1]).children()[index]);
-      $playerTwoCurrentCell.addClass('playerCurrentCell');
-    }
+  function addClassPlayerCurrentCell(cell, grid, index){
+    cell = $(grid.children()[index]);
+    cell.addClass('playerCurrentCell');
   }
 
   // remove class form last cell
@@ -100,18 +95,28 @@ $(() => {
     cell.removeClass('playerCurrentCell');
   }
 
+  // delete me!
+  // $('.map').each(function(i) {
+  //   $(this).children();
+  // })
+
+  // function playerIndexChange(???) {
+  //
+  // }
+
   // 3.11.4 - Refactor so that index changes are in functions
   function playerOneIndexChange(change, playerIndex){
     playerOnePreviousIndex = playerIndex;
     playerOneCurrentIndex = playerIndex + change;
-    addClassPlayerCurrentCell('player1', playerOneCurrentIndex);
+    addClassPlayerCurrentCell($playerOnePreviousCell, $('.map'), playerOneCurrentIndex);
     removeClassPlayerPreviousCell($playerOnePreviousCell, $('.map'), playerOnePreviousIndex);
   }
 
   function playerTwoIndexChange(change, playerIndex){
     playerTwoPreviousIndex = playerIndex;
     playerTwoCurrentIndex = playerIndex + change;
-    addClassPlayerCurrentCell('player2', playerTwoCurrentIndex);
+    addClassPlayerCurrentCell($playerTwoPreviousCell,
+      $(document.getElementsByClassName('map')[1]), playerTwoCurrentIndex);
     removeClassPlayerPreviousCell($playerTwoPreviousCell,
       $(document.getElementsByClassName('map')[1]), playerTwoPreviousIndex);
   }
