@@ -36,10 +36,14 @@ $(() => {
   let $letterCell;
   let playerOneLetterIndex = 0;
   let playerTwoLetterIndex = 0;
+  const playerLetterIndexes = [playerOneLetterIndex, playerTwoLetterIndex];
+
   let playerOneScore = 0;
   let playerTwoScore = 0;
   const playerOneInputtedAnswer = [];
   const playerTwoInputtedAnswer = [];
+  const playerInputtedAnswers = [playerOneInputtedAnswer, playerTwoInputtedAnswer];
+  console.log(playerInputtedAnswers);
 
   const $displayQuestion = $('#display-question');
   const $playerOneScoreDisplay = $('#player-one-score');
@@ -182,12 +186,12 @@ $(() => {
     if (code === 81){
       $playerOneCurrentCell = $($('.map').children()[currentIndexes[0]]);
       const cellValue = $playerOneCurrentCell.html();
-      checkLetter('player1', $playerOneCurrentCell, cellValue.toLowerCase());
+      checkLetter(1, $playerOneCurrentCell, cellValue.toLowerCase(), playerLetterIndexes[0]);
     }
     if (code === 13){
       $playerTwoCurrentCell = $($(document.getElementsByClassName('map')[1]).children()[currentIndexes[1]]);
       const cellValue = $playerTwoCurrentCell.html();
-      checkLetter('player2', $playerTwoCurrentCell, cellValue.toLowerCase());
+      checkLetter(2, $playerTwoCurrentCell, cellValue.toLowerCase(), playerLetterIndexes[1]);
     }
   });
 
@@ -282,27 +286,24 @@ $(() => {
   }
 
   // 3.5.1 - Make player answer logic
-  function checkLetter(player, cell, letter){
-    if (player === 'player1' && letter === correctAnswerArray[playerOneLetterIndex]){
-      playerOneInputtedAnswer.push(letter.toUpperCase());
-      playerOneLetterIndex = playerOneInputtedAnswer.length;
-      playerOneFeedback = 'Correct letter! Now get the next one!';
-      // displayFeedback();
+  function checkLetter(player, cell, letter, playerLetterIndex){
+
+    if (letter === correctAnswerArray[playerLetterIndex]){
+      console.log(playerInputtedAnswers);
+      playerInputtedAnswers[player-1].push(letter.toUpperCase());
+      console.log(playerInputtedAnswers);
+      console.log(playerInputtedAnswers[player-1]);
+      // playerOneInputtedAnswer.push(letter.toUpperCase());
+      playerLetterIndexes[player-1] = playerInputtedAnswers[player-1].length;
+      // playerLetterIndexes[player-1] = playerOneInputtedAnswer.length;
+      console.log('correct');
+      // playerOneFeedback = 'Correct letter! Now get the next one!';
       removeLetter(cell);
       displayPlayerAnswers();
-    } else if (player === 'player2' && letter === correctAnswerArray[playerTwoLetterIndex]) {
-      playerTwoInputtedAnswer.push(letter.toUpperCase());
-      playerTwoLetterIndex = playerTwoInputtedAnswer.length;
-      playerTwoFeedback = 'Correct letter! Now get the next one!';
+    } else {
+      console.log('not correct');
+      // playerOneFeedback = 'Not the right letter. Try another one!';
       // displayFeedback();
-      removeLetter(cell);
-      displayPlayerAnswers();
-    } else if (player === 'player1') {
-      playerOneFeedback = 'Not the right letter. Try another one!';
-      // displayFeedback();
-    } else if (player === 'player2') {
-      playerTwoFeedback = 'Not the right letter. Try another one!';
-      displayFeedback();
     }
 
     if (correctAnswerArray.length === playerOneInputtedAnswer.length){
