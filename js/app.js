@@ -95,14 +95,9 @@ $(() => {
   }
 
   // remove class form last cell
-  function removeClassPlayerPreviousCell(player, index){
-    if (player === 'player1'){
-      $playerOnePreviousCell = $($('.map').children()[index]);
-      $playerOnePreviousCell.removeClass('playerCurrentCell');
-    } else if (player === 'player2'){
-      $playerTwoPreviousCell = $($(document.getElementsByClassName('map')[1]).children()[index]);
-      $playerTwoPreviousCell.removeClass('playerCurrentCell');
-    }
+  function removeClassPlayerPreviousCell(cell, grid, index){
+    cell = $(grid.children()[index]);
+    cell.removeClass('playerCurrentCell');
   }
 
   // 3.11.4 - Refactor so that index changes are in functions
@@ -110,90 +105,54 @@ $(() => {
     playerOnePreviousIndex = playerIndex;
     playerOneCurrentIndex = playerIndex + change;
     addClassPlayerCurrentCell('player1', playerOneCurrentIndex);
-    removeClassPlayerPreviousCell('player1', playerOnePreviousIndex);
+    removeClassPlayerPreviousCell($playerOnePreviousCell, $('.map'), playerOnePreviousIndex);
   }
 
   function playerTwoIndexChange(change, playerIndex){
     playerTwoPreviousIndex = playerIndex;
     playerTwoCurrentIndex = playerIndex + change;
     addClassPlayerCurrentCell('player2', playerTwoCurrentIndex);
-    removeClassPlayerPreviousCell('player2', playerTwoPreviousIndex);
+    removeClassPlayerPreviousCell($playerTwoPreviousCell,
+      $(document.getElementsByClassName('map')[1]), playerTwoPreviousIndex);
   }
 
   // move left function
-  function moveLeft(player, playerIndex){
+  function moveLeft(indexChangeFunction, feedbackDiv, playerIndex){
     if (playerIndex === 0 || playerIndex % 10 === 0) {
-      if (player === 'player1'){
-        playerOneFeedback = 'You can\'t move left. Try to move another direction.';
-        displayFeedback();
-      } else if (player === 'player2') {
-        playerTwoFeedback = 'You can\'t move left. Try to move another direction.';
-        displayFeedback();
-      }
+      const msg = 'You can\'t move left. Try to move another direction.';
+      displayFeedback(feedbackDiv, msg);
     } else {
-      if (player === 'player1'){
-        playerOneIndexChange(-1, playerIndex);
-      } else if (player === 'player2') {
-        playerTwoIndexChange(-1, playerIndex);
-      }
+      indexChangeFunction(-1, playerIndex);
     }
   }
 
   // move right function
-  function moveRight(player, playerIndex){
+  function moveRight(indexChangeFunction, feedbackDiv, playerIndex){
     if (playerIndex === 9 || playerIndex === 19 || playerIndex === 29 || playerIndex === 39 || playerIndex === 49 || playerIndex === 59 || playerIndex === 69 || playerIndex === 79 || playerIndex === 89 || playerIndex === 99) {
-      if (player === 'player1'){
-        playerOneFeedback = 'You can\'t move right. Try to move another direction.';
-        displayFeedback();
-      } else if (player === 'player2') {
-        playerTwoFeedback = 'You can\'t move right. Try to move another direction.';
-        displayFeedback();
-      }
+      const msg = 'You can\'t move right. Try to move another direction.';
+      displayFeedback(feedbackDiv, msg);
     } else {
-      if (player === 'player1'){
-        playerOneIndexChange(1, playerIndex);
-      } else if (player === 'player2') {
-        playerTwoIndexChange(1, playerIndex);
-      }
+      indexChangeFunction(1, playerIndex);
     }
   }
 
   // move up function
-  function moveUp(player, playerIndex){
+  function moveUp(indexChangeFunction, feedbackDiv, playerIndex){
     if (playerIndex < 10){
-      if (player === 'player1'){
-        playerOneFeedback = 'You can\'t move up. Try to move another direction.';
-        displayFeedback();
-      } else if (player === 'player2') {
-        playerTwoFeedback = 'You can\'t move up. Try to move another direction.';
-        displayFeedback();
-      }
+      const msg = 'You can\'t move up. Try to move another direction.';
+      displayFeedback(feedbackDiv, msg);
     } else {
-      if (player === 'player1'){
-        playerOneIndexChange(-10, playerIndex);
-      } else if (player === 'player2') {
-        playerTwoIndexChange(-10, playerIndex);
-      }
+      indexChangeFunction(-10, playerIndex);
     }
   }
 
   // move down function
-  function moveDown(player, playerIndex){
+  function moveDown(indexChangeFunction, feedbackDiv, playerIndex){
     if (playerIndex > 89){
-      if (player === 'player1'){
-        playerOneFeedback = 'You can\'t move down. Try to move another direction.';
-        displayFeedback();
-      } else if (player === 'player2') {
-        playerTwoFeedback = 'You can\'t move down. Try to move another direction.';
-        displayFeedback();
-      }
+      const msg = 'You can\'t move down. Try to move another direction.';
+      displayFeedback(feedbackDiv, msg);
     } else {
-
-      if (player === 'player1'){
-        playerOneIndexChange(10, playerIndex);
-      } else if (player === 'player2') {
-        playerTwoIndexChange(10, playerIndex);
-      }
+      indexChangeFunction(10, playerIndex);
     }
   }
 
@@ -202,21 +161,21 @@ $(() => {
     const code = e.keyCode;
     //if(code) console.log(code);
     if(code === 65){
-      moveLeft('player1', playerOneCurrentIndex);
+      moveLeft(playerOneIndexChange, $playerOneFeedbackDisplay, playerOneCurrentIndex);
     }else if(code === 68){
-      moveRight('player1', playerOneCurrentIndex);
+      moveRight(playerOneIndexChange, $playerOneFeedbackDisplay, playerOneCurrentIndex);
     }else if(code === 87){
-      moveUp('player1', playerOneCurrentIndex);
+      moveUp(playerOneIndexChange, $playerOneFeedbackDisplay, playerOneCurrentIndex);
     }else if(code === 83){
-      moveDown('player1', playerOneCurrentIndex);
+      moveDown(playerOneIndexChange, $playerOneFeedbackDisplay, playerOneCurrentIndex);
     }else if(code === 37){
-      moveLeft('player2', playerTwoCurrentIndex);
+      moveLeft(playerTwoIndexChange, $playerTwoFeedbackDisplay, playerTwoCurrentIndex);
     }else if(code === 39){
-      moveRight('player2', playerTwoCurrentIndex);
+      moveRight(playerTwoIndexChange, $playerTwoFeedbackDisplay, playerTwoCurrentIndex);
     }else if(code === 38){
-      moveUp('player2', playerTwoCurrentIndex);
+      moveUp(playerTwoIndexChange, $playerTwoFeedbackDisplay, playerTwoCurrentIndex);
     }else if(code === 40){
-      moveDown('player2', playerTwoCurrentIndex);
+      moveDown(playerTwoIndexChange, $playerTwoFeedbackDisplay, playerTwoCurrentIndex);
     }
     if (code === 81){
       pickUp('player1'); //player 1 pickup
@@ -326,19 +285,19 @@ $(() => {
       playerOneInputtedAnswer.push(letter.toUpperCase());
       playerOneLetterIndex = playerOneInputtedAnswer.length;
       playerOneFeedback = 'Correct letter! Now get the next one!';
-      displayFeedback();
+      // displayFeedback();
       removeLetter('player1');
       displayPlayerAnswers();
     } else if (player === 'player2' && letter === correctAnswerArray[playerTwoLetterIndex]) {
       playerTwoInputtedAnswer.push(letter.toUpperCase());
       playerTwoLetterIndex = playerTwoInputtedAnswer.length;
       playerTwoFeedback = 'Correct letter! Now get the next one!';
-      displayFeedback();
+      // displayFeedback();
       removeLetter('player2');
       displayPlayerAnswers();
     } else if (player === 'player1') {
       playerOneFeedback = 'Not the right letter. Try another one!';
-      displayFeedback();
+      // displayFeedback();
     } else if (player === 'player2') {
       playerTwoFeedback = 'Not the right letter. Try another one!';
       displayFeedback();
@@ -348,7 +307,7 @@ $(() => {
       playerOneFeedback = 'You won the seat for this flight. Congratulations!';
       playerTwoFeedback = 'You lost the seat for this flight. Unlucky!';
       playerOneWonFlights.push(correctAnswer);
-      displayFeedback();
+      // displayFeedback();
       scoreIterator(player);
       if (copiedArray.length===0){
         endScreen();
@@ -360,7 +319,7 @@ $(() => {
       playerOneFeedback = 'You lost the seat for this flight. Unlucky!';
       playerTwoFeedback = 'You won the seat for this flight. Congratulations!';
       playerTwoWonFlights.push(correctAnswer);
-      displayFeedback();
+      // displayFeedback();
       scoreIterator(player);
       if (copiedArray.length===0){
         endScreen();
@@ -370,10 +329,6 @@ $(() => {
       playGame();
     }
   }
-
-  // function isGameOver(){
-  //
-  // }
 
   // 3.11.7 made pickup work for two players
   // 2.4.1-2 Keydown for enter button and pickup function
@@ -409,9 +364,18 @@ $(() => {
   }
 
   // 4.1.6.2. Make feedback display for each player and output feedback as they play
-  function displayFeedback(){
+  // function displayFeedback(){
+  //   $playerOneFeedbackDisplay.text(`${playerOneFeedback}`);
+  //   $playerTwoFeedbackDisplay.text(`${playerTwoFeedback}`);
+  // }
+
+  function displayDefaultFeedback() {
     $playerOneFeedbackDisplay.text(`${playerOneFeedback}`);
     $playerTwoFeedbackDisplay.text(`${playerTwoFeedback}`);
+  }
+
+  function displayFeedback(div, message){
+    div.text(message);
   }
 
   // 3.11.13 make scores work for both players
@@ -431,21 +395,26 @@ $(() => {
   // 3.9.1 playAgain funtion to reset board
   // 3.11.11 Made player again work for both players
   function playGame(){
-    gameReset();
-    displayFeedback();
+    gameRoundReset();
+    displayDefaultFeedback();
     displayRandomQuestion();
     randomPositionAssign('player1', randomizeLetters('playerOne'));
     randomPositionAssign('player2', randomizeLetters('playerTwo'));
   }
 
   // 3.11.12 Made player reset work for both players
-  function gameReset(){
+  function gameRoundReset(){
     playerOneInputtedAnswer.length = 0;
     playerTwoInputtedAnswer.length = 0;
     playerOneLetterIndex = 0;
     playerTwoLetterIndex = 0;
     clearAllLetters();
     resetPlayerAnswersDisplay();
+  }
+
+  function wholeGameReset(){
+    playerOneCurrentIndex = 90; // reset player one start postion
+    playerTwoCurrentIndex = 99; // reset player two start position
   }
 
   // 3.11.14 function that clears all existing letters
@@ -527,6 +496,7 @@ $(() => {
   function setup(){
     toggleScreenView();
     randomizeCityOrder();
+    wholeGameReset();
   }
 
   setup();
