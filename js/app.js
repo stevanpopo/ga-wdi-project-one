@@ -95,6 +95,7 @@ $(() => {
   // 3.11.3. Changed move functions so they take player as argument and created var unique to each player
   // add class to current cell
   function addClassPlayerCurrentCell(playerNumber, grid, index){
+    console.log('should be grid', grid);
     playerCells[playerNumber-1][1] = $(grid.children()[index]);
     playerCells[playerNumber-1][1].addClass('playerCurrentCell');
   }
@@ -111,9 +112,9 @@ $(() => {
   // })
 
 
-  function playerIndexChange(playerNumber, change, playerIndex, grid) {
-    const playerCurrentIndex = playerIndex + change;
-    const playerPreviousIndex = playerIndex;
+  function playerIndexChange(playerNumber, change, grid) {
+    const playerCurrentIndex = currentIndexes[playerNumber-1] + change;
+    const playerPreviousIndex = currentIndexes[playerNumber-1];
     // store these globally
     currentIndexes[playerNumber - 1] = playerCurrentIndex;
     previousIndexes[playerNumber - 1] = playerPreviousIndex;
@@ -128,7 +129,7 @@ $(() => {
       playerFeedback[playerNumber-1][0] = 'You can\'t move left. Try to move another direction.';
       displayFeedback(playerNumber);
     } else {
-      indexChangeFunction(playerNumber, -1, index, grid);
+      indexChangeFunction(playerNumber, -1, grid);
     }
   }
 
@@ -139,7 +140,7 @@ $(() => {
       playerFeedback[playerNumber-1][0] = 'You can\'t move right. Try to move another direction.';
       displayFeedback(playerNumber);
     } else {
-      indexChangeFunction(playerNumber, 1, index, grid);
+      indexChangeFunction(playerNumber, 1, grid);
     }
   }
 
@@ -150,7 +151,7 @@ $(() => {
       playerFeedback[playerNumber-1][0] = 'You can\'t move up. Try to move another direction.';
       displayFeedback(playerNumber);
     } else {
-      indexChangeFunction(playerNumber, -10, index, grid);
+      indexChangeFunction(playerNumber, -10, grid);
     }
   }
 
@@ -161,7 +162,7 @@ $(() => {
       playerFeedback[playerNumber-1][0] = 'You can\'t move down. Try to move another direction.';
       displayFeedback(playerNumber);
     } else {
-      indexChangeFunction(playerNumber, 10, index, grid);
+      indexChangeFunction(playerNumber, 10, grid);
     }
   }
 
