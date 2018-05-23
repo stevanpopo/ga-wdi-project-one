@@ -19,14 +19,14 @@ $(() => {
   let playerTwoCurrentIndex = 99; // player two start position
   const currentIndexes = [playerOneCurrentIndex, playerTwoCurrentIndex];
   const previousIndexes = [playerOneCurrentIndex, playerTwoCurrentIndex];
+
+  // Cell class variables
   let $playerOnePreviousCell;
   let $playerOneCurrentCell;
-  // const $playerOneCurrentCell = $($('.map').children(currentIndexes[0]));
-  // console.log(currentIndexes[0]);
   let $playerTwoCurrentCell;
-  // const $playerTwoCurrentCell = $($(document.getElementsByClassName('map')[1]).children()[currentIndexes[1]]);
-  // console.log(currentIndexes[1]);
   let $playerTwoPreviousCell;
+
+  // Answer verification variables
   let correctAnswer;
   let correctAnswerArray;
   let randomCellPosition;
@@ -35,36 +35,38 @@ $(() => {
   let playerTwoLetterIndex = 0;
   const playerLetterIndexes = [playerOneLetterIndex, playerTwoLetterIndex];
 
+  // PlayerAnswer global variables
   const playerOneInputtedAnswer = [];
   const playerTwoInputtedAnswer = [];
   const $playerOneAnswerDisplay = $('#player-one-answer');
   const $playerTwoAnswerDisplay = $('#player-two-answer');
   const playerAnswers = [[playerOneInputtedAnswer,$playerOneAnswerDisplay], [playerTwoInputtedAnswer,$playerTwoAnswerDisplay]];
 
-  const $displayQuestion = $('#display-question');
-
   // PlayerScore global variables
   const $playerOneScoreDisplay = $('#player-one-score');
   const $playerTwoScoreDisplay = $('#player-two-score');
   const playerScores = [[0, $playerOneScoreDisplay], [0, $playerTwoScoreDisplay]];
-
   $playerOneScoreDisplay.text('Player 1 Score: 0');
   $playerTwoScoreDisplay.text('Player 1 Score: 0');
 
-  let gameToggle = false; // should start on false
-  const $instructional = $('#instructional-info');
-  const $mainGame = $('#main-game');
-  const $playerOneMap = $('.map');
-  const $playerTwoMap = $(document.getElementsByClassName('map')[1]);
-
-  const $endScreen = $('#end-screen');
-  const $endMessage = $('#end-message');
-
+  // PlayerWonFlights global array
   const playersWonFlights = [[], []];
+
+  // PlayerFeedback global array
   const $playerOneFeedbackDisplay = $('#player-one-feedback');
   const $playerTwoFeedbackDisplay = $('#player-two-feedback');
   let playerOneFeedback = 'Start moving your player!';
   let playerTwoFeedback = 'Start moving your player!';
+  const playerFeedback = [[playerOneFeedback, $playerOneFeedbackDisplay], [playerTwoFeedback, $playerTwoFeedbackDisplay]];
+
+  let gameToggle = false; // should start on false
+  const $displayQuestion = $('#display-question');
+  const $instructional = $('#instructional-info');
+  const $mainGame = $('#main-game');
+  const $playerOneMap = $('.map');
+  const $playerTwoMap = $(document.getElementsByClassName('map')[1]);
+  const $endScreen = $('#end-screen');
+  const $endMessage = $('#end-message');
 
   // ###### GRID SETUP ######
 
@@ -121,8 +123,8 @@ $(() => {
   // move left function
   function moveLeft(playerNumber, indexChangeFunction, feedbackDiv, playerIndex, cell, grid){
     if (playerIndex === 0 || playerIndex % 10 === 0) {
-      const msg = 'You can\'t move left. Try to move another direction.';
-      displayFeedback(feedbackDiv, msg);
+      playerFeedback[playerNumber-1][0] = 'You can\'t move left. Try to move another direction.';
+      displayFeedback(playerNumber);
     } else {
       indexChangeFunction(playerNumber, -1, playerIndex, cell, grid);
     }
@@ -131,8 +133,8 @@ $(() => {
   // move right function
   function moveRight(playerNumber, indexChangeFunction, feedbackDiv, playerIndex, cell, grid){
     if (playerIndex === 9 || playerIndex === 19 || playerIndex === 29 || playerIndex === 39 || playerIndex === 49 || playerIndex === 59 || playerIndex === 69 || playerIndex === 79 || playerIndex === 89 || playerIndex === 99) {
-      const msg = 'You can\'t move right. Try to move another direction.';
-      displayFeedback(feedbackDiv, msg);
+      playerFeedback[playerNumber-1][0] = 'You can\'t move right. Try to move another direction.';
+      displayFeedback(playerNumber);
     } else {
       indexChangeFunction(playerNumber, 1, playerIndex, cell, grid);
     }
@@ -141,8 +143,8 @@ $(() => {
   // move up function
   function moveUp(playerNumber, indexChangeFunction, feedbackDiv, playerIndex, cell, grid){
     if (playerIndex < 10){
-      const msg = 'You can\'t move up. Try to move another direction.';
-      displayFeedback(feedbackDiv, msg);
+      playerFeedback[playerNumber-1][0] = 'You can\'t move up. Try to move another direction.';
+      displayFeedback(playerNumber);
     } else {
       indexChangeFunction(playerNumber, -10, playerIndex, cell, grid);
     }
@@ -151,8 +153,8 @@ $(() => {
   // move down function
   function moveDown(playerNumber, indexChangeFunction, feedbackDiv, playerIndex, cell, grid){
     if (playerIndex > 89){
-      const msg = 'You can\'t move down. Try to move another direction.';
-      displayFeedback(feedbackDiv, msg);
+      playerFeedback[playerNumber-1][0] = 'You can\'t move down. Try to move another direction.';
+      displayFeedback(playerNumber);
     } else {
       indexChangeFunction(playerNumber, 10, playerIndex, cell, grid);
     }
@@ -182,12 +184,12 @@ $(() => {
     if (code === 81){
       $playerOneCurrentCell = $($('.map').children()[currentIndexes[0]]);
       const cellValue = $playerOneCurrentCell.html();
-      checkLetter(1, $playerOneCurrentCell, cellValue.toLowerCase(), playerLetterIndexes[0], $playerOneFeedbackDisplay);
+      checkLetter(1, $playerOneCurrentCell, cellValue.toLowerCase(), playerLetterIndexes[0]);
     }
     if (code === 13){
       $playerTwoCurrentCell = $($(document.getElementsByClassName('map')[1]).children()[currentIndexes[1]]);
       const cellValue = $playerTwoCurrentCell.html();
-      checkLetter(2, $playerTwoCurrentCell, cellValue.toLowerCase(), playerLetterIndexes[1], $playerTwoFeedbackDisplay);
+      checkLetter(2, $playerTwoCurrentCell, cellValue.toLowerCase(), playerLetterIndexes[1]);
     }
   });
 
@@ -282,25 +284,23 @@ $(() => {
   }
 
   // 3.5.1 - Make player answer logic
-  function checkLetter(player, cell, letter, playerLetterIndex, feedbackDiv){
+  function checkLetter(player, cell, letter, playerLetterIndex){
 
     if (letter === correctAnswerArray[playerLetterIndex]){
-      const msg = 'Correct letter! Now get the next one!';
-      displayFeedback(feedbackDiv, msg);
-      console.log(playerAnswers[player-1][0]);
+      playerFeedback[player-1][0] = 'Correct letter! Now get the next one!';
+      displayFeedback(player);
       playerAnswers[player-1][0].push(letter.toUpperCase());
-      console.log(playerAnswers[player-1][0]);
       playerLetterIndexes[player-1] = playerAnswers[player-1][0].length;
       removeLetter(cell);
       displayPlayerAnswers(player);
     } else {
-      const msg = 'Not the right letter. Try another one!';
-      displayFeedback(feedbackDiv, msg);
+      playerFeedback[player-1][0] = 'Not the right letter. Try another one!';
+      displayFeedback(player);
     }
 
     if (correctAnswerArray.length === playerAnswers[player-1][0].length){
-      const msg = 'You won the seat for this flight. Congratulations!';
-      displayFeedback(feedbackDiv, msg);
+      playerFeedback[player-1][0] = 'You won the seat for this flight. Congratulations!';
+      displayFeedback(player);
       playersWonFlights[player-1].push(correctAnswer);
       scoreIterator(player);
 
@@ -323,9 +323,6 @@ $(() => {
 
   // 3.7.1 Display user answer on screen
   // 3.11.10 Made displayer player answers work for both
-
-  //let playerInputtedAnswers = [playerOneInputtedAnswer, playerTwoInputtedAnswer];
-
   function displayPlayerAnswers(player){
     playerAnswers[player-1][1].text(`Your answer: ${playerAnswers[player-1][0]}`);
   }
@@ -336,19 +333,14 @@ $(() => {
     playerAnswers[1][1].text('Your answer: ');
   }
 
-  // 4.1.6.2. Make feedback display for each player and output feedback as they play
-  // function displayFeedback(){
-  //   $playerOneFeedbackDisplay.text(`${playerOneFeedback}`);
-  //   $playerTwoFeedbackDisplay.text(`${playerTwoFeedback}`);
-  // }
-
   function displayDefaultFeedback() {
     $playerOneFeedbackDisplay.text(`${playerOneFeedback}`);
     $playerTwoFeedbackDisplay.text(`${playerTwoFeedback}`);
   }
 
-  function displayFeedback(div, message){
-    div.text(message);
+  // 4.1.6.2. Make feedback display for each player and output feedback as they play
+  function displayFeedback(player){
+    playerFeedback[player-1][1].text(playerFeedback[player-1][0]);
   }
 
   // 3.11.13 make scores work for both players
@@ -363,7 +355,6 @@ $(() => {
   // 3.9.1 playAgain funtion to reset board
   // 3.11.11 Made player again work for both players
   function playGame(){
-    // displayDefaultFeedback();
     displayRandomQuestion();
     randomPositionAssign('player1', randomizeLetters('playerOne'));
     randomPositionAssign('player2', randomizeLetters('playerTwo'));
