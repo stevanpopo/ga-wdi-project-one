@@ -31,7 +31,7 @@ $(() => {
   let correctAnswer;
   let correctAnswerArray;
   let randomCellPosition;
-  let $letterCell;
+  // let $letterCell;
   let playerOneLetterIndex = 0;
   let playerTwoLetterIndex = 0;
   const playerLetterIndexes = [playerOneLetterIndex, playerTwoLetterIndex];
@@ -209,9 +209,11 @@ $(() => {
   });
 
   // ###### CITIES LOGIC ######
-  let copiedArray = [];
-  function randomizeCityOrder(){
-    copiedArray = capitalCitiesArray.slice(); //makes a copy to randomize
+  const copiedArray = [];
+
+  function randomize(array){
+    const copiedArray = array.slice(); //makes a copy to randomize
+    console.log(copiedArray);
 
     let currentIndex = copiedArray.length, temporaryValue, randomIndex;
 
@@ -230,13 +232,36 @@ $(() => {
     return copiedArray;
   }
 
+  // function randomizeCityOrder(){
+  //   copiedArray = capitalCitiesArray.slice(); //makes a copy to randomize
+  //
+  //   let currentIndex = copiedArray.length, temporaryValue, randomIndex;
+  //
+  //   // While there remain elements to shuffle...
+  //   while (0 !== currentIndex) {
+  //
+  //     // Pick a remaining element...
+  //     randomIndex = Math.floor(Math.random() * currentIndex);
+  //     currentIndex -= 1;
+  //
+  //     // And swap it with the current element.
+  //     temporaryValue = copiedArray[currentIndex];
+  //     copiedArray[currentIndex] = copiedArray[randomIndex];
+  //     copiedArray[randomIndex] = temporaryValue;
+  //   }
+  //   return copiedArray;
+  // }
+
   let city = [];
 
   //3.2 Random question generator
   function displayRandomQuestion(){
     // 3.2.1 - 6 Random question logic
-    city = copiedArray.pop();
+    city = randomize(capitalCitiesArray).pop();
+    // city = copiedArray.pop();
+    console.log(city);
     correctAnswer = city[1];
+    console.log(correctAnswer);
     correctAnswerArray = correctAnswer.toLowerCase().split('');
     const underscoreArray = correctAnswerArray.map(x => ' _ ');
     $displayQuestion.text(`The city is: ${underscoreArray}`);
@@ -244,26 +269,27 @@ $(() => {
 
   // 3.3.1-6 - Made the randomize letter logic
   // 3.11.5 - Make randomise function work for two players
-  function randomizeLetters(player){
-    let arrayName = `${player}AnswerArray`;
-    arrayName = correctAnswerArray.slice(); //makes a copy to randomize
-
-    let currentIndex = arrayName.length, temporaryValue, randomIndex;
-
-    // While there remain elements to shuffle...
-    while (0 !== currentIndex) {
-
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-
-      // And swap it with the current element.
-      temporaryValue = arrayName[currentIndex];
-      arrayName[currentIndex] = arrayName[randomIndex];
-      arrayName[randomIndex] = temporaryValue;
-    }
-    return arrayName;
-  }
+  // function randomizeLetters(player){
+  //   // let arrayName = `${player}AnswerArray`;
+  //   const arrayName = correctAnswerArray.slice(); //makes a copy to randomize
+  //
+  //   let currentIndex = arrayName.length, temporaryValue, randomIndex;
+  //
+  //   // While there remain elements to shuffle...
+  //   while (0 !== currentIndex) {
+  //
+  //     // Pick a remaining element...
+  //     randomIndex = Math.floor(Math.random() * currentIndex);
+  //     currentIndex -= 1;
+  //
+  //     // And swap it with the current element.
+  //     temporaryValue = arrayName[currentIndex];
+  //     arrayName[currentIndex] = arrayName[randomIndex];
+  //     arrayName[randomIndex] = temporaryValue;
+  //   }
+  //   console.log(arrayName);
+  //   return arrayName;
+  // }
 
   // 3.3.2 - Create logic to assign letter value to grid position
   // 3.11.9 - Make rando position assign for two player & Output random word on second grid two
@@ -277,7 +303,7 @@ $(() => {
         randomCellPosition = randomCellPosition+5;
       }
       letterPositions.push(randomCellPosition);
-      $letterCell = $(map.children()[randomCellPosition]);
+      const $letterCell = $(map.children()[randomCellPosition]);
       $letterCell.addClass('containsLetter');
       $letterCell.text(`${el.toUpperCase()}`);
       //need to make exception if it picks the same number twice
@@ -308,7 +334,8 @@ $(() => {
       playersWonFlights[playerNumber-1].push(correctAnswer);
       scoreIterator(playerNumber);
 
-      if (copiedArray.length===0){
+      // if (copiedArray.length===0){
+      if (playerScores[0][0]+playerScores[1][0] === capitalCitiesArray.length){
         endScreen();
         return;
       }
@@ -360,8 +387,8 @@ $(() => {
   // 3.11.11 Made player again work for both players
   function playGame(){
     displayRandomQuestion();
-    randomPositionAssign(1, randomizeLetters('playerOne'));
-    randomPositionAssign(2, randomizeLetters('playerTwo'));
+    randomPositionAssign(1, randomize(correctAnswerArray));
+    randomPositionAssign(2, randomize(correctAnswerArray));
   }
 
   // 3.11.12 Made player reset work for both players
@@ -459,7 +486,8 @@ $(() => {
   //3.12 setup function
   function setup(){
     toggleScreenView();
-    randomizeCityOrder();
+    // randomizeCityOrder();
+    // randomize(capitalCitiesArray);
     displayDefaultFeedback();
     wholeGameReset();
   }
