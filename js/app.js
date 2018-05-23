@@ -326,6 +326,11 @@ $(() => {
     playerFeedback[player-1][1].text(playerFeedback[player-1][0]);
   }
 
+  function displayDefaultScores(){
+    $playerOneScoreDisplay.text('Player 1 Score: 0');
+    $playerTwoScoreDisplay.text('Player 2 Score: 0');
+  }
+
   // 3.11.13 make scores work for both players
   // 3.10.1 create scoreIterator logic
   function scoreIterator(player){
@@ -426,7 +431,13 @@ $(() => {
     removeClassPlayerPreviousCell(2, currentIndexes[1]);
     currentIndexes.length = 0;
     currentIndexes.push(90,99); // reset player start postions
+    playerScores.length = 0;
+    playerScores.push([0, $playerOneScoreDisplay],[0, $playerTwoScoreDisplay]);
+    displayDefaultScores();
+    // console.log(playerScores);
   }
+
+  // const playerScores = [[0, $playerOneScoreDisplay], [0, $playerTwoScoreDisplay]];
 
   // ###### PLAY GAME ######
 
