@@ -56,8 +56,7 @@ $(() => {
   const $endScreen = $('#end-screen');
   const $endMessage = $('#end-message');
 
-  const playerOneWonFlights = [];
-  const playerTwoWonFlights = [];
+  const playersWonFlights = [[], []];
   const $playerOneFeedbackDisplay = $('#player-one-feedback');
   let playerOneFeedback = 'Start moving your player!';
   const $playerTwoFeedbackDisplay = $('#player-two-feedback');
@@ -299,9 +298,9 @@ $(() => {
     if (correctAnswerArray.length === playerInputtedAnswers[player-1].length){
       const msg = 'You won the seat for this flight. Congratulations!';
       displayFeedback(feedbackDiv, msg);
-      playerOneWonFlights.push(correctAnswer);
-
+      playersWonFlights[player-1].push(correctAnswer);
       scoreIterator(player);
+
       if (copiedArray.length===0){
         endScreen();
         return;
