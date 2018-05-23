@@ -18,16 +18,13 @@ $(() => {
   let playerOneCurrentIndex = 90; // player one start postion
   let playerTwoCurrentIndex = 99; // player two start position
   const currentIndexes = [playerOneCurrentIndex, playerTwoCurrentIndex];
-  // console.log(currentIndexes);
   const previousIndexes = [playerOneCurrentIndex, playerTwoCurrentIndex];
   let $playerOnePreviousCell;
   let $playerOneCurrentCell;
   // const $playerOneCurrentCell = $($('.map').children(currentIndexes[0]));
-  console.log($playerOneCurrentCell);
   // console.log(currentIndexes[0]);
   let $playerTwoCurrentCell;
   // const $playerTwoCurrentCell = $($(document.getElementsByClassName('map')[1]).children()[currentIndexes[1]]);
-  console.log($playerTwoCurrentCell);
   // console.log(currentIndexes[1]);
   let $playerTwoPreviousCell;
   let correctAnswer;
@@ -42,8 +39,7 @@ $(() => {
   let playerTwoScore = 0;
   const playerOneInputtedAnswer = [];
   const playerTwoInputtedAnswer = [];
-  const playerInputtedAnswers = [playerOneInputtedAnswer, playerTwoInputtedAnswer];
-  console.log(playerInputtedAnswers);
+  let playerInputtedAnswers = [playerOneInputtedAnswer, playerTwoInputtedAnswer];
 
   const $displayQuestion = $('#display-question');
   const $playerOneScoreDisplay = $('#player-one-score');
@@ -288,13 +284,20 @@ $(() => {
   // 3.5.1 - Make player answer logic
   function checkLetter(player, cell, letter, playerLetterIndex){
 
+    console.log(player);
+    console.log(cell);
+    console.log(letter);
+    console.log(playerLetterIndex);
+
     if (letter === correctAnswerArray[playerLetterIndex]){
       console.log(playerInputtedAnswers);
+      //playerInputtedAnswers.splice(player-1, 0, letter.toUpperCase());
       playerInputtedAnswers[player-1].push(letter.toUpperCase());
       console.log(playerInputtedAnswers);
       console.log(playerInputtedAnswers[player-1]);
       // playerOneInputtedAnswer.push(letter.toUpperCase());
       playerLetterIndexes[player-1] = playerInputtedAnswers[player-1].length;
+      console.log(playerLetterIndexes[player-1]);
       // playerLetterIndexes[player-1] = playerOneInputtedAnswer.length;
       console.log('correct');
       // playerOneFeedback = 'Correct letter! Now get the next one!';
@@ -306,7 +309,7 @@ $(() => {
       // displayFeedback();
     }
 
-    if (correctAnswerArray.length === playerOneInputtedAnswer.length){
+    if (correctAnswerArray.length === playerInputtedAnswers[player-1].length){
       playerOneFeedback = 'You won the seat for this flight. Congratulations!';
       playerTwoFeedback = 'You lost the seat for this flight. Unlucky!';
       playerOneWonFlights.push(correctAnswer);
@@ -316,19 +319,8 @@ $(() => {
         endScreen();
         return;
       }
-
-      playGame();
-    } else if (correctAnswerArray.length === playerTwoInputtedAnswer.length ){
-      playerOneFeedback = 'You lost the seat for this flight. Unlucky!';
-      playerTwoFeedback = 'You won the seat for this flight. Congratulations!';
-      playerTwoWonFlights.push(correctAnswer);
-      // displayFeedback();
-      scoreIterator(player);
-      if (copiedArray.length===0){
-        endScreen();
-        return;
-      }
-
+      console.log('About to re-play game');
+      gameRoundReset();
       playGame();
     }
   }
@@ -392,7 +384,6 @@ $(() => {
   // 3.9.1 playAgain funtion to reset board
   // 3.11.11 Made player again work for both players
   function playGame(){
-    gameRoundReset();
     displayDefaultFeedback();
     displayRandomQuestion();
     randomPositionAssign('player1', randomizeLetters('playerOne'));
@@ -401,10 +392,11 @@ $(() => {
 
   // 3.11.12 Made player reset work for both players
   function gameRoundReset(){
-    playerOneInputtedAnswer.length = 0;
-    playerTwoInputtedAnswer.length = 0;
-    playerOneLetterIndex = 0;
-    playerTwoLetterIndex = 0;
+    playerInputtedAnswers = [[], []];
+    playerLetterIndexes.length = 0;
+    playerLetterIndexes.push(0,0);
+    // playerOneLetterIndex = 0; Why doesnt this work to reassign the values?
+    // playerTwoLetterIndex = 0;
     clearAllLetters();
     resetPlayerAnswersDisplay();
   }
