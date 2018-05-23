@@ -368,8 +368,13 @@ $(() => {
     }
   }
 
-
+  // ###### THREE SCREEN VIEWS ######
   // 4.1.3 Made it possible to hide/show both sections
+  function showInstructionScreen(){
+    $mainGame.hide();
+    $instructional.show();
+    $endScreen.hide();
+  }
 
   function showMainGame(){
     $mainGame.show();
@@ -381,20 +386,17 @@ $(() => {
     $mainGame.hide();
     $instructional.hide();
     $endScreen.show();
-
-    // if (playerOneScore > playerTwoScore){
-    //   $endMessage.text(`Player One wins. You've won flights to ${playerOneWonFlights}. Enjoy your travels!`);
-    // } else if (playerTwoScore > playerOneScore) {
-    //   $endMessage.text(`Player Two wins. You've won flights to ${playerTwoWonFlights}. Enjoy your travels!`);
-    // } else {
-    //   $endMessage.text(`It's a draw. Player One won flights to ${playerOneWonFlights} and Player Two won  flights to ${playerTwoWonFlights}. Enjoy your travels!`);
-    // }
+    endScreenMessage();
   }
 
-  function showInstructionScreen(){
-    $mainGame.hide();
-    $instructional.show();
-    $endScreen.hide();
+  function endScreenMessage(){
+    if (playerScores[0][0] > playerScores[1][0]){
+      $endMessage.text(`Player One wins. You've won flights to ${playersWonFlights[0]}. Enjoy your travels!`);
+    } else if (playerScores[1][0] > playerScores[0][0]) {
+      $endMessage.text(`Player Two wins. You've won flights to ${playersWonFlights[1]}. Enjoy your travels!`);
+    } else {
+      $endMessage.text(`It's a draw. Player One won flights to ${playersWonFlights[0]} and Player Two won  flights to ${playersWonFlights[1]}. Enjoy your travels!`);
+    }
   }
 
   // 4.1.4 Make start game button for players
