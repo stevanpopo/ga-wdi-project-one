@@ -7,6 +7,14 @@ header {
   #instructional-info {
     width: 60%;
     margin: 0 auto;
+
+    div.player-keys {
+      background-color: white;
+      width: 75%;
+      margin: 0 auto;
+      padding: 5px;
+      border-radius: 4px;
+    }
   }
 
   h1 {

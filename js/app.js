@@ -242,20 +242,17 @@ $(() => {
   // 3.3.2 - Create logic to assign letter value to grid position
   // 3.11.9 - Make rando position assign for two player & Output random word on second grid two
   function randomPositionAssign(playerNumber, randomizedArray){
-    // const letterPositions = playerLetterPositionsArray[playerNumber-1];
     const letterPositions = [];
     const map = playerMaps[playerNumber-1];
 
     randomizedArray.forEach(function(el){
       let randomCellPosition = Math.floor(Math.random() * 98);
-      // console.log('random cell pos initial', playerNumber, randomCellPosition);
       if (letterPositions.includes(randomCellPosition)){
         randomCellPosition = randomCellPosition+1;
         console.log('random cell pos when found double', playerNumber, randomCellPosition);
       }
       letterPositions.push(randomCellPosition);
       console.log('letter pos array', playerNumber, letterPositions);
-      // console.log();
 
       const $letterCell = $(map.children()[randomCellPosition]);
       $letterCell.addClass('containsLetter');
@@ -425,10 +422,11 @@ $(() => {
   }
 
   function wholeGameReset(){
-    playerOneCurrentIndex = 90; // reset player one start postion
-    playerTwoCurrentIndex = 99; // reset player two start position
+    removeClassPlayerPreviousCell(1, currentIndexes[0]); //reset player pos styling
+    removeClassPlayerPreviousCell(2, currentIndexes[1]);
+    currentIndexes.length = 0;
+    currentIndexes.push(90,99); // reset player start postions
   }
-
 
   // ###### PLAY GAME ######
 
@@ -447,6 +445,7 @@ $(() => {
     showInstructionScreen();
     randomCities = randomize(capitalCitiesArray);
     displayDefaultFeedback();
+    gameRoundReset();
     wholeGameReset();
   }
 
