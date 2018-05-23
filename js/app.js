@@ -23,8 +23,9 @@ $(() => {
   // Cell class variables
   let $playerOnePreviousCell;
   let $playerOneCurrentCell;
-  let $playerTwoCurrentCell;
   let $playerTwoPreviousCell;
+  let $playerTwoCurrentCell;
+  const playerCells = [[$playerOnePreviousCell, $playerOneCurrentCell], [$playerTwoPreviousCell, $playerTwoCurrentCell]];
 
   // Answer verification variables
   let correctAnswer;
@@ -47,7 +48,7 @@ $(() => {
   const $playerTwoScoreDisplay = $('#player-two-score');
   const playerScores = [[0, $playerOneScoreDisplay], [0, $playerTwoScoreDisplay]];
   $playerOneScoreDisplay.text('Player 1 Score: 0');
-  $playerTwoScoreDisplay.text('Player 1 Score: 0');
+  $playerTwoScoreDisplay.text('Player 2 Score: 0');
 
   // PlayerWonFlights global array
   const playersWonFlights = [[], []];
@@ -93,15 +94,15 @@ $(() => {
 
   // 3.11.3. Changed move functions so they take player as argument and created var unique to each player
   // add class to current cell
-  function addClassPlayerCurrentCell(cell, grid, index){
-    cell = $(grid.children()[index]);
-    cell.addClass('playerCurrentCell');
+  function addClassPlayerCurrentCell(playerNumber, grid, index){
+    playerCells[playerNumber-1][1] = $(grid.children()[index]);
+    playerCells[playerNumber-1][1].addClass('playerCurrentCell');
   }
 
   // remove class form last cell
-  function removeClassPlayerPreviousCell(cell, grid, index){
-    cell = $(grid.children()[index]);
-    cell.removeClass('playerCurrentCell');
+  function removeClassPlayerPreviousCell(playerNumber, grid, index){
+    playerCells[playerNumber-1][0] = $(grid.children()[index]);
+    playerCells[playerNumber-1][0].removeClass('playerCurrentCell');
   }
 
   // delete me!
@@ -110,53 +111,53 @@ $(() => {
   // })
 
 
-  function playerIndexChange(playerNumber, change, playerIndex, cell, grid) {
+  function playerIndexChange(playerNumber, change, playerIndex, grid) {
     const playerCurrentIndex = playerIndex + change;
     const playerPreviousIndex = playerIndex;
     // store these globally
     currentIndexes[playerNumber - 1] = playerCurrentIndex;
     previousIndexes[playerNumber - 1] = playerPreviousIndex;
-    addClassPlayerCurrentCell(cell, grid, playerCurrentIndex);
-    removeClassPlayerPreviousCell(cell, grid, playerPreviousIndex);
+    addClassPlayerCurrentCell(playerNumber, grid, playerCurrentIndex);
+    removeClassPlayerPreviousCell(playerNumber, grid, playerPreviousIndex);
   }
 
   // move left function
-  function moveLeft(playerNumber, indexChangeFunction, playerIndex, cell, grid){
+  function moveLeft(playerNumber, indexChangeFunction, playerIndex, grid){
     if (playerIndex === 0 || playerIndex % 10 === 0) {
       playerFeedback[playerNumber-1][0] = 'You can\'t move left. Try to move another direction.';
       displayFeedback(playerNumber);
     } else {
-      indexChangeFunction(playerNumber, -1, playerIndex, cell, grid);
+      indexChangeFunction(playerNumber, -1, playerIndex, grid);
     }
   }
 
   // move right function
-  function moveRight(playerNumber, indexChangeFunction, playerIndex, cell, grid){
+  function moveRight(playerNumber, indexChangeFunction, playerIndex, grid){
     if (playerIndex === 9 || playerIndex === 19 || playerIndex === 29 || playerIndex === 39 || playerIndex === 49 || playerIndex === 59 || playerIndex === 69 || playerIndex === 79 || playerIndex === 89 || playerIndex === 99) {
       playerFeedback[playerNumber-1][0] = 'You can\'t move right. Try to move another direction.';
       displayFeedback(playerNumber);
     } else {
-      indexChangeFunction(playerNumber, 1, playerIndex, cell, grid);
+      indexChangeFunction(playerNumber, 1, playerIndex, grid);
     }
   }
 
   // move up function
-  function moveUp(playerNumber, indexChangeFunction, playerIndex, cell, grid){
+  function moveUp(playerNumber, indexChangeFunction, playerIndex, grid){
     if (playerIndex < 10){
       playerFeedback[playerNumber-1][0] = 'You can\'t move up. Try to move another direction.';
       displayFeedback(playerNumber);
     } else {
-      indexChangeFunction(playerNumber, -10, playerIndex, cell, grid);
+      indexChangeFunction(playerNumber, -10, playerIndex, grid);
     }
   }
 
   // move down function
-  function moveDown(playerNumber, indexChangeFunction, playerIndex, cell, grid){
+  function moveDown(playerNumber, indexChangeFunction, playerIndex, grid){
     if (playerIndex > 89){
       playerFeedback[playerNumber-1][0] = 'You can\'t move down. Try to move another direction.';
       displayFeedback(playerNumber);
     } else {
-      indexChangeFunction(playerNumber, 10, playerIndex, cell, grid);
+      indexChangeFunction(playerNumber, 10, playerIndex, grid);
     }
   }
 
@@ -165,21 +166,21 @@ $(() => {
     const code = e.keyCode;
     //if(code) console.log(code);
     if(code === 65){
-      moveLeft(1, playerIndexChange, currentIndexes[0], $playerOnePreviousCell, $('.map'));
+      moveLeft(1, playerIndexChange, currentIndexes[0], $('.map'));
     }else if(code === 68){
-      moveRight(1, playerIndexChange, currentIndexes[0], $playerOnePreviousCell, $('.map'));
+      moveRight(1, playerIndexChange, currentIndexes[0], $('.map'));
     }else if(code === 87){
-      moveUp(1, playerIndexChange, currentIndexes[0], $playerOnePreviousCell, $('.map'));
+      moveUp(1, playerIndexChange, currentIndexes[0], $('.map'));
     }else if(code === 83){
-      moveDown(1, playerIndexChange, currentIndexes[0], $playerOnePreviousCell, $('.map'));
+      moveDown(1, playerIndexChange, currentIndexes[0], $('.map'));
     }else if(code === 37){
-      moveLeft(2, playerIndexChange, currentIndexes[1], $playerTwoPreviousCell, $(document.getElementsByClassName('map')[1]));
+      moveLeft(2, playerIndexChange, currentIndexes[1], $(document.getElementsByClassName('map')[1]));
     }else if(code === 39){
-      moveRight(2, playerIndexChange, currentIndexes[1], $playerTwoPreviousCell, $(document.getElementsByClassName('map')[1]));
+      moveRight(2, playerIndexChange, currentIndexes[1], $(document.getElementsByClassName('map')[1]));
     }else if(code === 38){
-      moveUp(2, playerIndexChange, currentIndexes[1], $playerTwoPreviousCell, $(document.getElementsByClassName('map')[1]));
+      moveUp(2, playerIndexChange, currentIndexes[1], $(document.getElementsByClassName('map')[1]));
     }else if(code === 40){
-      moveDown(2, playerIndexChange, currentIndexes[1], $playerTwoPreviousCell, $(document.getElementsByClassName('map')[1]));
+      moveDown(2, playerIndexChange, currentIndexes[1], $(document.getElementsByClassName('map')[1]));
     }
     if (code === 81){
       $playerOneCurrentCell = $($('.map').children()[currentIndexes[0]]);
