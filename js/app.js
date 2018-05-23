@@ -391,6 +391,12 @@ $(() => {
     // }
   }
 
+  function showInstructionScreen(){
+    $mainGame.hide();
+    $instructional.show();
+    $endScreen.hide();
+  }
+
   // 4.1.4 Make start game button for players
   const $startGameButton = $('#start-game');
   $startGameButton.on('click', function(){
@@ -419,7 +425,7 @@ $(() => {
 
   //3.12 setup function
   function setup(){
-    //toggleScreenView();
+    showInstructionScreen();
     randomCities = randomize(capitalCitiesArray);
     displayDefaultFeedback();
     wholeGameReset();
