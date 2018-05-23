@@ -36,6 +36,11 @@ $(() => {
   let playerTwoLetterIndex = 0;
   const playerLetterIndexes = [playerOneLetterIndex, playerTwoLetterIndex];
 
+  // Player letter positions on grid
+  let playerOneLetterPositionsArray = [];
+  let playerTwoLetterPositionsArray = [];
+  const playerLetterPositionsArray = [playerOneLetterPositionsArray, playerOneLetterPositionsArray];
+
   // PlayerAnswer global variables
   const playerOneInputtedAnswer = [];
   const playerTwoInputtedAnswer = [];
@@ -262,36 +267,23 @@ $(() => {
 
   // 3.3.2 - Create logic to assign letter value to grid position
   // 3.11.9 - Make rando position assign for two player & Output random word on second grid two
-  function randomPositionAssign(player, randomizedArray){
-    if (player === 'player1'){
-      const playerOnePositionsArray = [];
-      randomizedArray.forEach(function(el){
-        randomCellPosition = Math.floor(Math.random() * 100);
-        if (playerOnePositionsArray.includes(randomCellPosition)){
-          randomCellPosition = randomCellPosition+5;
-        }
-        playerOnePositionsArray.push(randomCellPosition);
-        $letterCell = $($('.map').children()[randomCellPosition]);
-        $letterCell.addClass('containsLetter');
-        $letterCell.text(`${el.toUpperCase()}`);
-        //need to make exception if it picks the same number twice
-      });
-    } else if (player === 'player2'){
-      const playerTwoPositionsArray = [];
-      randomizedArray.forEach(function(el){
-        randomCellPosition = Math.floor(Math.random() * 100);
-        if (playerTwoPositionsArray.includes(randomCellPosition)){
-          randomCellPosition = randomCellPosition+5;
-        }
-        playerTwoPositionsArray.push(randomCellPosition);
-        $letterCell = $($('.map').children()[randomCellPosition]);
-        $letterCell = $($(document.getElementsByClassName('map')[1]).children()[randomCellPosition]);
-        $letterCell.addClass('containsLetter');
-        $letterCell.text(`${el.toUpperCase()}`);
-        //need to make exception if it picks the same number twice
-      });
-    }
+  function randomPositionAssign(playerNumber, randomizedArray){
+    const letterPositions = playerLetterPositionsArray[playerNumber-1];
+    const map = playerMaps[playerNumber-1];
+
+    randomizedArray.forEach(function(el){
+      randomCellPosition = Math.floor(Math.random() * 100);
+      if (letterPositions.includes(randomCellPosition)){
+        randomCellPosition = randomCellPosition+5;
+      }
+      letterPositions.push(randomCellPosition);
+      $letterCell = $(map.children()[randomCellPosition]);
+      $letterCell.addClass('containsLetter');
+      $letterCell.text(`${el.toUpperCase()}`);
+      //need to make exception if it picks the same number twice
+    });
   }
+
 
   // 3.5.1 - Make player answer logic
   function checkLetter(playerNumber, letter){
@@ -368,8 +360,8 @@ $(() => {
   // 3.11.11 Made player again work for both players
   function playGame(){
     displayRandomQuestion();
-    randomPositionAssign('player1', randomizeLetters('playerOne'));
-    randomPositionAssign('player2', randomizeLetters('playerTwo'));
+    randomPositionAssign(1, randomizeLetters('playerOne'));
+    randomPositionAssign(2, randomizeLetters('playerTwo'));
   }
 
   // 3.11.12 Made player reset work for both players
