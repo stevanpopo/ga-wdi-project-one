@@ -2,9 +2,9 @@
 
 const capitalCitiesArray = [
   ['England', 'London'],
-  ['France', 'Paris']
+  ['France', 'Paris'],
+  ['Germany', 'Berlin'],
+  ['Spain', 'Madrid']
   // ,
-  // ['Germany', 'Berlin'],
-  // ['Spain', 'Madrid'],
   // ['Portugal', 'Lisbon']
 ];

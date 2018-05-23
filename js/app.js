@@ -391,7 +391,14 @@ $(() => {
 
   function endScreenMessage(){
     if (playerScores[0][0] > playerScores[1][0]){
-      $endMessage.text(`Player One wins. You've won flights to ${playersWonFlights[0]}. Enjoy your travels!`);
+      let flightsList = playersWonFlights[0][0];
+      for (let i = 1; i < playersWonFlights[0].length; i++){
+        if (i === playersWonFlights[0].length - 1){
+          flightsList = `${flightsList} and ${playersWonFlights[0][i]}`;
+        } else flightsList = `${flightsList}, ${playersWonFlights[0][i]}`;
+      }
+      // console.log(flightsList);
+      $endMessage.text(`Player One wins. You've won flights to ${flightsList}. Enjoy your travels!`);
     } else if (playerScores[1][0] > playerScores[0][0]) {
       $endMessage.text(`Player Two wins. You've won flights to ${playersWonFlights[1]}. Enjoy your travels!`);
     } else {
