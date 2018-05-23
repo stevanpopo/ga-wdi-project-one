@@ -22,7 +22,7 @@ $(() => {
 
   // Cell class variables
   let $playerOnePreviousCell;
-  let $playerOneCurrentCell;
+  let $playerOneCurrentCell = $($('.map').children()[currentIndexes[0]]);
   let $playerTwoPreviousCell;
   let $playerTwoCurrentCell;
   const playerCells = [[$playerOnePreviousCell, $playerOneCurrentCell], [$playerTwoPreviousCell, $playerTwoCurrentCell]];
@@ -194,12 +194,12 @@ $(() => {
     if (code === 81){
       $playerOneCurrentCell = $($('.map').children()[currentIndexes[0]]);
       const cellValue = $playerOneCurrentCell.html();
-      checkLetter(1, $playerOneCurrentCell, cellValue.toLowerCase(), playerLetterIndexes[0]);
+      checkLetter(1, cellValue.toLowerCase());
     }
     if (code === 13){
       $playerTwoCurrentCell = $($(document.getElementsByClassName('map')[1]).children()[currentIndexes[1]]);
       const cellValue = $playerTwoCurrentCell.html();
-      checkLetter(2, $playerTwoCurrentCell, cellValue.toLowerCase(), playerLetterIndexes[1]);
+      checkLetter(2, cellValue.toLowerCase());
     }
   });
 
@@ -294,25 +294,27 @@ $(() => {
   }
 
   // 3.5.1 - Make player answer logic
-  function checkLetter(player, cell, letter, playerLetterIndex){
+  function checkLetter(playerNumber, letter){
+    const cell = playerCells[playerNumber-1][1];
+    const playerLetterIndex = playerLetterIndexes[playerNumber-1];
 
     if (letter === correctAnswerArray[playerLetterIndex]){
-      playerFeedback[player-1][0] = 'Correct letter! Now get the next one!';
-      displayFeedback(player);
-      playerAnswers[player-1][0].push(letter.toUpperCase());
-      playerLetterIndexes[player-1] = playerAnswers[player-1][0].length;
+      playerFeedback[playerNumber-1][0] = 'Correct letter! Now get the next one!';
+      displayFeedback(playerNumber);
+      playerAnswers[playerNumber-1][0].push(letter.toUpperCase());
+      playerLetterIndexes[playerNumber-1] = playerAnswers[playerNumber-1][0].length;
       removeLetter(cell);
-      displayPlayerAnswers(player);
+      displayPlayerAnswers(playerNumber);
     } else {
-      playerFeedback[player-1][0] = 'Not the right letter. Try another one!';
-      displayFeedback(player);
+      playerFeedback[playerNumber-1][0] = 'Not the right letter. Try another one!';
+      displayFeedback(playerNumber);
     }
 
-    if (correctAnswerArray.length === playerAnswers[player-1][0].length){
-      playerFeedback[player-1][0] = 'You won the seat for this flight. Congratulations!';
-      displayFeedback(player);
-      playersWonFlights[player-1].push(correctAnswer);
-      scoreIterator(player);
+    if (correctAnswerArray.length === playerAnswers[playerNumber-1][0].length){
+      playerFeedback[playerNumber-1][0] = 'You won the seat for this flight. Congratulations!';
+      displayFeedback(playerNumber);
+      playersWonFlights[playerNumber-1].push(correctAnswer);
+      scoreIterator(playerNumber);
 
       if (copiedArray.length===0){
         endScreen();
