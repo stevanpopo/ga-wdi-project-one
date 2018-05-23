@@ -69,9 +69,10 @@ $(() => {
   const $playerOneMap = $('.map');
   const $playerTwoMap = $(document.getElementsByClassName('map')[1]);
   const playerMaps = [$playerOneMap, $playerTwoMap];
+  const $playerGrids = $('.player-grids');
 
 
-  let gameToggle = false; // should start on false
+  //let gameToggle = false; // should start on false
   const $displayQuestion = $('#display-question');
   const $instructional = $('#instructional-info');
   const $mainGame = $('#main-game');
@@ -230,6 +231,7 @@ $(() => {
 
   //3.2 Random question generator
   function displayRandomQuestion(){
+    console.log('in display random question');
     // 3.2.1 - 6 Random question logic
     const city = randomCities.pop();
     correctAnswer = city[1];
@@ -245,9 +247,9 @@ $(() => {
     const map = playerMaps[playerNumber-1];
 
     randomizedArray.forEach(function(el){
-      let randomCellPosition = Math.floor(Math.random() * 100);
+      let randomCellPosition = Math.floor(Math.random() * 99);
       if (letterPositions.includes(randomCellPosition)){
-        randomCellPosition = randomCellPosition+5;
+        randomCellPosition = randomCellPosition+1;
       }
       letterPositions.push(randomCellPosition);
 
@@ -280,25 +282,23 @@ $(() => {
   }
 
   function isRoundOver(playerNumber){
-    console.log('in rounder over function');
     if (correctAnswerArray.length === playerAnswers[playerNumber-1][0].length){
       playerFeedback[playerNumber-1][0] = 'You won the seat for this flight. Congratulations!';
       displayFeedback(playerNumber);
       playersWonFlights[playerNumber-1].push(correctAnswer);
       scoreIterator(playerNumber);
 
-      // if (copiedArray.length===0){
-      isGameOver();
-      console.log('About to re-play game');
-      gameRoundReset();
-      playGame();
+      if (!isGameOver()){
+        gameRoundReset();
+        playGame();
+      }
     }
   }
 
   function isGameOver(){
     if (playerScores[0][0]+playerScores[1][0] === capitalCitiesArray.length){
-      endScreen();
-      return;
+      showEndScreen();
+      return true;
     }
   }
 
@@ -338,15 +338,7 @@ $(() => {
     playerScores[player-1][1].text(`Player ${player} Score: ${playerScores[player-1][0]}`);
   }
 
-  // ###### PLAY AGAIN AND RESET LOGIC ######
-
-  // 3.9.1 playAgain funtion to reset board
-  // 3.11.11 Made player again work for both players
-  function playGame(){
-    displayRandomQuestion();
-    randomPositionAssign(1, randomize(correctAnswerArray));
-    randomPositionAssign(2, randomize(correctAnswerArray));
-  }
+  // ###### RESET LOGIC ######
 
   // 3.11.12 Made player reset work for both players
   function gameRoundReset(){
@@ -378,56 +370,17 @@ $(() => {
 
 
   // 4.1.3 Made it possible to hide/show both sections
-  function toggleScreenView(){
-    if (gameToggle){
-      $mainGame.show();
-      $instructional.hide();
-      $endScreen.hide();
-      $displayQuestion.show();
-      $playerOneMap.show();
-      $playerTwoMap.show();
-      $playerOneFeedbackDisplay.show();
-      $playerTwoFeedbackDisplay.show();
-      $playerOneAnswerDisplay.show();
-      $playerTwoAnswerDisplay.show();
-      $playerOneScoreDisplay.show();
-      $playerTwoScoreDisplay.show();
 
-      gameToggle = false;
-    } else {
-      $mainGame.hide();
-      $endScreen.hide();
-      $instructional.show();
-    }
+  function showMainGame(){
+    $mainGame.show();
+    $instructional.hide();
+    $endScreen.hide();
   }
 
-  // 4.1.4 Make start game button for players
-  const $startGameButton = $('#start-game');
-  $startGameButton.on('click', function(){
-    gameToggle = true;
-    toggleScreenView();
-    playGame();
-  });
-
-  const $playAgainButton = $('#play-again');
-  $playAgainButton.on('click', function(){
-    gameToggle = true;
-    setup();
-    playGame();
-  });
-
-
-  function endScreen(){
+  function showEndScreen(){
+    $mainGame.hide();
+    $instructional.hide();
     $endScreen.show();
-    $displayQuestion.hide();
-    $playerOneMap.hide();
-    $playerTwoMap.hide();
-    $playerOneFeedbackDisplay.hide();
-    $playerTwoFeedbackDisplay.hide();
-    // $displayPlayerOneAnswer.hide();
-    // $displayPlayerTwoAnswer.hide();
-    $playerOneScoreDisplay.hide();
-    $playerTwoScoreDisplay.hide();
 
     // if (playerOneScore > playerTwoScore){
     //   $endMessage.text(`Player One wins. You've won flights to ${playerOneWonFlights}. Enjoy your travels!`);
@@ -438,11 +391,35 @@ $(() => {
     // }
   }
 
+  // 4.1.4 Make start game button for players
+  const $startGameButton = $('#start-game');
+  $startGameButton.on('click', function(){
+    showMainGame();
+    playGame();
+  });
+
+  const $playAgainButton = $('#play-again');
+  $playAgainButton.on('click', function(){
+    setup();
+    showMainGame();
+    playGame();
+  });
+
+  // ###### PLAY GAME ######
+
+  // 3.9.1 playAgain funtion to reset board
+  // 3.11.11 Made player again work for both players
+  function playGame(){
+    displayRandomQuestion();
+    randomPositionAssign(1, randomize(correctAnswerArray));
+    randomPositionAssign(2, randomize(correctAnswerArray));
+  }
+
   // ###### SETUP ######
 
   //3.12 setup function
   function setup(){
-    toggleScreenView();
+    //toggleScreenView();
     randomCities = randomize(capitalCitiesArray);
     displayDefaultFeedback();
     wholeGameReset();
