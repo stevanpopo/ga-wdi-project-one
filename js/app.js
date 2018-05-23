@@ -79,6 +79,8 @@ $(() => {
   const $endScreen = $('#end-screen');
   const $endMessage = $('#end-message');
 
+  let randomCities = [];
+
   // ###### GRID SETUP ######
 
   // 2.1.3 Create JS grid
@@ -229,7 +231,10 @@ $(() => {
   //3.2 Random question generator
   function displayRandomQuestion(){
     // 3.2.1 - 6 Random question logic
-    const city = randomize(capitalCitiesArray).pop();
+    // console.log(randomCities[0]);
+    // console.log(randomCities[1]);
+
+    const city = randomCities.pop();
     correctAnswer = city[1];
     correctAnswerArray = correctAnswer.toLowerCase().split('');
     const underscoreArray = correctAnswerArray.map(x => ' _ ');
@@ -243,11 +248,12 @@ $(() => {
     const map = playerMaps[playerNumber-1];
 
     randomizedArray.forEach(function(el){
-      randomCellPosition = Math.floor(Math.random() * 100);
+      let randomCellPosition = Math.floor(Math.random() * 100);
       if (letterPositions.includes(randomCellPosition)){
         randomCellPosition = randomCellPosition+5;
       }
       letterPositions.push(randomCellPosition);
+
       const $letterCell = $(map.children()[randomCellPosition]);
       $letterCell.addClass('containsLetter');
       $letterCell.text(`${el.toUpperCase()}`);
@@ -412,18 +418,18 @@ $(() => {
     $playerTwoMap.hide();
     $playerOneFeedbackDisplay.hide();
     $playerTwoFeedbackDisplay.hide();
-    $displayPlayerOneAnswer.hide();
-    $displayPlayerTwoAnswer.hide();
+    // $displayPlayerOneAnswer.hide();
+    // $displayPlayerTwoAnswer.hide();
     $playerOneScoreDisplay.hide();
     $playerTwoScoreDisplay.hide();
 
-    if (playerOneScore > playerTwoScore){
-      $endMessage.text(`Player One wins. You've won flights to ${playerOneWonFlights}. Enjoy your travels!`);
-    } else if (playerTwoScore > playerOneScore) {
-      $endMessage.text(`Player Two wins. You've won flights to ${playerTwoWonFlights}. Enjoy your travels!`);
-    } else {
-      $endMessage.text(`It's a draw. Player One won flights to ${playerOneWonFlights} and Player Two won  flights to ${playerTwoWonFlights}. Enjoy your travels!`);
-    }
+    // if (playerOneScore > playerTwoScore){
+    //   $endMessage.text(`Player One wins. You've won flights to ${playerOneWonFlights}. Enjoy your travels!`);
+    // } else if (playerTwoScore > playerOneScore) {
+    //   $endMessage.text(`Player Two wins. You've won flights to ${playerTwoWonFlights}. Enjoy your travels!`);
+    // } else {
+    //   $endMessage.text(`It's a draw. Player One won flights to ${playerOneWonFlights} and Player Two won  flights to ${playerTwoWonFlights}. Enjoy your travels!`);
+    // }
   }
 
   // ###### SETUP ######
@@ -433,6 +439,7 @@ $(() => {
     toggleScreenView();
     // randomizeCityOrder();
     // randomize(capitalCitiesArray);
+    randomCities = randomize(capitalCitiesArray);
     displayDefaultFeedback();
     wholeGameReset();
   }
