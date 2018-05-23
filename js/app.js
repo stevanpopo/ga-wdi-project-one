@@ -37,7 +37,9 @@ $(() => {
 
   const playerOneInputtedAnswer = [];
   const playerTwoInputtedAnswer = [];
-  let playerInputtedAnswers = [playerOneInputtedAnswer, playerTwoInputtedAnswer];
+  const $playerOneAnswerDisplay = $('#player-one-answer');
+  const $playerTwoAnswerDisplay = $('#player-two-answer');
+  const playerAnswers = [[playerOneInputtedAnswer,$playerOneAnswerDisplay], [playerTwoInputtedAnswer,$playerTwoAnswerDisplay]];
 
   const $displayQuestion = $('#display-question');
   const $playerOneScoreDisplay = $('#player-one-score');
@@ -61,9 +63,6 @@ $(() => {
   let playerOneFeedback = 'Start moving your player!';
   const $playerTwoFeedbackDisplay = $('#player-two-feedback');
   let playerTwoFeedback = 'Start moving your player!';
-
-  const $displayPlayerOneAnswer = $('#player-one-answer');
-  const $displayPlayerTwoAnswer = $('#player-two-answer');
 
   // ###### GRID SETUP ######
 
@@ -286,16 +285,18 @@ $(() => {
     if (letter === correctAnswerArray[playerLetterIndex]){
       const msg = 'Correct letter! Now get the next one!';
       displayFeedback(feedbackDiv, msg);
-      playerInputtedAnswers[player-1].push(letter.toUpperCase());
-      playerLetterIndexes[player-1] = playerInputtedAnswers[player-1].length;
+      console.log(playerAnswers[player-1][0]);
+      playerAnswers[player-1][0].push(letter.toUpperCase());
+      console.log(playerAnswers[player-1][0]);
+      playerLetterIndexes[player-1] = playerAnswers[player-1][0].length;
       removeLetter(cell);
-      displayPlayerAnswers();
+      displayPlayerAnswers(player);
     } else {
       const msg = 'Not the right letter. Try another one!';
       displayFeedback(feedbackDiv, msg);
     }
 
-    if (correctAnswerArray.length === playerInputtedAnswers[player-1].length){
+    if (correctAnswerArray.length === playerAnswers[player-1][0].length){
       const msg = 'You won the seat for this flight. Congratulations!';
       displayFeedback(feedbackDiv, msg);
       playersWonFlights[player-1].push(correctAnswer);
@@ -320,14 +321,17 @@ $(() => {
 
   // 3.7.1 Display user answer on screen
   // 3.11.10 Made displayer player answers work for both
-  function displayPlayerAnswers(){
-    $displayPlayerOneAnswer.text(`Your answer: ${playerOneInputtedAnswer}`);
-    $displayPlayerTwoAnswer.text(`Your answer: ${playerTwoInputtedAnswer}`);
+
+  //let playerInputtedAnswers = [playerOneInputtedAnswer, playerTwoInputtedAnswer];
+
+  function displayPlayerAnswers(player){
+    playerAnswers[player-1][1].text(`Your answer: ${playerAnswers[player-1][0]}`);
   }
+  
   // 3.11.15 function that removes player answers
-  function resetPlayerAnswersDisplay(){
-    $displayPlayerOneAnswer.text('Your answer: ');
-    $displayPlayerTwoAnswer.text('Your answer: ');
+  function resetPlayerAnswers(){
+    playerAnswers[0][1].text('Your answer: ');
+    playerAnswers[1][1].text('Your answer: ');
   }
 
   // 4.1.6.2. Make feedback display for each player and output feedback as they play
@@ -372,13 +376,18 @@ $(() => {
 
   // 3.11.12 Made player reset work for both players
   function gameRoundReset(){
-    playerInputtedAnswers = [[], []];
+    // playerAnswers = [[playerOneInputtedAnswer],[$playerOneAnswerDisplay], [playerTwoInputtedAnswer],[$playerTwoAnswerDisplay]]
+    playerOneInputtedAnswer.length = 0;
+    playerTwoInputtedAnswer.length = 0;
+    console.log(playerAnswers);
+
+
     playerLetterIndexes.length = 0;
     playerLetterIndexes.push(0,0);
     // playerOneLetterIndex = 0; Why doesnt this work to reassign the values?
     // playerTwoLetterIndex = 0;
     clearAllLetters();
-    resetPlayerAnswersDisplay();
+    resetPlayerAnswers();
   }
 
   function wholeGameReset(){
@@ -409,8 +418,8 @@ $(() => {
       $playerTwoMap.show();
       $playerOneFeedbackDisplay.show();
       $playerTwoFeedbackDisplay.show();
-      $displayPlayerOneAnswer.show();
-      $displayPlayerTwoAnswer.show();
+      $playerOneAnswerDisplay.show();
+      $playerTwoAnswerDisplay.show();
       $playerOneScoreDisplay.show();
       $playerTwoScoreDisplay.show();
 
