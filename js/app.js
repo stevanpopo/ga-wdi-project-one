@@ -35,8 +35,6 @@ $(() => {
   let playerTwoLetterIndex = 0;
   const playerLetterIndexes = [playerOneLetterIndex, playerTwoLetterIndex];
 
-  let playerOneScore = 0;
-  let playerTwoScore = 0;
   const playerOneInputtedAnswer = [];
   const playerTwoInputtedAnswer = [];
   let playerInputtedAnswers = [playerOneInputtedAnswer, playerTwoInputtedAnswer];
@@ -44,8 +42,10 @@ $(() => {
   const $displayQuestion = $('#display-question');
   const $playerOneScoreDisplay = $('#player-one-score');
   const $playerTwoScoreDisplay = $('#player-two-score');
-  $playerOneScoreDisplay.text('Player One Score: 0');
-  $playerTwoScoreDisplay.text('Player Two Score: 0');
+  const playerScores = [[0, $playerOneScoreDisplay], [0, $playerTwoScoreDisplay]];
+
+  $playerOneScoreDisplay.text('Player 1 Score: 0');
+  $playerTwoScoreDisplay.text('Player 1 Score: 0');
 
   let gameToggle = false; // should start on false
   const $instructional = $('#instructional-info');
@@ -182,12 +182,12 @@ $(() => {
     if (code === 81){
       $playerOneCurrentCell = $($('.map').children()[currentIndexes[0]]);
       const cellValue = $playerOneCurrentCell.html();
-      checkLetter(1, $playerOneCurrentCell, cellValue.toLowerCase(), playerLetterIndexes[0]);
+      checkLetter(1, $playerOneCurrentCell, cellValue.toLowerCase(), playerLetterIndexes[0], $playerOneFeedbackDisplay);
     }
     if (code === 13){
       $playerTwoCurrentCell = $($(document.getElementsByClassName('map')[1]).children()[currentIndexes[1]]);
       const cellValue = $playerTwoCurrentCell.html();
-      checkLetter(2, $playerTwoCurrentCell, cellValue.toLowerCase(), playerLetterIndexes[1]);
+      checkLetter(2, $playerTwoCurrentCell, cellValue.toLowerCase(), playerLetterIndexes[1], $playerTwoFeedbackDisplay);
     }
   });
 
@@ -282,38 +282,25 @@ $(() => {
   }
 
   // 3.5.1 - Make player answer logic
-  function checkLetter(player, cell, letter, playerLetterIndex){
-
-    console.log(player);
-    console.log(cell);
-    console.log(letter);
-    console.log(playerLetterIndex);
+  function checkLetter(player, cell, letter, playerLetterIndex, feedbackDiv){
 
     if (letter === correctAnswerArray[playerLetterIndex]){
-      console.log(playerInputtedAnswers);
-      //playerInputtedAnswers.splice(player-1, 0, letter.toUpperCase());
+      const msg = 'Correct letter! Now get the next one!';
+      displayFeedback(feedbackDiv, msg);
       playerInputtedAnswers[player-1].push(letter.toUpperCase());
-      console.log(playerInputtedAnswers);
-      console.log(playerInputtedAnswers[player-1]);
-      // playerOneInputtedAnswer.push(letter.toUpperCase());
       playerLetterIndexes[player-1] = playerInputtedAnswers[player-1].length;
-      console.log(playerLetterIndexes[player-1]);
-      // playerLetterIndexes[player-1] = playerOneInputtedAnswer.length;
-      console.log('correct');
-      // playerOneFeedback = 'Correct letter! Now get the next one!';
       removeLetter(cell);
       displayPlayerAnswers();
     } else {
-      console.log('not correct');
-      // playerOneFeedback = 'Not the right letter. Try another one!';
-      // displayFeedback();
+      const msg = 'Not the right letter. Try another one!';
+      displayFeedback(feedbackDiv, msg);
     }
 
     if (correctAnswerArray.length === playerInputtedAnswers[player-1].length){
-      playerOneFeedback = 'You won the seat for this flight. Congratulations!';
-      playerTwoFeedback = 'You lost the seat for this flight. Unlucky!';
+      const msg = 'You won the seat for this flight. Congratulations!';
+      displayFeedback(feedbackDiv, msg);
       playerOneWonFlights.push(correctAnswer);
-      // displayFeedback();
+
       scoreIterator(player);
       if (copiedArray.length===0){
         endScreen();
@@ -330,14 +317,6 @@ $(() => {
   function removeLetter(cell){
     cell.removeClass('containsLetter');
     cell.text('');
-
-    // if (player === 'player1'){
-    //   $playerOneCurrentCell.removeClass('containsLetter');
-    //   $playerOneCurrentCell.text('');
-    // } else if (player === 'player2'){
-    //   $playerTwoCurrentCell.removeClass('containsLetter');
-    //   $playerTwoCurrentCell.text('');
-    // }
   }
 
   // 3.7.1 Display user answer on screen
@@ -370,13 +349,15 @@ $(() => {
   // 3.11.13 make scores work for both players
   // 3.10.1 create scoreIterator logic
   function scoreIterator(player){
-    if (player === 'player1'){
-      playerOneScore ++;
-      $playerOneScoreDisplay.text(`Player One Score: ${playerOneScore}`);
-    } else if (player === 'player2') {
-      playerTwoScore ++;
-      $playerTwoScoreDisplay.text(`Player Two Score: ${playerTwoScore}`);
-    }
+    playerScores[player-1][0] ++;
+    playerScores[player-1][1].text(`Player ${player} Score: ${playerScores[player-1][0]}`);
+    // if (player === 'player1'){
+    //   playerOneScore ++;
+    //   $playerOneScoreDisplay.text(`Player One Score: ${playerOneScore}`);
+    // } else if (player === 'player2') {
+    //   playerTwoScore ++;
+    //   $playerTwoScoreDisplay.text(`Player Two Score: ${playerTwoScore}`);
+    // }
   }
 
   // ###### PLAY AGAIN AND RESET LOGIC ######
