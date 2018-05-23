@@ -231,9 +231,6 @@ $(() => {
   //3.2 Random question generator
   function displayRandomQuestion(){
     // 3.2.1 - 6 Random question logic
-    // console.log(randomCities[0]);
-    // console.log(randomCities[1]);
-
     const city = randomCities.pop();
     correctAnswer = city[1];
     correctAnswerArray = correctAnswer.toLowerCase().split('');
@@ -279,6 +276,11 @@ $(() => {
       displayFeedback(playerNumber);
     }
 
+    isRoundOver(playerNumber);
+  }
+
+  function isRoundOver(playerNumber){
+    console.log('in rounder over function');
     if (correctAnswerArray.length === playerAnswers[playerNumber-1][0].length){
       playerFeedback[playerNumber-1][0] = 'You won the seat for this flight. Congratulations!';
       displayFeedback(playerNumber);
@@ -286,13 +288,17 @@ $(() => {
       scoreIterator(playerNumber);
 
       // if (copiedArray.length===0){
-      if (playerScores[0][0]+playerScores[1][0] === capitalCitiesArray.length){
-        endScreen();
-        return;
-      }
+      isGameOver();
       console.log('About to re-play game');
       gameRoundReset();
       playGame();
+    }
+  }
+
+  function isGameOver(){
+    if (playerScores[0][0]+playerScores[1][0] === capitalCitiesArray.length){
+      endScreen();
+      return;
     }
   }
 
@@ -437,8 +443,6 @@ $(() => {
   //3.12 setup function
   function setup(){
     toggleScreenView();
-    // randomizeCityOrder();
-    // randomize(capitalCitiesArray);
     randomCities = randomize(capitalCitiesArray);
     displayDefaultFeedback();
     wholeGameReset();
