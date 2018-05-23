@@ -209,21 +209,15 @@ $(() => {
   });
 
   // ###### CITIES LOGIC ######
-  const copiedArray = [];
-
   function randomize(array){
     const copiedArray = array.slice(); //makes a copy to randomize
-    console.log(copiedArray);
 
     let currentIndex = copiedArray.length, temporaryValue, randomIndex;
-
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
-
       // Pick a remaining element...
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex -= 1;
-
       // And swap it with the current element.
       temporaryValue = copiedArray[currentIndex];
       copiedArray[currentIndex] = copiedArray[randomIndex];
@@ -232,64 +226,15 @@ $(() => {
     return copiedArray;
   }
 
-  // function randomizeCityOrder(){
-  //   copiedArray = capitalCitiesArray.slice(); //makes a copy to randomize
-  //
-  //   let currentIndex = copiedArray.length, temporaryValue, randomIndex;
-  //
-  //   // While there remain elements to shuffle...
-  //   while (0 !== currentIndex) {
-  //
-  //     // Pick a remaining element...
-  //     randomIndex = Math.floor(Math.random() * currentIndex);
-  //     currentIndex -= 1;
-  //
-  //     // And swap it with the current element.
-  //     temporaryValue = copiedArray[currentIndex];
-  //     copiedArray[currentIndex] = copiedArray[randomIndex];
-  //     copiedArray[randomIndex] = temporaryValue;
-  //   }
-  //   return copiedArray;
-  // }
-
-  let city = [];
-
   //3.2 Random question generator
   function displayRandomQuestion(){
     // 3.2.1 - 6 Random question logic
-    city = randomize(capitalCitiesArray).pop();
-    // city = copiedArray.pop();
-    console.log(city);
+    const city = randomize(capitalCitiesArray).pop();
     correctAnswer = city[1];
-    console.log(correctAnswer);
     correctAnswerArray = correctAnswer.toLowerCase().split('');
     const underscoreArray = correctAnswerArray.map(x => ' _ ');
     $displayQuestion.text(`The city is: ${underscoreArray}`);
   }
-
-  // 3.3.1-6 - Made the randomize letter logic
-  // 3.11.5 - Make randomise function work for two players
-  // function randomizeLetters(player){
-  //   // let arrayName = `${player}AnswerArray`;
-  //   const arrayName = correctAnswerArray.slice(); //makes a copy to randomize
-  //
-  //   let currentIndex = arrayName.length, temporaryValue, randomIndex;
-  //
-  //   // While there remain elements to shuffle...
-  //   while (0 !== currentIndex) {
-  //
-  //     // Pick a remaining element...
-  //     randomIndex = Math.floor(Math.random() * currentIndex);
-  //     currentIndex -= 1;
-  //
-  //     // And swap it with the current element.
-  //     temporaryValue = arrayName[currentIndex];
-  //     arrayName[currentIndex] = arrayName[randomIndex];
-  //     arrayName[randomIndex] = temporaryValue;
-  //   }
-  //   console.log(arrayName);
-  //   return arrayName;
-  // }
 
   // 3.3.2 - Create logic to assign letter value to grid position
   // 3.11.9 - Make rando position assign for two player & Output random word on second grid two
