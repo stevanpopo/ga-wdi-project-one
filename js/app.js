@@ -37,9 +37,9 @@ $(() => {
   const playerLetterIndexes = [playerOneLetterIndex, playerTwoLetterIndex];
 
   // Player letter positions on grid
-  let playerOneLetterPositionsArray = [];
-  let playerTwoLetterPositionsArray = [];
-  const playerLetterPositionsArray = [playerOneLetterPositionsArray, playerOneLetterPositionsArray];
+  // let playerOneLetterPositionsArray = [];
+  // let playerTwoLetterPositionsArray = [];
+  // const playerLetterPositionsArray = [playerOneLetterPositionsArray, playerTwoLetterPositionsArray];
 
   // PlayerAnswer global variables
   const playerOneInputtedAnswer = [];
@@ -242,15 +242,20 @@ $(() => {
   // 3.3.2 - Create logic to assign letter value to grid position
   // 3.11.9 - Make rando position assign for two player & Output random word on second grid two
   function randomPositionAssign(playerNumber, randomizedArray){
-    const letterPositions = playerLetterPositionsArray[playerNumber-1];
+    // const letterPositions = playerLetterPositionsArray[playerNumber-1];
+    const letterPositions = [];
     const map = playerMaps[playerNumber-1];
 
     randomizedArray.forEach(function(el){
-      let randomCellPosition = Math.floor(Math.random() * 99);
+      let randomCellPosition = Math.floor(Math.random() * 98);
+      // console.log('random cell pos initial', playerNumber, randomCellPosition);
       if (letterPositions.includes(randomCellPosition)){
         randomCellPosition = randomCellPosition+1;
+        console.log('random cell pos when found double', playerNumber, randomCellPosition);
       }
       letterPositions.push(randomCellPosition);
+      console.log('letter pos array', playerNumber, letterPositions);
+      // console.log();
 
       const $letterCell = $(map.children()[randomCellPosition]);
       $letterCell.addClass('containsLetter');
@@ -276,7 +281,6 @@ $(() => {
       playerFeedback[playerNumber-1][0] = 'Not the right letter. Try another one!';
       displayFeedback(playerNumber);
     }
-
     isRoundOver(playerNumber);
   }
 
@@ -314,11 +318,6 @@ $(() => {
     playerAnswers[player-1][1].text(`Your answer: ${playerAnswers[player-1][0]}`);
   }
 
-  // 3.11.15 function that removes player answers
-  function resetPlayerAnswers(){
-    playerAnswers[0][1].text('Your answer: ');
-    playerAnswers[1][1].text('Your answer: ');
-  }
 
   function displayDefaultFeedback() {
     $playerOneFeedbackDisplay.text(`${playerOneFeedback}`);
@@ -335,36 +334,6 @@ $(() => {
   function scoreIterator(player){
     playerScores[player-1][0] ++;
     playerScores[player-1][1].text(`Player ${player} Score: ${playerScores[player-1][0]}`);
-  }
-
-  // ###### RESET LOGIC ######
-
-  // 3.11.12 Made player reset work for both players
-  function gameRoundReset(){
-    playerOneInputtedAnswer.length = 0;
-    playerTwoInputtedAnswer.length = 0;
-    playerLetterIndexes.length = 0;
-    playerLetterIndexes.push(0,0);
-    // playerOneLetterIndex = 0; Why doesnt this work to reassign the values?
-    // playerTwoLetterIndex = 0;
-    clearAllLetters();
-    resetPlayerAnswers();
-  }
-
-  function wholeGameReset(){
-    playerOneCurrentIndex = 90; // reset player one start postion
-    playerTwoCurrentIndex = 99; // reset player two start position
-  }
-
-  // 3.11.14 function that clears all existing letters
-  const $gridChildren = $($('.map').children());
-  function clearAllLetters(){
-    for (let i = 0; i < $gridChildren.length; i++){
-      if ($gridChildren[i].classList.contains('containsLetter')){
-        $gridChildren[i].classList.remove('containsLetter');
-        $gridChildren[i].innerHTML = '';
-      }
-    }
   }
 
   // ###### THREE SCREEN VIEWS ######
@@ -425,6 +394,41 @@ $(() => {
     showMainGame();
     playGame();
   });
+
+  // ###### RESET LOGIC ######
+  // 3.11.15 function that removes player answers
+  function resetPlayerAnswers(){
+    playerAnswers[0][1].text('Your answer: ');
+    playerAnswers[1][1].text('Your answer: ');
+  }
+  // 3.11.14 function that clears all existing letters
+  function clearAllLetters(){
+    const $gridChildren = $($('.map').children());
+    for (let i = 0; i < $gridChildren.length; i++){
+      if ($gridChildren[i].classList.contains('containsLetter')){
+        $gridChildren[i].classList.remove('containsLetter');
+        $gridChildren[i].innerHTML = '';
+      }
+    }
+  }
+
+  // 3.11.12 Made player reset work for both players
+  function gameRoundReset(){
+    playerOneInputtedAnswer.length = 0;
+    playerTwoInputtedAnswer.length = 0;
+    playerLetterIndexes.length = 0;
+    playerLetterIndexes.push(0,0);
+    // playerOneLetterIndex = 0; Why doesnt this work to reassign the values?
+    // playerTwoLetterIndex = 0;
+    clearAllLetters();
+    resetPlayerAnswers();
+  }
+
+  function wholeGameReset(){
+    playerOneCurrentIndex = 90; // reset player one start postion
+    playerTwoCurrentIndex = 99; // reset player two start position
+  }
+
 
   // ###### PLAY GAME ######
 
