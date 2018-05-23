@@ -42,6 +42,8 @@ $(() => {
   const playerAnswers = [[playerOneInputtedAnswer,$playerOneAnswerDisplay], [playerTwoInputtedAnswer,$playerTwoAnswerDisplay]];
 
   const $displayQuestion = $('#display-question');
+
+  // PlayerScore global variables
   const $playerOneScoreDisplay = $('#player-one-score');
   const $playerTwoScoreDisplay = $('#player-two-score');
   const playerScores = [[0, $playerOneScoreDisplay], [0, $playerTwoScoreDisplay]];
@@ -60,8 +62,8 @@ $(() => {
 
   const playersWonFlights = [[], []];
   const $playerOneFeedbackDisplay = $('#player-one-feedback');
-  let playerOneFeedback = 'Start moving your player!';
   const $playerTwoFeedbackDisplay = $('#player-two-feedback');
+  let playerOneFeedback = 'Start moving your player!';
   let playerTwoFeedback = 'Start moving your player!';
 
   // ###### GRID SETUP ######
@@ -327,7 +329,7 @@ $(() => {
   function displayPlayerAnswers(player){
     playerAnswers[player-1][1].text(`Your answer: ${playerAnswers[player-1][0]}`);
   }
-  
+
   // 3.11.15 function that removes player answers
   function resetPlayerAnswers(){
     playerAnswers[0][1].text('Your answer: ');
@@ -354,13 +356,6 @@ $(() => {
   function scoreIterator(player){
     playerScores[player-1][0] ++;
     playerScores[player-1][1].text(`Player ${player} Score: ${playerScores[player-1][0]}`);
-    // if (player === 'player1'){
-    //   playerOneScore ++;
-    //   $playerOneScoreDisplay.text(`Player One Score: ${playerOneScore}`);
-    // } else if (player === 'player2') {
-    //   playerTwoScore ++;
-    //   $playerTwoScoreDisplay.text(`Player Two Score: ${playerTwoScore}`);
-    // }
   }
 
   // ###### PLAY AGAIN AND RESET LOGIC ######
@@ -368,7 +363,7 @@ $(() => {
   // 3.9.1 playAgain funtion to reset board
   // 3.11.11 Made player again work for both players
   function playGame(){
-    displayDefaultFeedback();
+    // displayDefaultFeedback();
     displayRandomQuestion();
     randomPositionAssign('player1', randomizeLetters('playerOne'));
     randomPositionAssign('player2', randomizeLetters('playerTwo'));
@@ -376,12 +371,8 @@ $(() => {
 
   // 3.11.12 Made player reset work for both players
   function gameRoundReset(){
-    // playerAnswers = [[playerOneInputtedAnswer],[$playerOneAnswerDisplay], [playerTwoInputtedAnswer],[$playerTwoAnswerDisplay]]
     playerOneInputtedAnswer.length = 0;
     playerTwoInputtedAnswer.length = 0;
-    console.log(playerAnswers);
-
-
     playerLetterIndexes.length = 0;
     playerLetterIndexes.push(0,0);
     // playerOneLetterIndex = 0; Why doesnt this work to reassign the values?
@@ -474,6 +465,7 @@ $(() => {
   function setup(){
     toggleScreenView();
     randomizeCityOrder();
+    displayDefaultFeedback();
     wholeGameReset();
   }
 
