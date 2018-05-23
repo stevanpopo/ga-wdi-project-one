@@ -121,7 +121,7 @@ $(() => {
   }
 
   // move left function
-  function moveLeft(playerNumber, indexChangeFunction, feedbackDiv, playerIndex, cell, grid){
+  function moveLeft(playerNumber, indexChangeFunction, playerIndex, cell, grid){
     if (playerIndex === 0 || playerIndex % 10 === 0) {
       playerFeedback[playerNumber-1][0] = 'You can\'t move left. Try to move another direction.';
       displayFeedback(playerNumber);
@@ -131,7 +131,7 @@ $(() => {
   }
 
   // move right function
-  function moveRight(playerNumber, indexChangeFunction, feedbackDiv, playerIndex, cell, grid){
+  function moveRight(playerNumber, indexChangeFunction, playerIndex, cell, grid){
     if (playerIndex === 9 || playerIndex === 19 || playerIndex === 29 || playerIndex === 39 || playerIndex === 49 || playerIndex === 59 || playerIndex === 69 || playerIndex === 79 || playerIndex === 89 || playerIndex === 99) {
       playerFeedback[playerNumber-1][0] = 'You can\'t move right. Try to move another direction.';
       displayFeedback(playerNumber);
@@ -141,7 +141,7 @@ $(() => {
   }
 
   // move up function
-  function moveUp(playerNumber, indexChangeFunction, feedbackDiv, playerIndex, cell, grid){
+  function moveUp(playerNumber, indexChangeFunction, playerIndex, cell, grid){
     if (playerIndex < 10){
       playerFeedback[playerNumber-1][0] = 'You can\'t move up. Try to move another direction.';
       displayFeedback(playerNumber);
@@ -151,7 +151,7 @@ $(() => {
   }
 
   // move down function
-  function moveDown(playerNumber, indexChangeFunction, feedbackDiv, playerIndex, cell, grid){
+  function moveDown(playerNumber, indexChangeFunction, playerIndex, cell, grid){
     if (playerIndex > 89){
       playerFeedback[playerNumber-1][0] = 'You can\'t move down. Try to move another direction.';
       displayFeedback(playerNumber);
@@ -165,21 +165,21 @@ $(() => {
     const code = e.keyCode;
     //if(code) console.log(code);
     if(code === 65){
-      moveLeft(1, playerIndexChange, $playerOneFeedbackDisplay, currentIndexes[0], $playerOnePreviousCell, $('.map'));
+      moveLeft(1, playerIndexChange, currentIndexes[0], $playerOnePreviousCell, $('.map'));
     }else if(code === 68){
-      moveRight(1, playerIndexChange, $playerOneFeedbackDisplay, currentIndexes[0], $playerOnePreviousCell, $('.map'));
+      moveRight(1, playerIndexChange, currentIndexes[0], $playerOnePreviousCell, $('.map'));
     }else if(code === 87){
-      moveUp(1, playerIndexChange, $playerOneFeedbackDisplay, currentIndexes[0], $playerOnePreviousCell, $('.map'));
+      moveUp(1, playerIndexChange, currentIndexes[0], $playerOnePreviousCell, $('.map'));
     }else if(code === 83){
-      moveDown(1, playerIndexChange, $playerOneFeedbackDisplay, currentIndexes[0], $playerOnePreviousCell, $('.map'));
+      moveDown(1, playerIndexChange, currentIndexes[0], $playerOnePreviousCell, $('.map'));
     }else if(code === 37){
-      moveLeft(2, playerIndexChange, $playerTwoFeedbackDisplay, currentIndexes[1], $playerTwoPreviousCell, $(document.getElementsByClassName('map')[1]));
+      moveLeft(2, playerIndexChange, currentIndexes[1], $playerTwoPreviousCell, $(document.getElementsByClassName('map')[1]));
     }else if(code === 39){
-      moveRight(2, playerIndexChange, $playerTwoFeedbackDisplay, currentIndexes[1], $playerTwoPreviousCell, $(document.getElementsByClassName('map')[1]));
+      moveRight(2, playerIndexChange, currentIndexes[1], $playerTwoPreviousCell, $(document.getElementsByClassName('map')[1]));
     }else if(code === 38){
-      moveUp(2, playerIndexChange, $playerTwoFeedbackDisplay, currentIndexes[1], $playerTwoPreviousCell, $(document.getElementsByClassName('map')[1]));
+      moveUp(2, playerIndexChange, currentIndexes[1], $playerTwoPreviousCell, $(document.getElementsByClassName('map')[1]));
     }else if(code === 40){
-      moveDown(2, playerIndexChange, $playerTwoFeedbackDisplay, currentIndexes[1], $playerTwoPreviousCell, $(document.getElementsByClassName('map')[1]));
+      moveDown(2, playerIndexChange, currentIndexes[1], $playerTwoPreviousCell, $(document.getElementsByClassName('map')[1]));
     }
     if (code === 81){
       $playerOneCurrentCell = $($('.map').children()[currentIndexes[0]]);
