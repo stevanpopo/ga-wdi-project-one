@@ -14,10 +14,10 @@
   <body>
     <header>
       <h1>Gap Year Ninja</h1>
-      <div id="instructional-info">
+      <div id="instructional-info" class="instructional-info">
         <h2>Intoduction</h2>
         <p>You're on your gap year with dreams of travelling the world, but for some strange reason all airplanes have only one seat remaining.</p>
-        <p>Race your opponent to collect the letters that make up a capital city name. You can only collect the letters in the correct order. Get the name of the city correct first and you'll win your seat on the plane!</p>
+        <p>Race your opponent to collect the letters that make up a capital city name. Get the name of the city correct first and you'll win your seat on the plane!</p>
         <p>Collect as many cities as possible to beat your opponent and have the most amazing gap yar ever!</p>
         <form>
           <p>Which continent would you like to explore?</p>
@@ -27,18 +27,17 @@
             <input type="radio" id="africa" name="continent" value="1">
             <label for="africa">Africa</label>
             <input type="radio" id="south-america" name="continent" value="2">
-            <label for="south-america">South-america</label>
-
+            <label for="south-america">South America</label>
           </div>
-          <!-- <button id="start-game" type="submit">Start Game</button> -->
         </form>
 
         <button id="start-game">Start game</button>
         <div class="player-keys">
           <h3>Instructions</h3>
-          <!-- <p>Letters will be randomly spread on a grid. At the top of the page</p> -->
-          <p><strong>Player One keys:</strong> A (left), W (up), D (right), S (down) and Q (pickup letter).</p>
-          <p><strong>Player Two keys:</strong> &larr; (left), &uarr; (up), &rarr; (right), &darr; (down) and enter (pickup letter).</p>
+          <p>Letters will be randomly spread on a grid. At the top of the page. You can only collect the letters in the correct order.</p>
+          <p>Note - If the city name is made up of two words, the space will be represented by a coloured tile with no letter in it.</p>
+          <p><strong>Player One keys:</strong> A (left), W (up), D (right), S (down) and Q (pickup character).</p>
+          <p><strong>Player Two keys:</strong> &larr; (left), &uarr; (up), &rarr; (right), &darr; (down) and enter (pickup character).</p>
           <img src="./images/game_demonstration.gif" alt="game demonstration gif" height="400">
         </div>
 
@@ -63,8 +62,7 @@
           <h3 id="player-two-score"></h3>
         </div>
       </div>
-      <!-- <audio id="audio"></audio> -->
-      <audio media-player="audioPlayer" controls="controls" preload="auto" id="audio"></audio>
+      <audio id="audio"></audio>
     </main>
 
     <div id="end-screen">

@@ -14,7 +14,9 @@ const grid = [
 
 $(() => {
 
-  // All declared variables with global scope
+  // ##### VARIABLES & DOM ELEMENTS #####
+
+  // Player Position variables
   let playerOneCurrentIndex = 90; // player one start postion
   let playerTwoCurrentIndex = 99; // player two start position
   const currentIndexes = [playerOneCurrentIndex, playerTwoCurrentIndex];
@@ -27,19 +29,21 @@ $(() => {
   let $playerTwoCurrentCell;
   const playerCells = [[$playerOnePreviousCell, $playerOneCurrentCell], [$playerTwoPreviousCell, $playerTwoCurrentCell]];
 
+  // Continents choice
+  let formInput =0;
+
+  // Question global variables
+  let randomCities = [];
+  let clue = '';
+  let underscoreArray = [];
+
   // Answer verification variables
   let correctAnswer;
   let correctAnswerArray;
   let randomCellPosition;
-  // let $letterCell;
   let playerOneLetterIndex = 0;
   let playerTwoLetterIndex = 0;
   const playerLetterIndexes = [playerOneLetterIndex, playerTwoLetterIndex];
-
-  // Player letter positions on grid
-  // let playerOneLetterPositionsArray = [];
-  // let playerTwoLetterPositionsArray = [];
-  // const playerLetterPositionsArray = [playerOneLetterPositionsArray, playerTwoLetterPositionsArray];
 
   // PlayerAnswer global variables
   const playerOneInputtedAnswer = [];
@@ -72,16 +76,30 @@ $(() => {
   const playerMaps = [$playerOneMap, $playerTwoMap];
   const $playerGrids = $('.player-grids');
 
+  // Timer variables
+  let timeleft = 20;
+  const $timer = $('#timer');
+  $timer.text('20');
+  let downloadTimer;
 
-  //let gameToggle = false; // should start on false
+  // Screen DOM Elements
   const $displayQuestion = $('#display-question');
   const $instructional = $('#instructional-info');
   const $mainGame = $('#main-game');
-
   const $endScreen = $('#end-screen');
   const $endMessage = $('#end-message');
+  const audio = document.querySelector('#audio');
+  const endImage = document.querySelector('#end-image');
 
-  let randomCities = [];
+  // SOUNDS
+  const playerSoundsArray = [['./sounds/mj_ohhh.mp3','./sounds/mj_hee_hee.mp3', './sounds/mj_shamone.mp3' ],
+  ['./sounds/lj_okay.mp3', './sounds/lj_yeah.mp3', './sounds/lj_what.mp3'],
+  ['./sounds/jd_leaving_on_a_plane.mp3','./sounds/dp_around.mp3', './sounds/rh_pina.mp3'],
+  ['./sounds/gj_mad_world.mp3']]
+
+  // GIFs
+  const gifs = [['./images/win_up_balloons.gif', './images/win_to_infinity.gif', './images/win_airplane_takeoff.gif', './images/win_adventure.gif', './images/win_alan.gif'],
+['./images/lose_dr_oops.gif', './images/lose_chris_oops.gif']]
 
   // ###### GRID SETUP ######
 
@@ -92,38 +110,21 @@ $(() => {
       //
       if(cell === 0){
         $element.addClass('blank');
-      } else if (cell===1){
-        // Placeholder - Adds different class if contains letter
-        $element.addClass('playerCurrentCell');
       }
-
       $element.appendTo('.map');
     });
   });
 
   // ###### PLAYER MOVEMENT LOGIC ######
-
-  // 2.2.1 / 2.2.2 - Highlight starter cell
-  // 2.3.2.2 - 7  - Player movement logic
-
-  // 3.11.3. Changed move functions so they take player as argument and created var unique to each player
-  // add class to current cell
   function addClassPlayerCurrentCell(playerNumber, index){
     playerCells[playerNumber-1][1] = $(playerMaps[playerNumber-1].children()[index]);
     playerCells[playerNumber-1][1].addClass('playerCurrentCell');
   }
 
-  // remove class form last cell
   function removeClassPlayerPreviousCell(playerNumber, index){
     playerCells[playerNumber-1][0] = $(playerMaps[playerNumber-1].children()[index]);
     playerCells[playerNumber-1][0].removeClass('playerCurrentCell');
   }
-
-  // delete me!
-  // $('.map').each(function(i) {
-  //   $(this).children();
-  // })
-
 
   function playerIndexChange(playerNumber, change) {
     const playerCurrentIndex = currentIndexes[playerNumber-1] + change;
@@ -179,10 +180,9 @@ $(() => {
     }
   }
 
-  // 2.3.1 Key mappings
+  // Key mappings
   $(document).keydown(function(e) {
     const code = e.keyCode;
-    //if(code) console.log(code);
     if(code === 65){
       moveLeft(1, playerIndexChange);
     }else if(code === 68){
@@ -212,6 +212,7 @@ $(() => {
     }
   });
 
+  // #### PREVENT DEFAULT ARROWS DEFAULT ######
   window.addEventListener('keydown', function(e) {
     // space and arrow keys
     if([37, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
@@ -219,7 +220,7 @@ $(() => {
     }
   }, false);
 
-  // ###### CITIES LOGIC ######
+  // ###### GAME LOGIC ######
   function randomize(array){
     const copiedArray = array.slice(); //makes a copy to randomize
 
@@ -237,10 +238,7 @@ $(() => {
     return copiedArray;
   }
 
-  // const correctAnswer = [correctAnswer, correctAnswerArray, underscoreArray, clue]
-  let clue = '';
-  let underscoreArray = [];
-  //3.2 Random question generator
+  // #### RANDOM Q LOGIC ####
   function displayRandomQuestion(){
     // 3.2.1 - 6 Random question logic
     const city = randomCities.pop();
@@ -252,33 +250,22 @@ $(() => {
   }
 
   // ##### TIMER LOGIC #####
-  let timeleft = 20;
-  const $timer = $('#timer');
-  $timer.text('20');
-
-  let downloadTimer;
-
   function startTimer(){
     downloadTimer = setInterval(function(){
       timeleft--;
       $timer.text(timeleft);
       if (timeleft < 11) $displayQuestion.text(`Clue! ${clue}: ${underscoreArray}`); // gives players a clue
       if (timeleft === 0){
-        playersLostFlights[0].push(correctAnswer);
-        console.log(playersLostFlights[0]);
+        playersLostFlights[0].push(correctAnswer); // if neither player gets it, push to lostFlights array
         if(!isGameOver()){
           gameRoundReset();
           playGame();
         }
-        // clearInterval(downloadTimer);
       }
-      // if(timeleft <= 0)
-      //   clearInterval(downloadTimer);
     },1000);
   }
 
-  // 3.3.2 - Create logic to assign letter value to grid position
-  // 3.11.9 - Make rando position assign for two player & Output random word on second grid two
+  // #### ASSIGN CELL POSITIONS FOR LETTERS ####
   function randomPositionAssign(playerNumber, randomizedArray){
     const letterPositions = [];
     const map = playerMaps[playerNumber-1];
@@ -287,20 +274,15 @@ $(() => {
       let randomCellPosition = Math.ceil(Math.random() * 97);
       while (letterPositions.includes(randomCellPosition)){
         randomCellPosition = randomCellPosition+1;
-        console.log('random cell pos when found double', playerNumber, randomCellPosition);
       }
       letterPositions.push(randomCellPosition);
-      console.log('letter pos array', playerNumber, letterPositions);
-
       const $letterCell = $(map.children()[randomCellPosition]);
       $letterCell.addClass('containsLetter');
       $letterCell.text(`${el.toUpperCase()}`);
-      //need to make exception if it picks the same number twice
     });
   }
 
-
-  // 3.5.1 - Make player answer logic
+  // #### CHECK LETTER LOGIC #####
   function checkLetter(playerNumber, letter){
     const cell = playerCells[playerNumber-1][1];
     const playerLetterIndex = playerLetterIndexes[playerNumber-1];
@@ -320,12 +302,13 @@ $(() => {
     isRoundOver(playerNumber);
   }
 
-  // #### gif rotation ####
-  const gifs = [['./images/win_up_balloons.gif', './images/win_to_infinity.gif', './images/win_airplane_takeoff.gif', './images/win_adventure.gif', './images/win_alan.gif'],
-['./images/lose_dr_oops.gif', './images/lose_chris_oops.gif']]
+  // #### REMOVE LETTER FROM GRID ####
+  function removeLetter(cell){
+    cell.removeClass('containsLetter');
+    cell.text('');
+  }
 
-  const endImage = document.querySelector('#end-image');
-
+  // #### GIF ROTATION LOGIC ####
   function showEndImage(winOrLose){
     // win = 0, loss = 1
     const randomImage = Math.floor(Math.random()*gifs[winOrLose].length);
@@ -333,56 +316,39 @@ $(() => {
   }
 
   // ##### AUDIO #####
-  const audio = document.querySelector('#audio');
-  const playerWinSounds = [['./sounds/mj_ohhh.mp3','./sounds/mj_hee_hee.mp3', './sounds/mj_shamone.mp3' ],
-  ['./sounds/lj_okay.mp3', './sounds/lj_yeah.mp3', './sounds/lj_what.mp3'],
-  ['./sounds/jd_leaving_on_a_plane.mp3','./sounds/dp_around.mp3', './sounds/rh_pina.mp3'],
-['./sounds/gj_mad_world.mp3']]
-
   function playSounds(playerNumber){
-    const randomSound = Math.floor(Math.random()*playerWinSounds[playerNumber-1].length);
-    audio.src = playerWinSounds[playerNumber-1][randomSound];
+    const randomSound = Math.floor(Math.random()*playerSoundsArray[playerNumber-1].length);
+    audio.src = playerSoundsArray[playerNumber-1][randomSound];
     audio.play();
   }
 
-  // 3.11.8 made removeletter work for two players
-  // 3.6.1 Remove letter from cell and normalise class
-  function removeLetter(cell){
-    cell.removeClass('containsLetter');
-    cell.text('');
-  }
-
-  // 3.7.1 Display user answer on screen
-  // 3.11.10 Made displayer player answers work for both
+  // #### PLAYER ANSWER LOGIC ####
   function displayPlayerAnswers(player){
     playerAnswers[player-1][1].text(`Your answer: ${playerAnswers[player-1][0]}`);
   }
 
-
+  // #### FEEDBACK LOGIC ####
   function displayDefaultFeedback() {
     $playerOneFeedbackDisplay.text(`${playerOneFeedback}`);
     $playerTwoFeedbackDisplay.text(`${playerTwoFeedback}`);
   }
 
-  // 4.1.6.2. Make feedback display for each player and output feedback as they play
   function displayFeedback(player){
     playerFeedback[player-1][1].text(playerFeedback[player-1][0]);
   }
 
+  // #### SCORE LOGIC ####
   function displayDefaultScores(){
     $playerOneScoreDisplay.text('Player 1 Score: 0');
     $playerTwoScoreDisplay.text('Player 2 Score: 0');
   }
 
-  // 3.11.13 make scores work for both players
-  // 3.10.1 create scoreIterator logic
   function scoreIterator(player){
     playerScores[player-1][0] ++;
     playerScores[player-1][1].text(`Player ${player} Score: ${playerScores[player-1][0]}`);
   }
 
   // ###### THREE SCREEN VIEWS ######
-  // 4.1.3 Made it possible to hide/show both sections
   function showInstructionScreen(){
     $mainGame.hide();
     $instructional.show();
@@ -402,6 +368,7 @@ $(() => {
     endScreenMessage();
   }
 
+  // #### END SCREEN MESSAGES DEPENDENT ON RESULT ####
   function endScreenMessage(){
     if (playerScores[0][0] > playerScores[1][0]){
       const flights = generateFlightsList(playersWonFlights[0]);
@@ -437,8 +404,7 @@ $(() => {
     return flightsList;
   }
 
-  let formInput =0;
-  // 4.1.4 Make start game button for players
+  // #### EVENT LISTENERS ####
   const $startGameButton = $('#start-game');
   $startGameButton.on('click', function(){
     formInput = $('input[type=radio][name=continent]:checked').val();
@@ -472,9 +438,6 @@ $(() => {
   }
 
   function isGameOver(){
-    // if (playerScores[0][0]+playerScores[1][0] === capitalCitiesArray.length){
-    console.log('randomCities', randomCities);
-    console.log('randomCities length', randomCities.length);
     if (randomCities.length === 0){
       clearInterval(downloadTimer);
       showEndScreen();
@@ -483,12 +446,11 @@ $(() => {
   }
 
   // ###### RESET LOGIC ######
-  // 3.11.15 function that removes player answers
   function resetPlayerAnswers(){
     playerAnswers[0][1].text('Your answer: ');
     playerAnswers[1][1].text('Your answer: ');
   }
-  // 3.11.14 function that clears all existing letters
+
   function clearAllLetters(){
     const $gridChildren = $($('.map').children());
     for (let i = 0; i < $gridChildren.length; i++){
@@ -499,20 +461,19 @@ $(() => {
     }
   }
 
-  // 3.11.12 Made player reset work for both players
+  // Reset the round, but not the whole game
   function gameRoundReset(){
-    playerOneInputtedAnswer.length = 0;
+    playerOneInputtedAnswer.length = 0; // reset player answers
     playerTwoInputtedAnswer.length = 0;
     playerLetterIndexes.length = 0;
-    playerLetterIndexes.push(0,0);
-    // playerOneLetterIndex = 0; Why doesnt this work to reassign the values?
-    // playerTwoLetterIndex = 0;
+    playerLetterIndexes.push(0,0); // reset player indexes
     clearAllLetters();
     resetPlayerAnswers();
     clearInterval(downloadTimer);
     timeleft = 20;
   }
 
+  // Reset the whole game
   function wholeGameReset(){
     removeClassPlayerPreviousCell(1, currentIndexes[0]); //reset player pos styling
     removeClassPlayerPreviousCell(2, currentIndexes[1]);
@@ -529,12 +490,7 @@ $(() => {
     timeleft = 20;
   }
 
-  // const playerScores = [[0, $playerOneScoreDisplay], [0, $playerTwoScoreDisplay]];
-
   // ###### PLAY GAME ######
-
-  // 3.9.1 playAgain funtion to reset board
-  // 3.11.11 Made player again work for both players
   function playGame(){
     displayRandomQuestion();
     randomPositionAssign(1, randomize(correctAnswerArray));
@@ -543,13 +499,9 @@ $(() => {
   }
 
   // ###### SETUP ######
-
-  //3.12 setup function
   function setup(){
     showInstructionScreen();
-    // randomCities = randomize(capitalCitiesArray[1]);
     randomCities = randomize(capitalCitiesArray[formInput]);
-    // console.log(randomCities);
     displayDefaultFeedback();
     gameRoundReset();
     wholeGameReset();
@@ -557,5 +509,4 @@ $(() => {
   }
 
   setup();
-  //playGame();
 });

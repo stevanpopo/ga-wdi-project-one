@@ -4,17 +4,35 @@ header {
   // margin: 0 auto;
   text-align: center;
 
-  #instructional-info {
+  .instructional-info {
     width: 60%;
     margin: 0 auto;
 
+    form {
+      font-size: 1em;
+
+      input {
+        margin-left: 30px;
+      }
+
+      label {
+        font-size: 1.2em;
+        margin-left: 5px;
+        font-family: $secondary-font;
+      }
+    }
+
     div.player-keys {
       background-color: white;
-      width: 75%;
+      width: 85%;
       margin: 0 auto;
       padding: 5px;
       border-radius: 4px;
       padding: 5px;
+
+      p {
+        font-size: 1em;
+      }
 
       img {
         border: 2px solid $primary-color;
@@ -37,12 +55,8 @@ header {
     border-bottom: 4px solid $secondary-color;
   }
 
-  h2 {
-    // text-transform: uppercase;
-  }
-
   p {
-    font-size: 18px;
+    font-size: 20px;
     font-family: $secondary-font;
   }
 

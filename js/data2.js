@@ -10,18 +10,23 @@ const capitalCitiesArray = [
     ['Italy', 'Rome', 'This city is the capital of Italy.'],
     ['Serbia', 'Belgrade', 'This city is the capital of Serbia.'],
     ['Denmark', 'Copenhagen', 'This city is the capital of Denmark.'],
-    ['Sweden', 'Stockholm', 'This city is the capital of Stockholm.'],
-    ['Norway', 'Belgrade', 'This city is the capital of Oslo.']],
+    ['Sweden', 'Stockholm', 'This city is the capital of Sweden.'],
+    ['Norway', 'Oslo', 'This city is the capital of Norway.']],
 
   [['Nigeria', 'Abuja', 'This city is the capital of Nigeria.'],
     ['Ghana', 'Accra', 'This city is the capital of Ghana.'],
-    ['South Africa', 'Cape_Town', 'This city is the capital of Oslo.']],
+    ['Algeria', 'Algiers', 'This city is the capital of Algeria.'],
+    ['Morocco', 'Rabat', 'This city is the capital of Morocco.'],
+    ['Egypt', 'Cairo', 'This city is the capital of Egypt.'],
+    ['Kenya', 'Nairobi', 'This city is the capital of Kenya.'],
+    ['Zimbabwe', 'Harare', 'This city is the capital of Zimbabwe.'],
+    ['South Africa', 'Cape Town', 'This city is the capital of South Africa.']],
 
-  [['Uruguay', 'Montivideo', 'This city is the capital of Uruguay.'],
-    ['Brazil', 'Rio', 'This city is the capital of Brazil.'],
-    ['Mexico', 'Mexico_City', 'This city is the capital of Mexico.']]
+  [['Uruguay', 'Montevideo', 'This city is the capital of Uruguay.'],
+    ['Brazil', 'Brasilia', 'This city is the capital of Brazil.'],
+    ['Argentina', 'Buenos Aires', 'This city is the capital of Argentina.'],
+    ['Chile', 'Santiago', 'This city is the capital of Chile.'],
+    ['Columbia', 'Bogotá', 'This city is the capital of Columbia.'],
+    ['Peru', 'Lima', 'This city is the capital of Peru.'],
+    ['Mexico', 'Mexico City', 'This city is the capital of Mexico.']]
 ];
-
-// formInput = $('input[type=radio][name=continent]:checked').val();
-// console.log(formInput);
-// randomCities = randomize(capitalCitiesArray[formInput]);
