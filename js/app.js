@@ -236,14 +236,42 @@ $(() => {
     return copiedArray;
   }
 
+  // const correctAnswer = [correctAnswer, correctAnswerArray, underscoreArray, clue]
+  let clue = '';
+  let underscoreArray = [];
   //3.2 Random question generator
   function displayRandomQuestion(){
     // 3.2.1 - 6 Random question logic
     const city = randomCities.pop();
     correctAnswer = city[1];
+    clue = city[2]; // holde clue to give to players at 15sec
     correctAnswerArray = correctAnswer.toLowerCase().split('');
-    const underscoreArray = correctAnswerArray.map(x => ' _ ');
+    underscoreArray = correctAnswerArray.map(x => ' _ ');
     $displayQuestion.text(`The city is: ${underscoreArray}`);
+  }
+
+  // ##### TIMER LOGIC #####
+  let timeleft = 20;
+  const $timer = $('#timer');
+  $timer.text('20');
+
+  let downloadTimer;
+
+  function startTimer(){
+    downloadTimer = setInterval(function(){
+      timeleft--;
+      $timer.text(timeleft);
+      if (timeleft < 11) $displayQuestion.text(`Clue! ${clue}: ${underscoreArray}`); // gives players a clue
+      if (timeleft === 0){
+        if(!isGameOver()){
+          gameRoundReset();
+          playGame();
+        }
+        // clearInterval(downloadTimer);
+      }
+      // if(timeleft <= 0)
+      //   clearInterval(downloadTimer);
+    },1000);
   }
 
   // 3.3.2 - Create logic to assign letter value to grid position
@@ -253,7 +281,7 @@ $(() => {
     const map = playerMaps[playerNumber-1];
 
     randomizedArray.forEach(function(el){
-      let randomCellPosition = Math.floor(Math.random() * 98);
+      let randomCellPosition = Math.ceil(Math.random() * 97);
       if (letterPositions.includes(randomCellPosition)){
         randomCellPosition = randomCellPosition+1;
         console.log('random cell pos when found double', playerNumber, randomCellPosition);
@@ -289,15 +317,8 @@ $(() => {
     isRoundOver(playerNumber);
   }
 
+  // ##### AUDIO #####
   const audio = document.querySelector('#audio');
-  // audio.src = ;
-  // audio.src = ;
-  // audio.src = ;
-  // audio.src = './sounds/lj_okay.mp3';
-  // audio.src = './sounds/lj_yeah.mp3';
-  // audio.src = './sounds/lj_what.mp3';
-  // audio.src = './sounds/lj_what.mp3';
-
   const playerWinSounds = [['./sounds/mj_ohhh.mp3','./sounds/mj_hee_hee.mp3', './sounds/mj_shamone.mp3' ],
   ['./sounds/lj_okay.mp3', './sounds/lj_yeah.mp3', './sounds/lj_what.mp3'],
   ['./sounds/jd_leaving_on_a_plane.mp3','./sounds/dp_around.mp3', './sounds/rh_pina.mp3']]
@@ -306,41 +327,6 @@ $(() => {
     const randomSound = Math.floor(Math.random()*playerWinSounds[playerNumber-1].length);
     audio.src = playerWinSounds[playerNumber-1][randomSound];
     audio.play();
-  }
-
-  let timeleft = 10;
-  const $timer = $('#timer');
-  $timer.text('10');
-
-  function startTimer(){
-    const downloadTimer = setInterval(function(){
-      timeleft--;
-      $timer.text(timeleft);
-      if(timeleft <= 0)
-        clearInterval(downloadTimer);
-    },1000);
-  }
-
-  function isRoundOver(playerNumber){
-    if (correctAnswerArray.length === playerAnswers[playerNumber-1][0].length){
-      playerFeedback[playerNumber-1][0] = 'You won the seat for this flight. Congratulations!';
-      displayFeedback(playerNumber);
-      playersWonFlights[playerNumber-1].push(correctAnswer);
-      scoreIterator(playerNumber);
-      timeleft = 10;
-
-      if (!isGameOver()){
-        gameRoundReset();
-        playGame();
-      }
-    }
-  }
-
-  function isGameOver(){
-    if (playerScores[0][0]+playerScores[1][0] === capitalCitiesArray.length){
-      showEndScreen();
-      return true;
-    }
   }
 
   // 3.11.8 made removeletter work for two players
@@ -439,6 +425,31 @@ $(() => {
     playGame();
   });
 
+  // #### ROUND OVER / GAME OVER LOGIC #####
+  function isRoundOver(playerNumber){
+    if (correctAnswerArray.length === playerAnswers[playerNumber-1][0].length){
+      playerFeedback[playerNumber-1][0] = 'You won the seat for this flight. Congratulations!';
+      displayFeedback(playerNumber);
+      playersWonFlights[playerNumber-1].push(correctAnswer);
+      scoreIterator(playerNumber);
+
+      if (!isGameOver()){
+        gameRoundReset();
+        playGame();
+      }
+    }
+  }
+
+  function isGameOver(){
+    // if (playerScores[0][0]+playerScores[1][0] === capitalCitiesArray.length){
+    console.log('randomCities', randomCities);
+    console.log('randomCities length', randomCities.length);
+    if (randomCities.length === 0){
+      showEndScreen();
+      return true;
+    }
+  }
+
   // ###### RESET LOGIC ######
   // 3.11.15 function that removes player answers
   function resetPlayerAnswers(){
@@ -466,6 +477,8 @@ $(() => {
     // playerTwoLetterIndex = 0;
     clearAllLetters();
     resetPlayerAnswers();
+    clearInterval(downloadTimer);
+    timeleft = 20;
   }
 
   function wholeGameReset(){
