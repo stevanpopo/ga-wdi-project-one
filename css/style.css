@@ -15,7 +15,12 @@ header {
       width: 75%;
       margin: 0 auto;
       padding: 5px;
-      border-radius: 4px; }
+      border-radius: 4px;
+      padding: 5px; }
+      header #instructional-info div.player-keys img {
+        border: 2px solid #e24e42;
+        margin: 0 auto;
+        border-radius: 4px; }
   header h1 {
     text-transform: uppercase;
     font-size: 3.2em;
@@ -105,6 +110,6 @@ button {
   letter-spacing: 2px;
   font-size: 1.1em;
   font-weight: bold;
-  margin: 20px 0; }
+  margin: 40px 0; }
 
 /*# sourceMappingURL=style.css.map */
