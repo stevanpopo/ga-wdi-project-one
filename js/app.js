@@ -344,6 +344,10 @@ $(() => {
     audio.play();
   }
 
+  // function makeSoundsStop(){
+  //   audio.pause();
+  // }
+
   // 3.11.8 made removeletter work for two players
   // 3.6.1 Remove letter from cell and normalise class
   function removeLetter(cell){
@@ -467,6 +471,7 @@ $(() => {
     console.log('randomCities', randomCities);
     console.log('randomCities length', randomCities.length);
     if (randomCities.length === 0){
+      clearInterval(downloadTimer);
       showEndScreen();
       return true;
     }
@@ -537,6 +542,7 @@ $(() => {
     displayDefaultFeedback();
     gameRoundReset();
     wholeGameReset();
+    audio.pause();
   }
 
   setup();
