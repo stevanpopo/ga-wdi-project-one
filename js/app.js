@@ -442,7 +442,7 @@ $(() => {
   const $startGameButton = $('#start-game');
   $startGameButton.on('click', function(){
     formInput = $('input[type=radio][name=continent]:checked').val();
-    console.log('form input', formInput);
+    // console.log('form input', formInput);
     randomCities = randomize(capitalCitiesArray[formInput]);
     // randomCities = randomize(capitalCitiesArray[1]);
     showMainGame();
@@ -523,6 +523,8 @@ $(() => {
     displayDefaultScores();
     addClassPlayerCurrentCell(1, 90); // add iniial player pos
     addClassPlayerCurrentCell(2, 99);
+    playersWonFlights.length = 0; // clear playersWonFlights
+    playersWonFlights.push([],[]); // make two fresh arrays
     clearInterval(downloadTimer);
     timeleft = 20;
   }
@@ -547,7 +549,7 @@ $(() => {
     showInstructionScreen();
     // randomCities = randomize(capitalCitiesArray[1]);
     randomCities = randomize(capitalCitiesArray[formInput]);
-    console.log(randomCities);
+    // console.log(randomCities);
     displayDefaultFeedback();
     gameRoundReset();
     wholeGameReset();
