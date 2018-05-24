@@ -57,6 +57,7 @@ $(() => {
 
   // PlayerWonFlights global array
   const playersWonFlights = [[], []];
+  const playersLostFlights = [[]];
 
   // PlayerFeedback global array
   const $playerOneFeedbackDisplay = $('#player-one-feedback');
@@ -263,6 +264,8 @@ $(() => {
       $timer.text(timeleft);
       if (timeleft < 11) $displayQuestion.text(`Clue! ${clue}: ${underscoreArray}`); // gives players a clue
       if (timeleft === 0){
+        playersLostFlights[0].push(correctAnswer);
+        console.log(playersLostFlights[0]);
         if(!isGameOver()){
           gameRoundReset();
           playGame();
@@ -315,6 +318,18 @@ $(() => {
       displayFeedback(playerNumber);
     }
     isRoundOver(playerNumber);
+  }
+
+  // #### gif rotation ####
+  const gifs = [['./images/win_up_balloons.gif', './images/win_to_infinity.gif', './images/win_airplane_takeoff.gif', './images/win_adventure.gif', './images/win_alan.gif'],
+['./images/lose_dr_oops.gif', './images/lose_chris_oops.gif']]
+
+  const endImage = document.querySelector('#end-image');
+
+  function showEndImage(winOrLose){
+    // win = 0, loss = 1
+    const randomImage = Math.floor(Math.random()*gifs[winOrLose].length);
+    endImage.src = gifs[winOrLose][randomImage];
   }
 
   // ##### AUDIO #####
@@ -391,13 +406,20 @@ $(() => {
     if (playerScores[0][0] > playerScores[1][0]){
       const flights = generateFlightsList(playersWonFlights[0]);
       $endMessage.html(`<p>Player One wins with a score of ${playerScores[0][0]}. Congratulations! You've won flights to ${flights}.</p><p>Unlucky Player Two. You lost with a score of ${playerScores[1][0]}.</p><p>Enjoy your travels Player One!</p>`);
+      showEndImage(0);
     } else if (playerScores[1][0] > playerScores[0][0]) {
       const flights = generateFlightsList(playersWonFlights[1]);
       $endMessage.html(`<p>Player Two wins with a score of ${playerScores[1][0]}. Congratulations! You've won flights to ${flights}.</p><p>Unlucky Player One. You lost with a score of ${playerScores[0][0]}.</p><p>Enjoy your travels Player Two!</p>`);
-    } else {
+      showEndImage(0);
+    } else if (playerScores[1][0] > playerScores[0][0]) {
       const flights1 = generateFlightsList(playersWonFlights[0]);
       const flights2 = generateFlightsList(playersWonFlights[1]);
       $endMessage.html(`<p>It's a draw with both players scoring ${playerScores[1][0]}.</p><p>Player One won flights to ${flights1}.</p><p>Player Two won  flights to ${flights2}.</p><p>Enjoy your travels!</p>`);
+      showEndImage(0);
+    } else {
+      const lostFlights = generateFlightsList(playersLostFlights[0]);
+      $endMessage.html(`<p>Oops. Both players scored ${playerScores[1][0]}.</p><p>You've lost flights to ${lostFlights}</p><p>You should try to play again and win more flights!</p>`);
+      showEndImage(1);
     }
   }
 
