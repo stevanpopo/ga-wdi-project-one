@@ -312,7 +312,7 @@ $(() => {
       playerLetterIndexes[playerNumber-1] = playerAnswers[playerNumber-1][0].length;
       removeLetter(cell);
       displayPlayerAnswers(playerNumber);
-      playWinSound(playerNumber);
+      playSounds(playerNumber);
     } else {
       playerFeedback[playerNumber-1][0] = 'Not the right letter. Try another one!';
       displayFeedback(playerNumber);
@@ -336,17 +336,14 @@ $(() => {
   const audio = document.querySelector('#audio');
   const playerWinSounds = [['./sounds/mj_ohhh.mp3','./sounds/mj_hee_hee.mp3', './sounds/mj_shamone.mp3' ],
   ['./sounds/lj_okay.mp3', './sounds/lj_yeah.mp3', './sounds/lj_what.mp3'],
-  ['./sounds/jd_leaving_on_a_plane.mp3','./sounds/dp_around.mp3', './sounds/rh_pina.mp3']]
+  ['./sounds/jd_leaving_on_a_plane.mp3','./sounds/dp_around.mp3', './sounds/rh_pina.mp3'],
+['./sounds/gj_mad_world.mp3']]
 
-  function playWinSound(playerNumber){
+  function playSounds(playerNumber){
     const randomSound = Math.floor(Math.random()*playerWinSounds[playerNumber-1].length);
     audio.src = playerWinSounds[playerNumber-1][randomSound];
     audio.play();
   }
-
-  // function makeSoundsStop(){
-  //   audio.pause();
-  // }
 
   // 3.11.8 made removeletter work for two players
   // 3.6.1 Remove letter from cell and normalise class
@@ -403,7 +400,6 @@ $(() => {
     $instructional.hide();
     $endScreen.show();
     endScreenMessage();
-    playWinSound(3);
   }
 
   function endScreenMessage(){
@@ -411,19 +407,23 @@ $(() => {
       const flights = generateFlightsList(playersWonFlights[0]);
       $endMessage.html(`<p>Player One wins with a score of ${playerScores[0][0]}. Congratulations! You've won flights to ${flights}.</p><p>Unlucky Player Two. You lost with a score of ${playerScores[1][0]}.</p><p>Enjoy your travels Player One!</p>`);
       showEndImage(0);
+      playSounds(3);
     } else if (playerScores[1][0] > playerScores[0][0]) {
       const flights = generateFlightsList(playersWonFlights[1]);
       $endMessage.html(`<p>Player Two wins with a score of ${playerScores[1][0]}. Congratulations! You've won flights to ${flights}.</p><p>Unlucky Player One. You lost with a score of ${playerScores[0][0]}.</p><p>Enjoy your travels Player Two!</p>`);
       showEndImage(0);
+      playSounds(3);
     } else if (playerScores[1][0] > playerScores[0][0]) {
       const flights1 = generateFlightsList(playersWonFlights[0]);
       const flights2 = generateFlightsList(playersWonFlights[1]);
       $endMessage.html(`<p>It's a draw with both players scoring ${playerScores[1][0]}.</p><p>Player One won flights to ${flights1}.</p><p>Player Two won  flights to ${flights2}.</p><p>Enjoy your travels!</p>`);
       showEndImage(0);
+      playSounds(3);
     } else {
       const lostFlights = generateFlightsList(playersLostFlights[0]);
       $endMessage.html(`<p>Oops. Both players scored ${playerScores[1][0]}.</p><p>You've lost flights to ${lostFlights}</p><p>You should try to play again and win more flights!</p>`);
       showEndImage(1);
+      playSounds(4);
     }
   }
 
@@ -437,9 +437,14 @@ $(() => {
     return flightsList;
   }
 
+  let formInput =0;
   // 4.1.4 Make start game button for players
   const $startGameButton = $('#start-game');
   $startGameButton.on('click', function(){
+    formInput = $('input[type=radio][name=continent]:checked').val();
+    console.log('form input', formInput);
+    randomCities = randomize(capitalCitiesArray[formInput]);
+    // randomCities = randomize(capitalCitiesArray[1]);
     showMainGame();
     playGame();
   });
@@ -518,6 +523,8 @@ $(() => {
     displayDefaultScores();
     addClassPlayerCurrentCell(1, 90); // add iniial player pos
     addClassPlayerCurrentCell(2, 99);
+    clearInterval(downloadTimer);
+    timeleft = 20;
   }
 
   // const playerScores = [[0, $playerOneScoreDisplay], [0, $playerTwoScoreDisplay]];
@@ -538,7 +545,9 @@ $(() => {
   //3.12 setup function
   function setup(){
     showInstructionScreen();
-    randomCities = randomize(capitalCitiesArray);
+    // randomCities = randomize(capitalCitiesArray[1]);
+    randomCities = randomize(capitalCitiesArray[formInput]);
+    console.log(randomCities);
     displayDefaultFeedback();
     gameRoundReset();
     wholeGameReset();
