@@ -299,12 +299,26 @@ $(() => {
   // audio.src = './sounds/lj_what.mp3';
 
   const playerWinSounds = [['./sounds/mj_ohhh.mp3','./sounds/mj_hee_hee.mp3', './sounds/mj_shamone.mp3' ],
-  ['./sounds/lj_okay.mp3', './sounds/lj_yeah.mp3', './sounds/lj_what.mp3'], ['./sounds/jd_leaving_on_a_plane.mp3']]
+  ['./sounds/lj_okay.mp3', './sounds/lj_yeah.mp3', './sounds/lj_what.mp3'],
+  ['./sounds/jd_leaving_on_a_plane.mp3','./sounds/dp_around.mp3', './sounds/rh_pina.mp3']]
 
   function playWinSound(playerNumber){
     const randomSound = Math.floor(Math.random()*playerWinSounds[playerNumber-1].length);
     audio.src = playerWinSounds[playerNumber-1][randomSound];
     audio.play();
+  }
+
+  let timeleft = 10;
+  const $timer = $('#timer');
+  $timer.text('10');
+
+  function startTimer(){
+    const downloadTimer = setInterval(function(){
+      timeleft--;
+      $timer.text(timeleft);
+      if(timeleft <= 0)
+        clearInterval(downloadTimer);
+    },1000);
   }
 
   function isRoundOver(playerNumber){
@@ -313,6 +327,7 @@ $(() => {
       displayFeedback(playerNumber);
       playersWonFlights[playerNumber-1].push(correctAnswer);
       scoreIterator(playerNumber);
+      timeleft = 10;
 
       if (!isGameOver()){
         gameRoundReset();
@@ -475,6 +490,7 @@ $(() => {
     displayRandomQuestion();
     randomPositionAssign(1, randomize(correctAnswerArray));
     randomPositionAssign(2, randomize(correctAnswerArray));
+    startTimer();
   }
 
   // ###### SETUP ######
