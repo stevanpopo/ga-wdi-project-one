@@ -285,7 +285,7 @@ $(() => {
 
     randomizedArray.forEach(function(el){
       let randomCellPosition = Math.ceil(Math.random() * 97);
-      if (letterPositions.includes(randomCellPosition)){
+      while (letterPositions.includes(randomCellPosition)){
         randomCellPosition = randomCellPosition+1;
         console.log('random cell pos when found double', playerNumber, randomCellPosition);
       }
