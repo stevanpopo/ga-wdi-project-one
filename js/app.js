@@ -93,7 +93,7 @@ $(() => {
         $element.addClass('blank');
       } else if (cell===1){
         // Placeholder - Adds different class if contains letter
-        $element.addClass('containsLetter');
+        $element.addClass('playerCurrentCell');
       }
 
       $element.appendTo('.map');
@@ -281,11 +281,30 @@ $(() => {
       playerLetterIndexes[playerNumber-1] = playerAnswers[playerNumber-1][0].length;
       removeLetter(cell);
       displayPlayerAnswers(playerNumber);
+      playWinSound(playerNumber);
     } else {
       playerFeedback[playerNumber-1][0] = 'Not the right letter. Try another one!';
       displayFeedback(playerNumber);
     }
     isRoundOver(playerNumber);
+  }
+
+  const audio = document.querySelector('#audio');
+  // audio.src = ;
+  // audio.src = ;
+  // audio.src = ;
+  // audio.src = './sounds/lj_okay.mp3';
+  // audio.src = './sounds/lj_yeah.mp3';
+  // audio.src = './sounds/lj_what.mp3';
+  // audio.src = './sounds/lj_what.mp3';
+
+  const playerWinSounds = [['./sounds/mj_ohhh.mp3','./sounds/mj_hee_hee.mp3', './sounds/mj_shamone.mp3' ],
+  ['./sounds/lj_okay.mp3', './sounds/lj_yeah.mp3', './sounds/lj_what.mp3'], ['./sounds/jd_leaving_on_a_plane.mp3']]
+
+  function playWinSound(playerNumber){
+    const randomSound = Math.floor(Math.random()*playerWinSounds[playerNumber-1].length);
+    audio.src = playerWinSounds[playerNumber-1][randomSound];
+    audio.play();
   }
 
   function isRoundOver(playerNumber){
@@ -364,6 +383,7 @@ $(() => {
     $instructional.hide();
     $endScreen.show();
     endScreenMessage();
+    playWinSound(3);
   }
 
   function endScreenMessage(){
@@ -441,7 +461,8 @@ $(() => {
     playerScores.length = 0;
     playerScores.push([0, $playerOneScoreDisplay],[0, $playerTwoScoreDisplay]);
     displayDefaultScores();
-    // console.log(playerScores);
+    addClassPlayerCurrentCell(1, 90); // add iniial player pos
+    addClassPlayerCurrentCell(2, 99);
   }
 
   // const playerScores = [[0, $playerOneScoreDisplay], [0, $playerTwoScoreDisplay]];
