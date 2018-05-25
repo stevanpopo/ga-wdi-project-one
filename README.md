@@ -121,7 +121,7 @@ As I built the game, I indentified a few bugs that required fixing. In some case
 * When I reset the game I wanted the players to start back on their initial cells. However I was having a problem where the class wasn't being removed from their previous cell. After some digging, I realised I had cleared the array that stores player cell positions before the removeClass function had been called. Once I fixed the order of execution, it worked.
 * I ran into an issue where letters were not clearing properly at the end of each round (image below), but instead piling up on a users grid. I fixed this by improving how my clearLetters function works.
 
-<img src="./images/bug.png" width="700">
+<img src="./images/bug.png">
 
 ## Moving Forward / Future Features
 Some features I could add moving forward:
@@ -134,7 +134,10 @@ Some features I could add moving forward:
 * **Plan should include how to store data.** Whilst I thought I'd made a very detailed plan, it was an error to not think in more depth about how I stored data and how I'd need to access it later in the program. Moving forward I'll definitely think about this more.
 * **Power of modular code.** Once I refactored my code, it became very easy to add additional features.
 * **Call functions in their logical places.** I ran into a few issues where I had called functions somewhere that worked temporarily, but later in the process became the reason for a bug. In the future, from the beginning I'll think more about the best place to call certain functions.
+* **Sometimes you just need to write it down.** For a few problems and bugs I ran into it really helped to write down and sketch out my thoughts. Visualising the problem helped me to understand it better and finally crack it.
 * **Console.log everything when big fixing!**
+
+<img src="./images/notes.JPG">
 
 ## Contact Me
 Feel free to ask me questions about this project or anything else [on twitter](https://twitter.com/StevanPopo).
