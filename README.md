@@ -3,7 +3,7 @@
 
 This was the first project assignment during my time on General Assembly's Web Development Immersive Course (week 3-4). I built a grid-based geography game which requires players to collect letters that make up a capital city name. Players compete against each other to collect the most cities possible to win.
 
-<img src="./images/game_demonstration_final.gif" width="700">
+<p align="center"><img src="./images/game_demonstration_final.gif" width="700"></p>
 
 ##### [Visit website](#link) to play the game (the game was not designed for mobile).
 
@@ -20,7 +20,8 @@ In order to gain inspiration for my game I:
 * Looked at existing games on miniclip.com.
 * Thought of classic board games and how they might be played as a digital game.
 
-<img src="./images/ideas.png" width="700">
+<p align="center"><img src="./images/ideas.png" width="700"></p>
+
 
 ### Plan
 I wanted to create a game that had an educational/learning element to it. I chose to move forward with a geography game that required users to correctly guess capital cities. Additionally, they would have to race to collect the letters that formed those cities by moving around a grid as quickly as possible.
@@ -32,12 +33,12 @@ Given the time constraints, I was keen to get to the build phase of the project 
 * Began to think about how to create those features, making notes of methods and data types that would be useful
 * Tried to make sure each point on the plan was small enough that it could be solved indepedently (or google easily).
 
-<img src="./images/plan.png" width="700">
+<p align="center"><img src="./images/plan.png" width="700"></p>
 
 ### Build
 The build phase involved simply getting in front of my computer and tackling each element of the plan one by one, with a focus on getting to MVP as quickly as possible. It felt very satisfying to tick these off and mark them as done (in green).
 
-<img src="./images/plan_checked.png" width="700">
+<p align="center"><img src="./images/plan_checked.png" width="700"></p>
 
 ### MVP
 A key milestone was to get to MVP. This meant the game worked and was playable in a way that filled the brief (but was perhaps void of aesthetics and additional features). For my game, the key features for MVP where:
@@ -46,7 +47,7 @@ A key milestone was to get to MVP. This meant the game worked and was playable i
 
 I managed to get to MVP by day 3. I initially built the game as a 1 player game, thinking it would be easy enough to make two player later (more on this in refactoring section). I was pleased to reach this milestone in good time. It meant I had plenty of time to refine things and the build up to this point went very well.
 
-<img src="./images/mvp.png" width="500">
+<p align="center"><img src="./images/mvp.png" width="500"></p>
 
 ### Refactor
 My code was working, but I was aware of some faults:
@@ -104,7 +105,7 @@ if (playerIndex === 0 || playerIndex % 10 === 0) {
 ```
 The game now worked for two players.
 
-<img src="./images/mvp_2.png" width="700">
+<p align="center"><img src="./images/mvp_2.png" width="700"></p>
 
 ### Challenges
 - **Refactoring** - It was an initially painful process to break each part of my code and try to fix it again. Especially when at that stage I was quite proud of what I'd produced! It was humbling to understand that the initial code was actually pretty poor. Over the course of two days I found it immensely rewarding to improve though and I was much happier with the final result. The code was cleaner, shorter and easier to read.  
@@ -113,7 +114,7 @@ The game now worked for two players.
 - **Silly mistakes!** - Like calling jQuery functions on non-JQuery objects.
 - **Time & Stress & Productivity Management** - This was our first full week working independently and almost all of it coding. Part of the challenge was to understand how best to manage your own productivity, breaks and so on. I found this cool tool called [Rescuetime](#link) which gave me some data on how I worked over those first few days during the project.
 
-<img src="./images/rescuetime.png" width="700">
+<p align="center"><img src="./images/rescuetime.png" width="700"></p>
 
 ### Bug Fixes
 As I built the game, I indentified a few bugs that required fixing. In some cases, it was difficult to know exactly which function was causing the issue but it was satisfying to investigate. Some tough ones included:
@@ -121,7 +122,7 @@ As I built the game, I indentified a few bugs that required fixing. In some case
 * When I reset the game I wanted the players to start back on their initial cells. However I was having a problem where the class wasn't being removed from their previous cell. After some digging, I realised I had cleared the array that stores player cell positions before the removeClass function had been called. Once I fixed the order of execution, it worked.
 * I ran into an issue where letters were not clearing properly at the end of each round (image below), but instead piling up on a users grid. I fixed this by improving how my clearLetters function works.
 
-<img src="./images/bug.png" width="500">
+<p align="center"><img src="./images/bug.png" width="500"></p>
 
 ## Moving Forward / Future Features
 Some features I could add moving forward:
@@ -137,7 +138,7 @@ Some features I could add moving forward:
 * **Sometimes you just need to write it down.** For a few problems and bugs I ran into it really helped to write down and sketch out my thoughts. Visualising the problem helped me to understand it better and finally crack it.
 * **Console.log everything when big fixing!**
 
-<img src="./images/notes.JPG" width="500">
+<p align="center"><img src="./images/notes.JPG" width="500"></p>
 
 ## Contact Me
 Feel free to ask me questions about this project or anything else [on twitter](https://twitter.com/StevanPopo).
