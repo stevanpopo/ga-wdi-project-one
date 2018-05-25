@@ -46,7 +46,7 @@ A key milestone was to get to MVP. This meant the game worked and was playable i
 
 I managed to get to MVP by day 3. I initially built the game as a 1 player game, thinking it would be easy enough to make two player later (more on this in refactoring section). I was pleased to reach this milestone in good time. It meant I had plenty of time to refine things and the build up to this point went very well.
 
-<img src="./images/mvp.png">
+<img src="./images/mvp.png" width="500">
 
 ### Refactor
 My code was working, but I was aware of some faults:
@@ -121,7 +121,7 @@ As I built the game, I indentified a few bugs that required fixing. In some case
 * When I reset the game I wanted the players to start back on their initial cells. However I was having a problem where the class wasn't being removed from their previous cell. After some digging, I realised I had cleared the array that stores player cell positions before the removeClass function had been called. Once I fixed the order of execution, it worked.
 * I ran into an issue where letters were not clearing properly at the end of each round (image below), but instead piling up on a users grid. I fixed this by improving how my clearLetters function works.
 
-<img src="./images/bug.png">
+<img src="./images/bug.png" width="500">
 
 ## Moving Forward / Future Features
 Some features I could add moving forward:
@@ -137,7 +137,7 @@ Some features I could add moving forward:
 * **Sometimes you just need to write it down.** For a few problems and bugs I ran into it really helped to write down and sketch out my thoughts. Visualising the problem helped me to understand it better and finally crack it.
 * **Console.log everything when big fixing!**
 
-<img src="./images/notes.JPG">
+<img src="./images/notes.JPG" width="500">
 
 ## Contact Me
 Feel free to ask me questions about this project or anything else [on twitter](https://twitter.com/StevanPopo).
