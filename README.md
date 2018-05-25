@@ -46,7 +46,7 @@ A key milestone was to get to MVP. This meant the game worked and was playable i
 
 I managed to get to MVP by day 3. I initially built the game as a 1 player game, thinking it would be easy enough to make two player later (more on this in refactoring section). I was pleased to reach this milestone in good time. It meant I had plenty of time to refine things and the build up to this point went very well.
 
-<img src="./images/mvp.png" width="700">
+<img src="./images/mvp.png">
 
 ### Refactor
 My code was working, but I was aware of some faults:
@@ -135,3 +135,8 @@ Some features I could add moving forward:
 * **Power of modular code.** Once I refactored my code, it became very easy to add additional features.
 * **Call functions in their logical places.** I ran into a few issues where I had called functions somewhere that worked temporarily, but later in the process became the reason for a bug. In the future, from the beginning I'll think more about the best place to call certain functions.
 * **Console.log everything when big fixing!**
+
+## Contact Me
+Feel free to ask me questions about this project or anything else [on twitter](https://twitter.com/StevanPopo).
+
+You can also find me on [LinkedIn](https://www.linkedin.com/in/stevanpopovic/) or over on [my personal site](http://www.stevanpopovic.com/).
