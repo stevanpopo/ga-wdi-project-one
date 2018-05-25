@@ -77,9 +77,9 @@ $(() => {
   const $playerGrids = $('.player-grids');
 
   // Timer variables
-  let timeleft = 20;
+  let timeleft = 30;
   const $timer = $('#timer');
-  $timer.text('20');
+  $timer.text('30');
   let downloadTimer;
 
   // Screen DOM Elements
@@ -254,7 +254,7 @@ $(() => {
     downloadTimer = setInterval(function(){
       timeleft--;
       $timer.text(timeleft);
-      if (timeleft < 11) $displayQuestion.text(`Clue! ${clue}: ${underscoreArray}`); // gives players a clue
+      if (timeleft < 16) $displayQuestion.text(`Clue! ${clue}: ${underscoreArray}`); // gives players a clue
       if (timeleft === 0){
         playersLostFlights[0].push(correctAnswer); // if neither player gets it, push to lostFlights array
         if(!isGameOver()){
@@ -470,7 +470,7 @@ $(() => {
     clearAllLetters();
     resetPlayerAnswers();
     clearInterval(downloadTimer);
-    timeleft = 20;
+    timeleft = 30;
   }
 
   // Reset the whole game
@@ -482,12 +482,12 @@ $(() => {
     playerScores.length = 0;
     playerScores.push([0, $playerOneScoreDisplay],[0, $playerTwoScoreDisplay]);
     displayDefaultScores();
-    addClassPlayerCurrentCell(1, 90); // add iniial player pos
+    addClassPlayerCurrentCell(1, 90); // add initial player pos
     addClassPlayerCurrentCell(2, 99);
     playersWonFlights.length = 0; // clear playersWonFlights
     playersWonFlights.push([],[]); // make two fresh arrays
-    clearInterval(downloadTimer);
-    timeleft = 20;
+    clearInterval(downloadTimer); // clear timer
+    timeleft = 30; // reset timers
   }
 
   // ###### PLAY GAME ######
