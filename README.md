@@ -5,7 +5,7 @@ This was the first project assignment during my time on General Assembly's Web D
 
 <p align="center"><img src="./images/game_demonstration_final.gif" width="700"></p>
 
-##### [Visit website](https://github.com/stevanpopo/ga-wdi-project-one) to play the game (the game was not designed for mobile).
+##### [Visit website](https://stevanpopo.github.io/ga-wdi-project-one/) to play the game (the game was not designed for mobile).
 
 ## Brief
 Design a two player game that works in the users browser. Players must be able to win and lose. The game should be built using HTML, CSS and Javascript (JQuery). We were given a week to build the project.
