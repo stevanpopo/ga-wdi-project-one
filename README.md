@@ -143,7 +143,7 @@ Some features I could add moving forward:
 ## Other GA projects
 * [Project Two (Express full-stack app)](https://github.com/stevanpopo/ga-wdi-project-two)
 * [Project Three (MEAN stack app - group project)](https://github.com/stevanpopo/ga-wdi-project-three)
-* [Project Four (MARN stack app)](https://github.com/stevanpopo/ga-wdi-project-three)
+* [Project Four (MERN stack app)](https://github.com/stevanpopo/ga-wdi-project-three)
 
 ## Contact Me
 Feel free to ask me questions about this project or anything else [on twitter](https://twitter.com/StevanPopo).
